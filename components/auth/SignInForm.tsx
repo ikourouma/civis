@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 
 import { FadeUp } from '@/components/animation/FadeUp';
-import { signIn } from '@/lib/services/auth';
-import type { PlatformRole } from '@/lib/services/auth';
+import { signIn } from '@/lib/services/auth/auth.client.service';
+import type { PlatformRole } from '@/lib/services/auth/auth.types';
 
 const ROLE_REDIRECT: Record<PlatformRole, string> = {
   super_admin: '/admin/dashboard',

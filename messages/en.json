@@ -1113,5 +1113,68 @@
       "trouble": "Having trouble signing in? Contact your administrator.",
       "footer": "Civis — Afronovation, Inc. | Sovereign Intelligence Platform"
     }
+  },
+  "Workspace": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "registry": "Registry",
+      "embassies": "Embassies",
+      "analytics": "Analytics",
+      "intelligence": "Intelligence",
+      "cases": "Cases",
+      "documents": "Documents",
+      "users": "Users",
+      "settings": "Settings",
+      "audit_logs": "Audit Logs",
+      "tenants": "Tenants",
+      "reports": "Reports",
+      "export": "Export",
+      "services": "Services",
+      "profile": "My Profile",
+      "sign_out": "Sign Out"
+    },
+    "admin": {
+      "eyebrow": "Sovereign Command",
+      "title": "Platform Administration",
+      "subtitle": "Afronovation, Inc. — Sovereign Intelligence Platform",
+      "total_tenants": "Active Tenants",
+      "total_users": "Platform Users",
+      "live_deployments": "Live Deployments",
+      "in_pilot": "In Pilot",
+      "add_tenant": "Add Tenant",
+      "tenants_table_title": "Sovereign Tenants",
+      "empty": "No tenants yet. Add one to get started.",
+      "cols": {
+        "country": "Country",
+        "tier": "Tier",
+        "status": "Status",
+        "users": "Users",
+        "created": "Created"
+      },
+      "create": {
+        "title": "Provision Sovereign Tenant",
+        "subtitle": "Create a new African Union government tenant.",
+        "name": "Tenant Name",
+        "countryCode": "ISO Country Code",
+        "officialCountryName": "Official Country Name",
+        "region": "Region",
+        "deploymentTier": "Deployment Tier",
+        "defaultLanguage": "Default Language",
+        "dataResidencyRegion": "Data Residency Region",
+        "primaryContactEmail": "Primary Contact Email",
+        "submit": "Provision Tenant",
+        "submitting": "Provisioning…",
+        "cancel": "Cancel"
+      }
+    },
+    "common": {
+      "welcome": "Welcome,",
+      "role_label": "Role",
+      "tenant_label": "Tenant",
+      "open": "Open",
+      "coming_soon": "Coming in next mission",
+      "coming_soon_mission": "Full workspace interface arrives in upcoming missions.",
+      "loading": "Loading…"
+    }
   }
 }

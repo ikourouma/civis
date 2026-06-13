@@ -1113,5 +1113,68 @@
       "trouble": "Des difficultés à vous connecter ? Contactez votre administrateur.",
       "footer": "Civis — Afronovation, Inc. | Plateforme d'Intelligence Souveraine"
     }
+  },
+  "Workspace": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "registry": "Registre",
+      "embassies": "Ambassades",
+      "analytics": "Analytique",
+      "intelligence": "Intelligence",
+      "cases": "Dossiers",
+      "documents": "Documents",
+      "users": "Utilisateurs",
+      "settings": "Paramètres",
+      "audit_logs": "Journaux d'audit",
+      "tenants": "Tenants",
+      "reports": "Rapports",
+      "export": "Exporter",
+      "services": "Services",
+      "profile": "Mon Profil",
+      "sign_out": "Déconnexion"
+    },
+    "admin": {
+      "eyebrow": "Commandement Souverain",
+      "title": "Administration de la Plateforme",
+      "subtitle": "Afronovation, Inc. — Plateforme d'Intelligence Souveraine",
+      "total_tenants": "Tenants Actifs",
+      "total_users": "Utilisateurs",
+      "live_deployments": "Déploiements en Production",
+      "in_pilot": "En Pilote",
+      "add_tenant": "Ajouter un Tenant",
+      "tenants_table_title": "Tenants Souverains",
+      "empty": "Aucun tenant pour le moment. Ajoutez-en un pour commencer.",
+      "cols": {
+        "country": "Pays",
+        "tier": "Niveau",
+        "status": "Statut",
+        "users": "Utilisateurs",
+        "created": "Créé"
+      },
+      "create": {
+        "title": "Provisionner un Tenant Souverain",
+        "subtitle": "Créer un nouveau tenant gouvernemental de l'Union Africaine.",
+        "name": "Nom du Tenant",
+        "countryCode": "Code Pays ISO",
+        "officialCountryName": "Nom Officiel du Pays",
+        "region": "Région",
+        "deploymentTier": "Niveau de Déploiement",
+        "defaultLanguage": "Langue par Défaut",
+        "dataResidencyRegion": "Région de Résidence des Données",
+        "primaryContactEmail": "E-mail du Contact Principal",
+        "submit": "Provisionner le Tenant",
+        "submitting": "Provisionnement…",
+        "cancel": "Annuler"
+      }
+    },
+    "common": {
+      "welcome": "Bienvenue,",
+      "role_label": "Rôle",
+      "tenant_label": "Tenant",
+      "open": "Ouvrir",
+      "coming_soon": "Disponible dans la prochaine mission",
+      "coming_soon_mission": "L'interface complète arrive lors des prochaines missions.",
+      "loading": "Chargement…"
+    }
   }
 }

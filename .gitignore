@@ -53,3 +53,4 @@ civis_supabase_details.txt
 ~$*.xlsx
 ~$*.pptx
 # one-time scripts
+provision.ps1

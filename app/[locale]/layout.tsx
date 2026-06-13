@@ -4,9 +4,7 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { Footer } from '@/components/layout/Footer';
-import { Header } from '@/components/layout/Header';
-import { CookieBanner } from '@/components/legal/CookieBanner';
+import { LayoutChrome } from '@/components/layout/LayoutChrome';
 import { isLocale, routing } from '@/i18n/routing';
 
 import '../globals.css';
@@ -52,10 +50,7 @@ export default async function LocaleLayout({ children, params: { locale } }: Loc
     <html lang={locale} className={inter.variable}>
       <body className="flex min-h-screen flex-col font-sans">
         <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CookieBanner />
+          <LayoutChrome>{children}</LayoutChrome>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -1,28 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 
 import { FadeUp } from '@/components/animation/FadeUp';
+import { getDefaultRoute } from '@/lib/rbac/roles';
 import { signIn } from '@/lib/services/auth/auth.client.service';
-import type { PlatformRole } from '@/lib/services/auth/auth.types';
-
-const ROLE_REDIRECT: Record<PlatformRole, string> = {
-  super_admin: '/admin/dashboard',
-  tenant_admin: '/workspace/dashboard',
-  embassy_admin: '/workspace/embassy',
-  consular_officer: '/workspace/cases',
-  analyst: '/intelligence/dashboard',
-  executive_viewer: '/executive/dashboard',
-  registrant: '/portal/dashboard',
-  economic_planner: '/intelligence/dashboard',
-};
 
 export function SignInForm() {
   const t = useTranslations('Auth.signin');
   const locale = useLocale();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect');
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -43,8 +34,11 @@ export function SignInForm() {
       }
 
       const role = result.session.user.role;
-      const destination = ROLE_REDIRECT[role] ?? '/workspace/dashboard';
-      router.push(`/${locale}${destination}`);
+      const destination = redirectTo && redirectTo.startsWith(`/${locale}/`)
+        ? redirectTo
+        : getDefaultRoute(role, locale);
+      router.push(destination);
+      router.refresh();
     } finally {
       setLoading(false);
     }

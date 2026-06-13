@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ChevronDown, Menu, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { ChevronDown, LayoutDashboard, LogOut, Menu, Settings, X } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { LanguageToggle } from '@/components/layout/LanguageToggle';
+import { UserMenu } from '@/components/layout/UserMenu';
 import { Button } from '@/components/ui/button';
 import { Link, usePathname } from '@/i18n/navigation';
+import { useClientUser } from '@/lib/hooks/useClientUser';
+import { getDefaultRoute } from '@/lib/rbac/roles';
 import { cn } from '@/lib/utils';
 
 const PLATFORM_ITEMS = [
@@ -109,8 +112,12 @@ function NavDropdown({
 
 export function Header() {
   const t = useTranslations('Header');
+  const tMenu = useTranslations('Header.userMenu');
+  const locale = useLocale();
   const pathname = usePathname();
+  const { user } = useClientUser();
   const [menuOpen, setMenuOpen] = useState(false);
+  const dashboardHref = user ? getDefaultRoute(user.role, locale).replace(`/${locale}`, '') : '/';
 
   useEffect(() => {
     setMenuOpen(false);
@@ -171,16 +178,15 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <LanguageToggle />
-          {/* Sign-in is a placeholder until Mission 002 delivers authentication */}
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled
-            title={t('signInNote')}
-            className="hidden text-surface/60 hover:bg-transparent lg:inline-flex"
-          >
-            {t('signIn')}
-          </Button>
+          {user ? (
+            <div className="hidden lg:block">
+              <UserMenu user={user} />
+            </div>
+          ) : (
+            <Button asChild variant="ghost" size="sm" className="hidden text-surface/80 hover:text-gold lg:inline-flex">
+              <Link href="/auth/signin">{t('signIn')}</Link>
+            </Button>
+          )}
           <Button asChild variant="gold" size="sm" className="hidden lg:inline-flex">
             <Link href="/contact">{t('requestBriefing')}</Link>
           </Button>
@@ -257,7 +263,47 @@ export function Header() {
                 </Link>
               </li>
             ))}
-            <li className="mt-4">
+            {user && (
+              <>
+                <li className="mt-4 border-t border-surface/10 px-3 pt-4">
+                  <p className="truncate text-sm font-medium text-white">
+                    {user.fullName ?? user.email}
+                  </p>
+                  <p className="truncate text-xs text-surface/50">{user.email}</p>
+                </li>
+                <li>
+                  <Link
+                    href={dashboardHref}
+                    className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-surface/80 transition-colors hover:bg-navy hover:text-gold"
+                  >
+                    <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                    {tMenu('dashboard')}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/account"
+                    className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-surface/80 transition-colors hover:bg-navy hover:text-gold"
+                  >
+                    <Settings className="h-4 w-4" aria-hidden="true" />
+                    {tMenu('account')}
+                  </Link>
+                </li>
+              </>
+            )}
+            <li className="mt-4 flex flex-col gap-2">
+              {user ? (
+                <form action={`/${locale}/auth/signout`} method="post">
+                  <Button type="submit" variant="ghost" size="sm" className="w-full justify-start gap-3 text-surface/80 hover:text-gold">
+                    <LogOut className="h-4 w-4" aria-hidden="true" />
+                    {tMenu('signOut')}
+                  </Button>
+                </form>
+              ) : (
+                <Button asChild variant="ghost" size="sm" className="w-full text-surface/80 hover:text-gold">
+                  <Link href="/auth/signin">{t('signIn')}</Link>
+                </Button>
+              )}
               <Button asChild variant="gold" size="sm" className="w-full">
                 <Link href="/contact">{t('requestBriefing')}</Link>
               </Button>

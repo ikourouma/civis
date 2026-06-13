@@ -45,7 +45,41 @@
     "languageEnglish": "Passer à l'anglais",
     "languageFrench": "Passer au français",
     "openMenu": "Ouvrir le menu",
-    "closeMenu": "Fermer le menu"
+    "closeMenu": "Fermer le menu",
+    "userMenu": {
+      "menuLabel": "Menu du compte",
+      "accountTypeLabel": "Type de compte",
+      "dashboard": "Accéder au tableau de bord",
+      "account": "Paramètres du compte",
+      "signOut": "Se déconnecter"
+    }
+  },
+  "Roles": {
+    "super_admin": "Super administrateur",
+    "tenant_admin": "Administrateur de locataire",
+    "embassy_admin": "Administrateur d'ambassade",
+    "consular_officer": "Agent consulaire",
+    "analyst": "Analyste du renseignement",
+    "executive_viewer": "Observateur exécutif",
+    "registrant": "Inscrit",
+    "economic_planner": "Planificateur économique"
+  },
+  "Account": {
+    "eyebrow": "Votre compte",
+    "title": "Paramètres du compte",
+    "subtitle": "Votre profil de plateforme et les détails de votre compte.",
+    "profileSection": "Profil",
+    "fullName": "Nom complet",
+    "email": "Adresse e-mail",
+    "accountType": "Type de compte",
+    "tenant": "Locataire",
+    "status": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "lastSignIn": "Dernière connexion",
+    "notSet": "Non défini",
+    "noTenant": "Niveau plateforme (aucun locataire)",
+    "editNote": "La modification du profil sera disponible dans une prochaine version. Contactez votre administrateur pour mettre à jour les détails de votre compte."
   },
   "Footer": {
     "brandName": "CIVIS",
@@ -1176,5 +1210,52 @@
       "coming_soon_mission": "L'interface complète arrive lors des prochaines missions.",
       "loading": "Chargement…"
     }
+  },
+  "Embassy": {
+    "title": "Espace de Travail Ambassade",
+    "kpi_total": "Total des Inscrits",
+    "kpi_pending": "En Attente",
+    "kpi_verified": "Vérifiés",
+    "kpi_this_month": "Ce Mois",
+    "queue_title": "File d'Attente de Révision",
+    "staff_title": "Personnel de l'Ambassade"
+  },
+  "Cases": {
+    "title": "Dossiers",
+    "queue_title": "Ma File d'Attente",
+    "filter_all": "Tous",
+    "filter_pending": "En Attente",
+    "filter_approved": "Approuvés",
+    "filter_rejected": "Rejetés"
+  },
+  "Registry": {
+    "eyebrow": "Registre du Tenant",
+    "title": "Registre des Inscrits",
+    "subtitle": "Tous les membres de la diaspora enregistrés dans votre réseau d'ambassades.",
+    "tile_total": "Total",
+    "tile_verified": "Vérifiés",
+    "tile_pending": "En Attente",
+    "tile_draft": "Brouillons",
+    "export_csv": "Exporter CSV",
+    "filter_apply": "Filtrer",
+    "filter_clear": "Effacer",
+    "table_title": "Inscrits"
+  },
+  "Portal": {
+    "eyebrow": "Portail Diaspora",
+    "welcome": "Bienvenue, {name}",
+    "subtitle": "Votre portail personnel pour gérer votre inscription diaspora.",
+    "register_prompt_title": "Complétez votre inscription",
+    "register_prompt_body": "Inscrivez-vous au registre officiel de la diaspora pour accéder aux services consulaires et rester connecté à votre gouvernement d'origine.",
+    "register_cta": "Commencer l'inscription",
+    "step_1": "Consentement",
+    "step_2": "Vos infos",
+    "step_3": "Soumettre",
+    "status_label": "Statut d'inscription",
+    "completeness": "Complétude du profil",
+    "link_documents": "Documents",
+    "link_documents_desc": "Téléchargez vos documents d'identité.",
+    "link_consent": "Enregistrement du consentement",
+    "link_consent_desc": "Consultez ou retirez votre consentement aux données."
   }
 }

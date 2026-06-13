@@ -1,20 +1,49 @@
+import { redirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
+import { CasesView } from '@/components/workspace/CasesView';
 import { getCurrentUser } from '@/lib/services/auth';
+import { getMyEmbassy } from '@/lib/services/embassies';
+import { searchRegistrants, getRegistrantById } from '@/lib/services/registrants';
+import type { Registrant } from '@/lib/services/registrants';
 
-export default async function CasesWorkspace({ params: { locale } }: { params: { locale: string } }) {
+interface PageProps {
+  params: { locale: string };
+  searchParams: { selected?: string; tab?: string };
+}
+
+export default async function CasesPage({ params: { locale }, searchParams }: PageProps) {
   setRequestLocale(locale);
-  const t = await getTranslations('Workspace');
+  const t = await getTranslations('Cases');
+
   const user = await getCurrentUser();
+  if (!user) redirect(`/${locale}/auth/signin`);
+
+  const embassy = await getMyEmbassy();
+  const tab = (searchParams.tab as 'all' | 'pending' | 'approved' | 'rejected') ?? 'all';
+  const selectedId = searchParams.selected;
+
+  const verificationStatus = tab === 'pending' ? 'pending_review'
+    : tab === 'approved' ? 'verified'
+    : tab === 'rejected' ? 'rejected'
+    : undefined;
+
+  const [queueResult, selectedRegistrant] = await Promise.all([
+    embassy
+      ? searchRegistrants({ embassyId: embassy.id, verificationStatus, pageSize: 25 })
+      : Promise.resolve({ registrants: [], total: 0 }),
+    selectedId ? getRegistrantById(selectedId) : Promise.resolve(null),
+  ]);
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gold">{t('common.welcome')}</p>
-      <h1 className="mt-2 text-3xl font-bold text-white">{user?.fullName ?? user?.email}</h1>
-      <p className="mt-2 text-sm text-surface/60">
-        {t('common.role_label')}: <span className="text-surface/80">{user?.role}</span>
-      </p>
-      <p className="mt-8 text-sm text-surface/50">{t('common.coming_soon_mission')}</p>
-    </div>
+    <CasesView
+      user={user}
+      locale={locale}
+      queue={queueResult.registrants}
+      total={queueResult.total}
+      selectedRegistrant={selectedRegistrant as Registrant | null}
+      activeTab={tab}
+      hasEmbassy={!!embassy}
+    />
   );
 }

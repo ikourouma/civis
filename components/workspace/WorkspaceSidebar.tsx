@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import {
   BarChart3,
   Briefcase,
   Building2,
+  ChevronLeft,
+  ChevronRight,
   Download,
   FileText,
   Folder,
@@ -95,7 +98,7 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
 
 const ROLE_BADGE_LABEL: Record<PlatformRole, string> = {
   super_admin: 'Admin',
-  tenant_admin: 'Tenant Admin',
+  tenant_admin: 'Tenant',
   embassy_admin: 'Embassy',
   consular_officer: 'Consular',
   analyst: 'Analyst',
@@ -108,23 +111,55 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
   const t = useTranslations('Workspace.nav');
   const pathname = usePathname();
   const items = NAV_ITEMS[user.role];
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <aside className="hidden h-screen w-60 shrink-0 flex-col border-r border-white/5 bg-navy-deepest lg:flex">
-      {/* Brand */}
-      <div className="px-6 py-6">
-        <Link href="/" className="block">
-          <p className="text-lg font-bold tracking-[0.2em] text-white">
-            CIVIS<span className="text-gold">.</span>
-          </p>
-        </Link>
-        <p className="mt-1 inline-flex rounded bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-gold">
-          {ROLE_BADGE_LABEL[user.role]}
-        </p>
+    <aside
+      className={cn(
+        'hidden h-screen shrink-0 flex-col border-r border-white/5 bg-navy-deepest transition-[width] duration-300 ease-in-out lg:flex',
+        collapsed ? 'w-16' : 'w-60',
+      )}
+    >
+      {/* Brand row + collapse toggle */}
+      <div
+        className={cn(
+          'flex items-center py-5',
+          collapsed ? 'flex-col gap-3 px-3' : 'gap-2 px-4',
+        )}
+      >
+        {collapsed ? (
+          <Link href="/" title="CIVIS Platform">
+            <span className="text-base font-bold tracking-[0.2em] text-white">
+              C<span className="text-gold">.</span>
+            </span>
+          </Link>
+        ) : (
+          <Link href="/" className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="whitespace-nowrap text-lg font-bold tracking-[0.2em] text-white">
+              CIVIS<span className="text-gold">.</span>
+            </span>
+            <span className="inline-flex shrink-0 rounded bg-gold/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-gold">
+              {ROLE_BADGE_LABEL[user.role]}
+            </span>
+          </Link>
+        )}
+
+        <button
+          type="button"
+          onClick={() => setCollapsed((c) => !c)}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-surface/40 transition-colors hover:bg-white/[0.06] hover:text-surface"
+        >
+          {collapsed ? (
+            <ChevronRight className="h-4 w-4" />
+          ) : (
+            <ChevronLeft className="h-4 w-4" />
+          )}
+        </button>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3" aria-label="Workspace navigation">
+      <nav className="flex-1 px-2" aria-label="Workspace navigation">
         <ul className="space-y-0.5">
           {items.map(({ key, href, Icon }) => {
             const localizedHref = `/${locale}${href}`;
@@ -133,21 +168,23 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
               <li key={href}>
                 <Link
                   href={href}
+                  title={collapsed ? t(key) : undefined}
                   className={cn(
-                    'group relative flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
+                    'group relative flex items-center rounded-md px-3 py-2 text-sm transition-colors',
+                    collapsed ? 'justify-center' : 'gap-3',
                     active
                       ? 'bg-gold/10 text-gold'
                       : 'text-surface/70 hover:bg-white/[0.04] hover:text-white',
                   )}
                 >
-                  {active && (
+                  {active && !collapsed && (
                     <span
                       aria-hidden="true"
                       className="absolute inset-y-1 left-0 w-0.5 rounded-full bg-gold"
                     />
                   )}
-                  <Icon className="h-4 w-4" aria-hidden="true" />
-                  <span>{t(key)}</span>
+                  <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  {!collapsed && <span>{t(key)}</span>}
                 </Link>
               </li>
             );
@@ -156,20 +193,26 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
       </nav>
 
       {/* User block + sign out */}
-      <div className="border-t border-white/5 px-3 py-4">
-        <div className="px-3 pb-3">
-          <p className="truncate text-xs font-medium text-white">
-            {user.fullName ?? user.email}
-          </p>
-          <p className="truncate text-[10px] text-surface/50">{user.email}</p>
-        </div>
+      <div className="border-t border-white/5 px-2 py-4">
+        {!collapsed && (
+          <div className="px-3 pb-3">
+            <p className="truncate text-xs font-medium text-white">
+              {user.fullName ?? user.email}
+            </p>
+            <p className="truncate text-[10px] text-surface/50">{user.email}</p>
+          </div>
+        )}
         <form action={`/${locale}/auth/signout`} method="post">
           <button
             type="submit"
-            className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-surface/70 transition-colors hover:bg-white/[0.04] hover:text-gold"
+            title={collapsed ? t('sign_out') : undefined}
+            className={cn(
+              'flex w-full items-center rounded-md px-3 py-2 text-sm text-surface/70 transition-colors hover:bg-white/[0.04] hover:text-gold',
+              collapsed ? 'justify-center' : 'gap-3',
+            )}
           >
-            <LogOut className="h-4 w-4" aria-hidden="true" />
-            {t('sign_out')}
+            <LogOut className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {!collapsed && t('sign_out')}
           </button>
         </form>
       </div>

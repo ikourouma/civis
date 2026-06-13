@@ -22,6 +22,7 @@ export async function signIn(credentials: SignInCredentials): Promise<AuthResult
     .single();
 
   if (profileError || !profile) {
+    console.error('[signIn] profile fetch failed:', profileError);
     return { success: false, error: 'Profile not found. Contact your administrator.' };
   }
 

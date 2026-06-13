@@ -8,7 +8,7 @@ import { CookieBanner } from '@/components/legal/CookieBanner';
 
 // Workspace + auth routes own their own full-screen chrome and skip the
 // marketing Header/Footer. Everything else gets the public chrome.
-const NON_MARKETING = /^\/(en|fr)\/(admin|workspace|intelligence|executive|portal|auth)(\/|$)/;
+const NON_MARKETING = /^\/(en|fr)\/(admin|workspace|intelligence|executive|portal|auth|account)(\/|$)/;
 
 export function LayoutChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

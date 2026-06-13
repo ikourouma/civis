@@ -45,7 +45,41 @@
     "languageEnglish": "Switch to English",
     "languageFrench": "Switch to French",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "userMenu": {
+      "menuLabel": "Account menu",
+      "accountTypeLabel": "Account type",
+      "dashboard": "Go to Dashboard",
+      "account": "Account Settings",
+      "signOut": "Sign Out"
+    }
+  },
+  "Roles": {
+    "super_admin": "Super Administrator",
+    "tenant_admin": "Tenant Administrator",
+    "embassy_admin": "Embassy Administrator",
+    "consular_officer": "Consular Officer",
+    "analyst": "Intelligence Analyst",
+    "executive_viewer": "Executive Viewer",
+    "registrant": "Registrant",
+    "economic_planner": "Economic Planner"
+  },
+  "Account": {
+    "eyebrow": "Your Account",
+    "title": "Account Settings",
+    "subtitle": "Your platform profile and account details.",
+    "profileSection": "Profile",
+    "fullName": "Full name",
+    "email": "Email address",
+    "accountType": "Account type",
+    "tenant": "Tenant",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "lastSignIn": "Last sign-in",
+    "notSet": "Not set",
+    "noTenant": "Platform-level (no tenant)",
+    "editNote": "Profile editing will be available in an upcoming release. Contact your administrator to update your account details."
   },
   "Footer": {
     "brandName": "CIVIS",
@@ -1176,5 +1210,52 @@
       "coming_soon_mission": "Full workspace interface arrives in upcoming missions.",
       "loading": "Loading…"
     }
+  },
+  "Embassy": {
+    "title": "Embassy Workspace",
+    "kpi_total": "Total Registrants",
+    "kpi_pending": "Pending Review",
+    "kpi_verified": "Verified",
+    "kpi_this_month": "This Month",
+    "queue_title": "Pending Review Queue",
+    "staff_title": "Embassy Staff"
+  },
+  "Cases": {
+    "title": "Cases",
+    "queue_title": "My Queue",
+    "filter_all": "All",
+    "filter_pending": "Pending",
+    "filter_approved": "Approved",
+    "filter_rejected": "Rejected"
+  },
+  "Registry": {
+    "eyebrow": "Tenant Registry",
+    "title": "Registrant Registry",
+    "subtitle": "All registered diaspora members across your embassy network.",
+    "tile_total": "Total",
+    "tile_verified": "Verified",
+    "tile_pending": "Pending",
+    "tile_draft": "Draft",
+    "export_csv": "Export CSV",
+    "filter_apply": "Filter",
+    "filter_clear": "Clear",
+    "table_title": "Registrants"
+  },
+  "Portal": {
+    "eyebrow": "Diaspora Portal",
+    "welcome": "Welcome, {name}",
+    "subtitle": "Your personal portal for managing your diaspora registration.",
+    "register_prompt_title": "Complete Your Registration",
+    "register_prompt_body": "Register with the official diaspora registry to access consular services and stay connected with your home government.",
+    "register_cta": "Start Registration",
+    "step_1": "Consent",
+    "step_2": "Your Info",
+    "step_3": "Submit",
+    "status_label": "Registration Status",
+    "completeness": "Profile completeness",
+    "link_documents": "Documents",
+    "link_documents_desc": "Upload supporting identity documents.",
+    "link_consent": "Consent Record",
+    "link_consent_desc": "View or withdraw your data consent."
   }
 }

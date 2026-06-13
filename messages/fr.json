@@ -1,0 +1,1117 @@
+{
+  "Metadata": {
+    "siteName": "Civis",
+    "title": "Civis — Plateforme Souveraine d'Intelligence Diaspora",
+    "description": "Civis permet aux gouvernements de cartographier, suivre, prévoir et activer le potentiel économique de leur diaspora grâce à des registres sécurisés, des analyses prédictives et Dia — la couche souveraine d'intelligence artificielle."
+  },
+  "Common": {
+    "home": "Accueil",
+    "breadcrumbLabel": "Fil d'Ariane",
+    "ctaStripTitle": "Découvrez Civis au Service de Votre Gouvernement.",
+    "requestBriefing": "Demander un briefing gouvernemental",
+    "viewDeployment": "Voir les options de déploiement",
+    "viewSecurity": "Voir l'architecture de sécurité"
+  },
+  "Header": {
+    "brandName": "CIVIS",
+    "brandTagline": "Intelligence Diaspora Souveraine",
+    "navLabel": "Navigation principale",
+    "platform": "Plateforme",
+    "solutions": "Solutions",
+    "security": "Sécurité",
+    "deployment": "Déploiement",
+    "resources": "Ressources",
+    "about": "À propos",
+    "contact": "Contact",
+    "platformMenu": {
+      "overview": "Vue d'ensemble de la plateforme",
+      "registry": "Registre de la Diaspora",
+      "embassy": "Intelligence des Ambassades",
+      "analytics": "Analytique Souveraine",
+      "dia": "Moteur d'Intelligence Dia"
+    },
+    "resourcesMenu": {
+      "overview": "Toutes les ressources",
+      "documentation": "Documentation",
+      "whitepaper": "Livre blanc sécurité",
+      "api": "Référence API",
+      "changelog": "Journal des versions",
+      "status": "État du système"
+    },
+    "signIn": "Connexion",
+    "signInNote": "La connexion sera disponible au lancement de la plateforme",
+    "requestBriefing": "Demander un briefing",
+    "languageToggleLabel": "Langue",
+    "languageEnglish": "Passer à l'anglais",
+    "languageFrench": "Passer au français",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  },
+  "Footer": {
+    "brandName": "CIVIS",
+    "platformColumn": "Plateforme",
+    "resourcesColumn": "Ressources",
+    "legalColumn": "Mentions légales",
+    "companyColumn": "Société",
+    "registry": "Registre de la Diaspora",
+    "embassy": "Intelligence des Ambassades",
+    "analytics": "Analytique Souveraine",
+    "dia": "Moteur d'Intelligence Dia",
+    "security": "Sécurité",
+    "documentation": "Documentation",
+    "whitepaper": "Livre blanc sécurité",
+    "api": "Référence API",
+    "changelog": "Journal des versions",
+    "status": "État du système",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "dpa": "Accord de traitement des données",
+    "cookies": "Politique des cookies",
+    "compliance": "Conformité",
+    "about": "À propos",
+    "contact": "Contact",
+    "afronovation": "Afronovation.com",
+    "newsletter": {
+      "title": "Restez informé",
+      "placeholder": "Adresse courriel officielle",
+      "button": "S'abonner",
+      "confirmation": "Merci — votre abonnement a été enregistré."
+    },
+    "copyright": "© {year} Afronovation, Inc. Tous droits réservés.",
+    "attribution": "Civis est une plateforme du programme technologique souverain Afronovation."
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "Intelligence Diaspora Souveraine",
+      "headline1": "Connaissez Votre Diaspora.",
+      "headline2": "Gouvernez avec l'Intelligence.",
+      "subtitle": "Civis est la plateforme d'intelligence souveraine qui transforme des données diaspora fragmentées en registres vérifiés, en analyses de niveau politique publique et en prévisions propulsées par l'IA — conçue pour les gouvernements de l'Union Africaine.",
+      "primaryCta": "Demander un briefing gouvernemental",
+      "secondaryCta": "Explorer la plateforme",
+      "badges": ["Conforme ISO 27001", "Prêt pour le RGPD", "Architecture SOC 2", "Cloud souverain"],
+      "panel": {
+        "label": "Intelligence en Direct",
+        "status": "Actif",
+        "mapLabel": "Carte de répartition de la diaspora",
+        "scrollLabel": "Défiler pour explorer",
+        "stats": {
+          "records": {
+            "label": "Dossiers Diaspora",
+            "suffix": " M+"
+          },
+          "countries": {
+            "label": "Pays Couverts",
+            "suffix": "+"
+          },
+          "embassies": {
+            "label": "Espaces Ambassade",
+            "suffix": "+"
+          }
+        },
+        "feed": {
+          "item1": {
+            "text": "Nouveau cluster d'inscription détecté — corridor Paris",
+            "time": "il y a 2 min"
+          },
+          "item2": {
+            "text": "Note ministérielle générée — bilan diaspora T2",
+            "time": "il y a 1 h"
+          },
+          "item3": {
+            "text": "Synchronisation ambassades — 12 missions mises à jour",
+            "time": "il y a 3 h"
+          }
+        }
+      }
+    },
+    "pillars": {
+      "title": "Une Plateforme. La Souveraineté Diaspora Complète.",
+      "explore": "Explorer",
+      "registry": {
+        "title": "Registre de la Diaspora",
+        "description": "Un registre souverain et vérifié de chaque citoyen à l'étranger — structuré, consultable et détenu par votre gouvernement."
+      },
+      "embassy": {
+        "title": "Intelligence des Ambassades",
+        "description": "Un espace de travail unifié pour chaque mission dans le monde — une plateforme, toutes les ambassades, aucun silo de données."
+      },
+      "analytics": {
+        "title": "Analytique Souveraine",
+        "description": "Des tableaux de bord d'intelligence de niveau politique publique qui transforment les données brutes du registre en analyses prêtes pour le ministre."
+      },
+      "dia": {
+        "title": "Moteur d'Intelligence Dia",
+        "description": "Prévisions propulsées par l'IA, modélisation de cohortes et briefings exécutifs — fondés sur vos données souveraines."
+      }
+    },
+    "contrast": {
+      "title": "Le Coût des Données Diaspora Fragmentées.",
+      "withoutTitle": "Sans Civis",
+      "withTitle": "Avec Civis",
+      "without": [
+        "Des campagnes d'enregistrement de la diaspora qui ne convertissent pas",
+        "Des données d'ambassades cloisonnées dans plus de 30 missions sans vision unifiée",
+        "Des décisions politiques fondées sur les estimations de la Banque Mondiale, pas sur des données souveraines",
+        "Aucune capacité prédictive — les événements sont découverts a posteriori",
+        "Des données citoyennes hébergées sur des infrastructures commerciales étrangères"
+      ],
+      "with": [
+        "Un registre diaspora vérifié et croissant dont la valeur se renforce avec le temps",
+        "Toutes les ambassades unifiées — un espace de travail, un modèle de données, une source de vérité",
+        "Des tableaux de bord ministériels construits sur votre propre registre souverain",
+        "Dia anticipe les évolutions démographiques et les signaux économiques avec des semaines d'avance",
+        "Une infrastructure de niveau souverain — vos données, vos frontières, votre contrôle"
+      ]
+    },
+    "auTrust": {
+      "title": "La Confiance des Gouvernements de l'Union Africaine.",
+      "countries": {
+        "listLabel": "États membres de l'Union Africaine",
+        "nigeria": "Nigéria",
+        "ghana": "Ghana",
+        "kenya": "Kenya",
+        "senegal": "Sénégal",
+        "coteDIvoire": "Côte d'Ivoire",
+        "cameroon": "Cameroun",
+        "ethiopia": "Éthiopie",
+        "rwanda": "Rwanda",
+        "guinea": "Guinée",
+        "morocco": "Maroc",
+        "southAfrica": "Afrique du Sud",
+        "tanzania": "Tanzanie"
+      },
+      "badges": {
+        "iso": {
+          "name": "ISO 27001",
+          "description": "Gestion de la sécurité de l'information"
+        },
+        "gdpr": {
+          "name": "Prêt pour le RGPD",
+          "description": "Norme européenne de protection des données"
+        },
+        "soc2": {
+          "name": "SOC 2",
+          "description": "Architecture de critères de confiance"
+        },
+        "malabo": {
+          "name": "Convention de Malabo",
+          "description": "Protection des données de l'Union Africaine"
+        }
+      }
+    },
+    "tiers": {
+      "title": "Déployez au Niveau qu'Exige Votre Souveraineté.",
+      "compare": "Comparer les niveaux de déploiement",
+      "cloud": {
+        "name": "Civis Cloud",
+        "audience": "Pour les gouvernements qui entament leur démarche d'intelligence diaspora",
+        "line": "Infrastructure souveraine partagée. Opérationnelle en quelques jours."
+      },
+      "government": {
+        "name": "Civis Government",
+        "audience": "Pour les nations exigeant une infrastructure nationale dédiée",
+        "line": "Votre pays. Votre cloud. Votre registre."
+      },
+      "sovereign": {
+        "name": "Civis Sovereign",
+        "audience": "Pour les gouvernements exigeant une souveraineté maximale et un contrôle sur site",
+        "line": "Isolement physique. Gestion souveraine des clés. Compatible air-gap."
+      }
+    },
+    "cta": {
+      "title": "Prêt à Conduire la Transformation Numérique de Votre Diaspora ?",
+      "body": "Rejoignez les gouvernements qui bâtissent une intelligence diaspora souveraine avec une technologie de niveau institutionnel. Notre équipe préparera un briefing personnalisé adapté aux exigences spécifiques de votre nation.",
+      "promises": [
+        "Briefing technique personnalisé sous 48 heures",
+        "Démonstration en direct du tenant souverain de votre pays",
+        "Revue de l'architecture de sécurité et cartographie de conformité",
+        "Calendrier de déploiement et feuille de route de mise en œuvre sur mesure"
+      ],
+      "primaryCta": "Demander un briefing gouvernemental",
+      "secondaryCta": "Voir l'architecture de sécurité"
+    }
+  },
+  "Platform": {
+    "hub": {
+      "breadcrumb": "Plateforme",
+      "title": "Une Plateforme. Chaque Dimension de la Souveraineté Diaspora.",
+      "subtitle": "Quatre piliers intégrés — registre, opérations consulaires, analytique et IA — conçus comme un seul environnement d'intelligence souveraine.",
+      "intro": "La plateforme Civis repose sur une architecture à quatre piliers : le Registre de la Diaspora collecte et vérifie les données citoyennes souveraines, l'Intelligence des Ambassades les opérationnalise dans chaque mission, l'Analytique Souveraine les transforme en intelligence de niveau politique publique, et le Moteur d'Intelligence Dia les projette vers l'avenir. Chaque pilier a une valeur propre — ensemble, ils forment une capacité nationale complète d'intelligence diaspora.",
+      "explore": "Explorer",
+      "cards": {
+        "registry": {
+          "title": "Registre de la Diaspora",
+          "teaser": "Les tableurs d'ambassades et les dossiers fragmentés contraignent les gouvernements à fonder leur politique diaspora sur des estimations plutôt que sur des données souveraines vérifiées."
+        },
+        "embassy": {
+          "title": "Intelligence des Ambassades",
+          "teaser": "Les missions opèrent en silos — aucune vue partagée des inscrits, aucune visibilité sur la charge de travail, aucun flux unifié entre citoyen et agent."
+        },
+        "analytics": {
+          "title": "Analytique Souveraine",
+          "teaser": "L'intelligence diaspora dont les ministres ont besoin pour le parlement, les partenaires et les politiques publiques reste enfermée dans des données brutes que personne ne peut analyser."
+        },
+        "dia": {
+          "title": "Moteur d'Intelligence Dia",
+          "teaser": "Les évolutions démographiques sont découvertes après coup — aucune prévision, aucun signal précoce, aucune capacité de planification prédictive."
+        }
+      }
+    },
+    "common": {
+      "breadcrumbLabel": "Fil d'Ariane",
+      "breadcrumbPlatform": "Plateforme",
+      "challengeTitle": "Le Défi",
+      "solutionTitle": "La Solution Civis"
+    },
+    "registry": {
+      "title": "Registre de la Diaspora",
+      "subtitle": "Constituez un registre souverain et vérifié de chaque citoyen à l'étranger — structuré pour l'intelligence, conçu pour les politiques publiques.",
+      "challenges": [
+        "Les campagnes d'enregistrement de la diaspora sont lancées sans infrastructure durable pour capter et conserver les données.",
+        "Les tableurs de plus de 30 missions contiennent des dossiers dupliqués, non vérifiés et obsolètes.",
+        "Aucune identité citoyenne unifiée entre les missions — la même personne apparaît cinq fois dans cinq pays.",
+        "Les gouvernements fondent leurs décisions de politique diaspora sur les estimations de la Banque Mondiale, pas sur leurs propres données vérifiées.",
+        "Les données d'enregistrement sont collectées puis abandonnées — jamais analysées, jamais exploitées."
+      ],
+      "features": [
+        {
+          "title": "Registre Citoyen Souverain",
+          "description": "Un dossier unique et vérifié pour chaque citoyen de la diaspora — dédupliqué, validé et détenu par votre gouvernement."
+        },
+        {
+          "title": "Vue Unifiée Multi-Missions",
+          "description": "Un profil d'inscrit visible dans toutes les ambassades du monde — sans doublons, sans silos."
+        },
+        {
+          "title": "Architecture Fondée sur le Consentement",
+          "description": "Chaque enregistrement repose sur un consentement éclairé — conforme par conception au RGPD, au NDPR et à la Convention de Malabo."
+        },
+        {
+          "title": "Modèle de Données Structuré",
+          "description": "Parcours professionnel, pays d'accueil, événements de vie, langue, cohorte générationnelle — prêt pour les politiques publiques dès le premier jour."
+        },
+        {
+          "title": "Résidence Souveraine des Données",
+          "description": "Votre registre réside sur votre infrastructure — aucun serveur commercial étranger ne détient les données de vos citoyens."
+        },
+        {
+          "title": "Moteur de Campagnes d'Enregistrement",
+          "description": "Lancez, suivez et optimisez les campagnes nationales d'enregistrement depuis un tableau de commande unique."
+        }
+      ],
+      "metrics": [
+        { "value": "2,4 M+", "label": "Dossiers diaspora pris en charge" },
+        { "value": "99,97 %", "label": "Précision de déduplication des données" },
+        { "value": "<24 h", "label": "Délai de traitement des enregistrements" },
+        { "value": "100 %", "label": "Couverture du consentement" }
+      ]
+    },
+    "embassy": {
+      "title": "Intelligence des Ambassades",
+      "subtitle": "Chaque mission unifiée. Chaque agent consulaire outillé. Chaque inscrit servi — depuis n'importe où dans le monde.",
+      "challenges": [
+        "Le personnel des ambassades gère les files d'inscrits dans des tableurs sans visibilité partagée.",
+        "Un citoyen qui se présente à l'ambassade de Washington D.C. est inconnu du consulat de Bruxelles.",
+        "Aucune visibilité inter-missions sur la charge de travail — certaines ambassades sont débordées, d'autres sous-utilisées.",
+        "Les demandes de documents prennent des semaines faute de flux numérique entre le citoyen et l'agent.",
+        "Les responsables ministériels n'ont aucune vue en temps réel sur l'activité des ambassades."
+      ],
+      "features": [
+        {
+          "title": "Espace Multi-Ambassades",
+          "description": "Chaque mission — Washington D.C., Paris, Londres, Bruxelles — dans une seule plateforme opérationnelle unifiée."
+        },
+        {
+          "title": "Tableau de Bord de l'Agent Consulaire",
+          "description": "Chaque agent voit sa file, ses dossiers et ses inscrits — fini le chaos des tableurs."
+        },
+        {
+          "title": "Visibilité Inter-Missions",
+          "description": "L'administrateur du tenant voit toutes les missions en temps réel — charge de travail, profondeur des files, rythme des enregistrements."
+        },
+        {
+          "title": "Flux de Demandes de Documents",
+          "description": "Les citoyens soumettent leurs demandes de documents en ligne. Les agents les traitent avec une piste d'audit vérifiée."
+        },
+        {
+          "title": "Gestion des Rendez-vous",
+          "description": "Prise de rendez-vous en libre-service avec contrôle des capacités par ambassade et par type de service."
+        },
+        {
+          "title": "Contrôle d'Accès par Rôles",
+          "description": "Huit rôles de plateforme, appliqués au niveau de la base de données — chaque agent ne voit que ce que son rôle autorise."
+        }
+      ],
+      "metrics": [
+        { "value": "85 %", "label": "Réduction du délai de traitement" },
+        { "value": "40 %", "label": "Rendez-vous manqués en moins" },
+        { "value": "30+", "label": "Missions dans un seul espace de travail" },
+        { "value": "100 %", "label": "Couverture d'audit immuable" }
+      ]
+    },
+    "analytics": {
+      "title": "Analytique Souveraine",
+      "subtitle": "Transformez votre registre diaspora en intelligence de niveau politique publique — construite pour les ministres, conçue pour la décision.",
+      "challenges": [
+        "Les gouvernements n'ont aucune intelligence sur la taille, la localisation ou la contribution économique de leur diaspora.",
+        "La politique des transferts de fonds repose sur des estimations par corridor, pas sur des données au niveau citoyen.",
+        "Les partenaires au développement et les bailleurs multilatéraux demandent des données d'impact diaspora qui n'existent pas.",
+        "Les questions parlementaires sur les affaires de la diaspora ne peuvent pas recevoir de réponses fondées sur des preuves.",
+        "Les ministres reçoivent des briefings assemblés manuellement depuis des sources fragmentées la veille d'une réunion."
+      ],
+      "features": [
+        {
+          "title": "Tableau de Bord d'Intelligence",
+          "description": "Indicateurs diaspora en temps réel par pays d'accueil, profession, génération et niveau d'engagement."
+        },
+        {
+          "title": "Distribution Géographique",
+          "description": "Carte interactive de la concentration de la diaspora dans le monde — jusqu'au niveau des villes."
+        },
+        {
+          "title": "Analyse des Corridors de Transferts",
+          "description": "Reliez la démographie de la diaspora aux flux de transferts de fonds pour une modélisation digne d'une banque centrale."
+        },
+        {
+          "title": "Générateur de Rapports Ministériels",
+          "description": "Produisez en quelques minutes des rapports d'intelligence formatés pour le cabinet, le parlement et les partenaires au développement."
+        },
+        {
+          "title": "Constructeur de Segments",
+          "description": "Créez des cohortes diaspora sur mesure — par profession, pays d'accueil, génération ou niveau d'engagement."
+        },
+        {
+          "title": "Export & Accès API",
+          "description": "Export CSV, PDF et API — compatible avec les lacs de données nationaux et les cadres de reporting multilatéraux."
+        }
+      ],
+      "metrics": [
+        { "value": "90 %", "label": "Génération des rapports ministériels accélérée" },
+        { "value": "360°", "label": "Vue diaspora — du pays d'accueil à la profession" },
+        { "value": "Temps réel", "label": "Actualisation des tableaux de bord" },
+        { "value": "Prêt API", "label": "Pour l'infrastructure nationale de données" }
+      ]
+    },
+    "dia": {
+      "title": "Moteur d'Intelligence Dia",
+      "subtitle": "Prévisions propulsées par l'IA, modélisation de cohortes et intelligence exécutive — fondées sur vos données diaspora souveraines.",
+      "challenges": [
+        "Les gouvernements découvrent les évolutions démographiques de leur diaspora après qu'elles se sont produites.",
+        "Aucune capacité prédictive n'existe pour modéliser la croissance, le déclin ou les schémas migratoires de la diaspora.",
+        "Les horizons de planification sont de 3 à 5 ans, mais les données diaspora sont historiques, pas prédictives.",
+        "Les plateformes d'IA disponibles exigent que les données quittent l'infrastructure souveraine — inacceptable pour un gouvernement.",
+        "Les résultats des systèmes d'IA sont des boîtes noires — les gouvernements ne peuvent ni les expliquer ni les défendre."
+      ],
+      "features": [
+        {
+          "title": "Prévisions Démographiques",
+          "description": "Anticipez la croissance de la population diaspora, les mouvements migratoires et les évolutions par pays d'accueil sur 12 à 24 mois."
+        },
+        {
+          "title": "Regroupement de Cohortes",
+          "description": "Identifiez automatiquement les segments diaspora aux caractéristiques communes — potentiel d'investissement, risque de désengagement, concentration de compétences."
+        },
+        {
+          "title": "Détection de Tendances",
+          "description": "Faites émerger les signaux précoces dans les données d'enregistrement avant qu'ils ne soient visibles par l'analyse manuelle."
+        },
+        {
+          "title": "Génération de Briefings Exécutifs",
+          "description": "Briefings ministériels générés par l'IA à partir de vos données souveraines — précis, explicables, prêts pour l'audit."
+        },
+        {
+          "title": "Couche d'Explicabilité",
+          "description": "Chaque résultat de Dia inclut un niveau de confiance, une référence méthodologique et la traçabilité des données — aucune boîte noire."
+        },
+        {
+          "title": "Périmètre d'IA Souverain",
+          "description": "Tout le traitement IA s'effectue à l'intérieur de votre périmètre de données souverain — les données diaspora ne quittent jamais votre infrastructure."
+        }
+      ],
+      "metrics": [
+        { "value": "12–24 mois", "label": "Horizon de prévision" },
+        { "value": "100 %", "label": "Résultats IA avec score de confiance" },
+        { "value": "100 %", "label": "Périmètre de données souverain" },
+        { "value": "<5 min", "label": "Génération de briefing exécutif" }
+      ]
+    }
+  },
+  "Solutions": {
+    "eyebrow": "Solutions",
+    "title": "Conçu pour les Décideurs qui Façonnent la Politique Diaspora.",
+    "intro": "Chaque fonctionnalité de la plateforme Civis a été conçue autour des défis réels des dirigeants gouvernementaux responsables de l'engagement de la diaspora, de l'intelligence économique et de la gouvernance souveraine des données.",
+    "personas": {
+      "minister": {
+        "eyebrow": "Pour le Ministre des Affaires Étrangères",
+        "challenge": "Votre politique diaspora ne vaut que par les données qui la fondent.",
+        "description": "Trente missions. Trente tableurs. Zéro intelligence unifiée. Les décisions du cabinet sur les affaires de la diaspora reposent sur des estimations, pas sur des preuves.",
+        "outcomes": [
+          "Un registre diaspora vérifié et souverain que votre cabinet peut défendre",
+          "Des tableaux de bord ministériels prêts pour les briefings parlementaires",
+          "Une plateforme qui survit aux changements de gouvernement sans perdre la mémoire institutionnelle"
+        ],
+        "linkLabel": "Découvrir comment Civis sert le Ministre des Affaires Étrangères"
+      },
+      "centralBank": {
+        "eyebrow": "Pour le Gouverneur de Banque Centrale",
+        "challenge": "Les données de transferts vous disent combien. Civis vous dit qui, où et pourquoi.",
+        "description": "Les chiffres de transferts agrégés par corridor ne suffisent pas pour modéliser le comportement économique de la diaspora ni concevoir des programmes d'investissement diaspora.",
+        "outcomes": [
+          "Des données démographiques reliant les profils diaspora aux corridors de transferts",
+          "Une intelligence économique compatible avec les reportings FMI, Banque Mondiale et bilatéraux",
+          "Une capacité de prévision pour la conception d'obligations diaspora et de programmes d'investissement"
+        ],
+        "linkLabel": "Découvrir comment Civis sert le Gouverneur de Banque Centrale"
+      },
+      "diasporaDirector": {
+        "eyebrow": "Pour le Directeur de Commission Diaspora",
+        "challenge": "Vous menez les campagnes. Il vous faut l'infrastructure pour qu'elles comptent.",
+        "description": "Les campagnes d'enregistrement touchent des milliers de citoyens de la diaspora — puis les données finissent dans un tableur et l'intelligence est perdue.",
+        "outcomes": [
+          "Un pipeline campagne-registre : chaque inscrit capté, vérifié et analysé",
+          "Un ciblage par segment pour les programmes diaspora, les événements et les actions d'investissement",
+          "Des rapports d'impact qui démontrent la valeur des programmes au Ministre et aux partenaires au développement"
+        ],
+        "linkLabel": "Découvrir comment Civis sert le Directeur de Commission Diaspora"
+      },
+      "devPartner": {
+        "eyebrow": "Pour le Partenaire au Développement",
+        "challenge": "Les gouvernements que vous financez ont besoin d'une plateforme que vous pouvez recommander en confiance.",
+        "description": "Aucune plateforme de registre diaspora de niveau souverain ne satisfaisait à la fois les exigences gouvernementales de souveraineté des données et les normes multilatérales — jusqu'à maintenant.",
+        "outcomes": [
+          "Une architecture de conformité alignée sur le RGPD, le NDPR et la Convention de Malabo de l'UA",
+          "Une interopérabilité et des exports compatibles avec les cadres de reporting multilatéraux",
+          "Une plateforme conçue par Afronovation — l'équipe à l'origine d'EmbassyOS"
+        ],
+        "linkLabel": "Découvrir comment Civis sert le Partenaire au Développement"
+      },
+      "cio": {
+        "eyebrow": "Pour le Directeur du Numérique Gouvernemental",
+        "challenge": "Les données diaspora de votre gouvernement ne doivent pas résider sur un serveur commercial étranger.",
+        "description": "Toutes les plateformes diaspora du marché sont des produits SaaS commerciaux. Aucune n'a été conçue pour les gouvernements qui exigent la résidence souveraine des données, l'intégration nationale et l'indépendance opérationnelle à long terme.",
+        "outcomes": [
+          "Un déploiement à trois niveaux : Cloud, dédié gouvernemental ou souverain sur site",
+          "Une API ouverte et une architecture d'intégration pour l'identité nationale et les lacs de données",
+          "Une plateforme que votre équipe peut opérer sans dépendance permanente envers le fournisseur"
+        ],
+        "linkLabel": "Découvrir comment Civis sert le Directeur du Numérique Gouvernemental"
+      }
+    }
+  },
+  "Security": {
+    "eyebrow": "Sécurité",
+    "title": "Une Sécurité Conçue pour les Gouvernements",
+    "intro": "Architecture zéro confiance. Conception centrée sur l'audit. Infrastructure de niveau gouvernemental. La sécurité est intégrée à chaque couche architecturale de Civis — elle n'est pas ajoutée comme une fonctionnalité.",
+    "sections": {
+      "tenantIsolation": {
+        "title": "Isolation des Données par Gouvernement",
+        "description": "Des frontières logiques strictes par gouvernement, appliquées au niveau de la base de données. Un pays ne peut jamais accéder aux données d'un autre pays, en aucune circonstance."
+      },
+      "dataProtection": {
+        "title": "Protection des Données",
+        "description": "Chiffrement au repos et en transit, protection au niveau des champs pour les dossiers sensibles des inscrits, et stockage sécurisé des documents avec accès restreint par gouvernement."
+      },
+      "auditLogs": {
+        "title": "Journaux d'Audit Immuables",
+        "description": "Chaque action sensible — connexions, vérifications, exports, changements de rôles, événements de consentement — génère un journal d'audit immuable, exportable pour examen de conformité."
+      },
+      "accessControls": {
+        "title": "Contrôles d'Accès",
+        "description": "Contrôle d'accès basé sur les rôles pour huit rôles de plateforme, authentification multifacteur obligatoire pour les rôles administratifs, et application des permissions au niveau de l'API."
+      },
+      "compliance": {
+        "title": "Conformité",
+        "description": "RGPD, NDPR et Principes de Gouvernance des Données de l'Union Africaine. Architecture alignée SOC2 avec capture du consentement et flux de droits des personnes concernées."
+      },
+      "dataResidency": {
+        "title": "Résidence des Données",
+        "description": "Les trois niveaux de déploiement respectent les lois nationales et régionales applicables en matière de résidence des données, avec des régions d'hébergement dédiées disponibles pour les clients souverains."
+      }
+    },
+    "auditCallout": "Chaque action sensible sur la plateforme Civis génère un journal d'audit immuable — offrant à votre gouvernement une transparence opérationnelle complète et les preuves nécessaires à la conformité réglementaire."
+  },
+  "Deployment": {
+    "eyebrow": "Déploiement",
+    "title": "Déployé selon Vos Exigences Souveraines",
+    "intro": "Civis s'adapte à vos exigences d'infrastructure, de conformité et de résidence des données — sans changer l'expérience de la plateforme. Une base de code, trois niveaux de déploiement.",
+    "tiers": {
+      "cloud": {
+        "label": "Niveau 1",
+        "name": "Civis Cloud",
+        "description": "Plateforme partagée multi-locataires avec isolation stricte des données gouvernementales appliquée au niveau de la base de données.",
+        "point1": "Isolation stricte des données avec sécurité au niveau des lignes",
+        "point2": "Hébergement cloud régional conforme RGPD, NDPR et UA",
+        "point3": "La voie la plus rapide vers un registre national de la diaspora"
+      },
+      "government": {
+        "label": "Niveau 2",
+        "name": "Civis Government",
+        "description": "Environnement dédié à un seul pays, présenté comme votre plateforme nationale.",
+        "point1": "Environnement dédié pour un seul gouvernement",
+        "point2": "Région d'hébergement spécifiée par le gouvernement",
+        "point3": "Image de marque nationale et espace de stockage dédié"
+      },
+      "sovereign": {
+        "label": "Niveau 3",
+        "name": "Civis Sovereign",
+        "description": "Infrastructure entièrement dédiée pour les exigences de souveraineté et de conformité les plus élevées.",
+        "point1": "Infrastructure dédiée — auto-hébergée ou cloud dédié",
+        "point2": "Hébergement national ou dans une juridiction approuvée",
+        "point3": "Opérable par l'équipe technique de votre gouvernement"
+      }
+    },
+    "residencyNote": "Tous les niveaux de déploiement respectent les lois nationales et régionales applicables en matière de résidence des données, y compris le RGPD, le NDPR et les Principes de Gouvernance des Données de l'Union Africaine. Aucun tarif n'est affiché sur la plateforme publique — toutes les discussions commerciales sont dirigées vers l'équipe Afronovation.",
+    "cta": {
+      "title": "Quel Niveau Convient à Votre Pays ?",
+      "subtitle": "Contactez l'équipe Afronovation pour discuter de l'option de déploiement adaptée aux exigences d'infrastructure, de conformité et de souveraineté de votre pays.",
+      "button": "Contacter l'équipe"
+    }
+  },
+  "About": {
+    "eyebrow": "À propos",
+    "title": "À propos de Civis",
+    "intro": "Civis est la plateforme souveraine d'intelligence diaspora d'Afronovation, Inc. — conçue pour positionner les populations diaspora comme des actifs nationaux économiques et stratégiques mesurables.",
+    "mission": {
+      "title": "Mission",
+      "body": "Civis permet aux gouvernements de transformer leurs populations diaspora en infrastructure d'intelligence souveraine au service de la croissance économique, de la planification stratégique et du développement national à long terme."
+    },
+    "vision": {
+      "title": "Vision",
+      "body": "Devenir la première plateforme de niveau souverain d'intelligence diaspora et d'analyses prédictives de population au service des gouvernements africains et des économies émergentes à l'échelle mondiale."
+    },
+    "program": {
+      "title": "Le Programme Afronovation",
+      "body": "Civis est conçu et opéré par Afronovation, Inc., au service des États membres de l'Union Africaine, des gouvernements d'origine de la diaspora et des institutions de financement du développement. Le programme réunit technologie gouvernementale, infrastructure diplomatique et expertise en gouvernance souveraine des données.",
+      "ecosystem": "Civis fait partie d'un écosystème technologique souverain qui comprend EmbassyOS, BridgeVault, BridgeAI et le Terminal d'Intelligence Souvera — avec les partenaires de financement du développement et les institutions de l'Union Africaine au premier plan."
+    },
+    "philosophy": {
+      "title": "Philosophie Technologique",
+      "body": "Souverain par conception. Architecture centrée sur l'intelligence. IA explicable. La confiance institutionnelle comme fondement de chaque décision."
+    }
+  },
+  "Contact": {
+    "eyebrow": "Demander une démonstration",
+    "title": "Commencez Votre Briefing d'Intelligence Gouvernementale",
+    "intro": "Décrivez-nous les besoins de votre pays en matière d'intelligence diaspora et nous organiserons un briefing exécutif personnalisé avec l'équipe Afronovation.",
+    "form": {
+      "fullName": {
+        "label": "Nom complet",
+        "placeholder": "Votre nom complet"
+      },
+      "government": {
+        "label": "Gouvernement / Organisation",
+        "placeholder": "Ministère, banque centrale, commission ou institution"
+      },
+      "country": {
+        "label": "Pays",
+        "placeholder": "Votre pays"
+      },
+      "role": {
+        "label": "Titre / Fonction",
+        "placeholder": "Votre titre ou fonction officielle"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Décrivez vos besoins et objectifs en matière d'intelligence diaspora"
+      },
+      "submit": "Envoyer la demande",
+      "privacyNote": "Toutes les soumissions sont examinées par l'équipe Afronovation. Aucun tarif ni inscription en libre-service n'est proposé sur la plateforme publique — chaque engagement commence par un briefing exécutif personnalisé.",
+      "confirmationTitle": "Demande reçue",
+      "confirmationBody": "Merci. L'équipe Afronovation examinera votre demande et vous répondra sous deux jours ouvrés pour organiser votre briefing exécutif."
+    }
+  },
+  "Resources": {
+    "hub": {
+      "title": "Ressources",
+      "subtitle": "Tout ce dont vous avez besoin pour évaluer, déployer et opérer Civis.",
+      "audiencesTitle": "Documentation par Audience",
+      "viewDocumentation": "Consulter la documentation",
+      "open": "Ouvrir",
+      "audiences": {
+        "decisionMakers": {
+          "title": "Décideurs",
+          "description": "Acteurs gouvernementaux évaluant Civis — vue d'ensemble de la plateforme, retour sur investissement, posture de conformité et modèles de déploiement."
+        },
+        "admins": {
+          "title": "Administrateurs de Plateforme",
+          "description": "Administrateurs de tenant et d'ambassade gérant les déploiements — provisionnement, attribution des rôles et gestion des campagnes."
+        },
+        "technical": {
+          "title": "Équipes Techniques",
+          "description": "Architectes et ingénieurs examinant l'intégration et la sécurité — architecture, pile technologique, déploiement et API."
+        }
+      },
+      "cards": {
+        "whitepaper": {
+          "title": "Livre Blanc Sécurité",
+          "description": "Architecture zéro confiance, normes de chiffrement, isolation des tenants et cadre de conformité."
+        },
+        "api": {
+          "title": "Référence API",
+          "description": "Modèle d'authentification, groupes de points d'accès, limitation de débit et architecture d'intégration."
+        },
+        "changelog": {
+          "title": "Journal des Versions",
+          "description": "Historique des versions de la plateforme et ajouts de fonctionnalités."
+        },
+        "status": {
+          "title": "État du Système",
+          "description": "Disponibilité des services, historique des incidents et engagements de disponibilité."
+        }
+      }
+    },
+    "documentation": {
+      "title": "Documentation",
+      "subtitle": "Des guides pour chaque audience impliquée dans l'évaluation, l'exploitation et l'intégration de Civis.",
+      "decisionMakers": {
+        "title": "Décideurs",
+        "items": [
+          {
+            "title": "Vue d'Ensemble de la Plateforme",
+            "body": "Ce qu'est Civis, le déficit d'intelligence diaspora qu'il comble, et les institutions gouvernementales qu'il sert — des ministères des affaires étrangères aux banques centrales et commissions diaspora."
+          },
+          {
+            "title": "Retour sur Investissement",
+            "body": "Réduction des délais de traitement des enregistrements, économies opérationnelles dans les missions, impact politique mesurable et couverture de conformité complète."
+          },
+          {
+            "title": "Conformité & Certifications",
+            "body": "Gestion de la sécurité alignée ISO 27001, architecture SOC 2, conformité RGPD et NDPR, et alignement sur la Convention de Malabo de l'UA."
+          },
+          {
+            "title": "Modèles de Déploiement",
+            "body": "Civis Cloud, Civis Government et Civis Sovereign comparés — infrastructure, résidence des données et contrôle opérationnel à chaque niveau."
+          }
+        ]
+      },
+      "admins": {
+        "title": "Administrateurs de Plateforme",
+        "items": [
+          {
+            "title": "Guide de l'Administrateur de Tenant",
+            "body": "Configuration complète du tenant : intégration des ambassades, paramètres de la plateforme, revue des journaux d'audit et politique de rétention des données. Le guide complet de mise en œuvre est fourni lors de l'intégration."
+          },
+          {
+            "title": "Guide de l'Administrateur d'Ambassade",
+            "body": "Gestion du profil de l'ambassade, comptes de l'équipe consulaire, supervision de la file d'enregistrement et rapports de performance par mission."
+          },
+          {
+            "title": "Provisionnement des Utilisateurs & Rôles",
+            "body": "Huit rôles de plateforme sous le principe du moindre privilège — flux de provisionnement, attribution des rôles et frontières des permissions."
+          },
+          {
+            "title": "Gestion des Campagnes d'Enregistrement",
+            "body": "Planification, lancement et mesure des campagnes nationales d'enregistrement depuis le moteur de campagnes."
+          }
+        ]
+      },
+      "technical": {
+        "title": "Équipes Techniques",
+        "items": [
+          {
+            "title": "Vue d'Ensemble de l'Architecture",
+            "body": "Modèle de déploiement à trois niveaux, architecture de données multi-tenant et sécurité au niveau des lignes garantissant l'isolation des tenants dans la base de données."
+          },
+          {
+            "title": "Pile Technologique",
+            "body": "Couche applicative Next.js avec un backend Supabase — PostgreSQL, authentification, stockage et fonctions edge."
+          },
+          {
+            "title": "Guide de Déploiement",
+            "body": "Configuration des environnements, sélection de la région d'hébergement et parcours de promotion de la pré-production vers la production."
+          },
+          {
+            "title": "API & Intégration",
+            "body": "Surface API REST, architecture de webhooks et schémas d'intégration avec les systèmes nationaux — voir la Référence API complète."
+          }
+        ]
+      }
+    },
+    "whitepaper": {
+      "eyebrow": "Ressources",
+      "title": "Livre Blanc Sécurité",
+      "subtitle": "L'architecture de sécurité qui protège les données diaspora souveraines — zéro confiance par conception, auditable par défaut.",
+      "sections": [
+        {
+          "title": "Synthèse",
+          "body": "Sur Civis, la sécurité n'est pas une fonctionnalité — c'est l'architecture fondatrice. Les gouvernements souverains confient à la plateforme les données personnelles de leurs citoyens à l'étranger, et cette confiance exige une posture de sécurité zéro confiance, centrée sur l'audit et de niveau gouvernemental, intégrée à chaque couche dès la première ligne de code."
+        },
+        {
+          "title": "Architecture Zéro Confiance",
+          "body": "Aucune confiance implicite n'existe à aucune couche. Chaque requête — quelle que soit son origine — est vérifiée, authentifiée et autorisée avant traitement. Les appels de services internes sont authentifiés, les requêtes de base de données sont contrôlées par la sécurité au niveau des lignes, et l'accès au stockage exige des URL signées."
+        },
+        {
+          "title": "Cloud Souverain et Déploiement sur Site",
+          "body": "Civis Cloud opère sur une infrastructure partagée durcie avec sélection régionale. Civis Government fournit un environnement dédié dans une région d'hébergement spécifiée par le gouvernement. Civis Sovereign livre une infrastructure entièrement dédiée provisionnée par infrastructure-as-code — ouverte à l'inspection gouvernementale et à l'audit indépendant."
+        },
+        {
+          "title": "Normes de Chiffrement",
+          "body": "Toutes les données au repos sont chiffrées en AES-256. Toutes les données en transit utilisent TLS 1.3 (TLS 1.2 minimum) avec HSTS appliqué sur chaque domaine de la plateforme. Les champs hautement sensibles — références de documents d'identité et profils économiques — bénéficient d'un contrôle d'accès supplémentaire au niveau des champs."
+        },
+        {
+          "title": "Sécurité au Niveau des Lignes et Isolation des Tenants",
+          "body": "L'isolation des tenants est appliquée à trois couches indépendantes — middleware, couche de services et politiques RLS de la base de données. L'accès inter-tenants est techniquement impossible : les données d'un gouvernement ne peuvent jamais être consultées par un autre, et chaque tentative est journalisée comme événement de sécurité."
+        },
+        {
+          "title": "Architecture de Piste d'Audit Immuable",
+          "body": "Chaque action sensible génère un journal d'audit immuable avant qu'une réponse de succès ne soit retournée. Les journaux d'audit n'autorisent ni modification ni suppression, sont conservés au minimum sept ans, et sont exportables en CSV et PDF pour examen réglementaire."
+        },
+        {
+          "title": "Gestion des Identités et des Accès",
+          "body": "Huit rôles de plateforme opèrent sous le principe du moindre privilège. L'authentification multifacteur est obligatoire pour tous les rôles administratifs, les mots de passe exigent un minimum de douze caractères avec contrainte de complexité, et les sessions utilisent des jetons à courte durée de vie avec rotation."
+        },
+        {
+          "title": "Cadre de Conformité",
+          "body": "Gestion de la sécurité alignée ISO 27001, architecture SOC 2 Type II sur les cinq critères de confiance, conformité RGPD et NDPR, et alignement sur la Convention de Malabo de l'UA — avec preuves de contrôles disponibles pour les clients souverains sous accord de confidentialité."
+        },
+        {
+          "title": "Tests d'Intrusion et Gestion des Vulnérabilités",
+          "body": "Tests d'intrusion annuels à périmètre complet par un tiers, vérification trimestrielle des politiques RLS et analyse automatisée des dépendances à chaque changement. Les constats critiques sont corrigés sous 24 heures. Les clients souverains peuvent commanditer des tests indépendants de leur infrastructure dédiée."
+        },
+        {
+          "title": "Réponse aux Incidents",
+          "body": "Un protocole de réponse structuré avec classification par gravité : confinement en quelques heures, notification du client souverain sous 72 heures après confirmation d'une violation — 4 heures pour les incidents critiques — notification réglementaire conformément à l'article 33 du RGPD, et revue post-incident complète sous 30 jours."
+        }
+      ],
+      "ctaTitle": "Demander le Document Complet d'Architecture de Sécurité",
+      "ctaBody": "La Spécification d'Architecture de Sécurité complète — modèle de menaces, preuves de contrôles et cartographie SOC 2 — est mise à la disposition des équipes d'achat gouvernementales sous accord de confidentialité.",
+      "ctaButton": "Demander le document"
+    },
+    "api": {
+      "eyebrow": "Ressources",
+      "title": "Référence API",
+      "subtitle": "Une couche de services de niveau souverain — chaque appel authentifié, chaque opération sensible journalisée, chaque réponse limitée au tenant.",
+      "auth": {
+        "title": "Authentification",
+        "body": "Tous les points d'accès protégés exigent un jeton d'accès JWT valide émis par le flux d'authentification de la plateforme, présenté dans l'en-tête Authorization. Le jeton est validé avant toute opération sur les données, et le périmètre du tenant est déterminé côté serveur — jamais accordé sur la foi du client."
+      },
+      "versioning": {
+        "title": "URL de Base & Versionnement",
+        "body": "Toutes les routes utilisent le versionnement par chemin d'URL. Les changements incompatibles exigent une nouvelle version majeure, la version précédente restant prise en charge au minimum douze mois. Les clients des niveaux Government et Sovereign reçoivent une notification préalable de tout changement incompatible."
+      },
+      "groupsTitle": "Groupes de Points d'Accès",
+      "groups": {
+        "registry": {
+          "name": "API Registre",
+          "description": "Dossiers d'inscrits, flux de vérification et export de données audité dans le périmètre du tenant."
+        },
+        "embassy": {
+          "name": "API Ambassades",
+          "description": "Gestion des ambassades, configuration des juridictions, indicateurs de tableau de bord et files de vérification."
+        },
+        "analytics": {
+          "name": "API Analytique",
+          "description": "Synthèses de tableaux de bord, distribution géographique et intelligence économique servies depuis des vues matérialisées."
+        },
+        "dia": {
+          "name": "API Dia",
+          "description": "Requêtes d'intelligence en langage naturel, récupération de prévisions et génération de briefings exécutifs — chaque résultat porte un score de confiance."
+        },
+        "webhooks": {
+          "name": "API Webhooks",
+          "description": "Webhooks entrants et sortants signés HMAC pour les intégrations EmbassyOS, BridgeVault et BridgeAI."
+        }
+      },
+      "rateLimits": {
+        "title": "Limitation de Débit",
+        "body": "Tous les points d'accès sont limités par utilisateur ou par adresse IP — par exemple, 120 requêtes de lecture par minute, 2 exports de données par heure et 30 requêtes Dia par heure. Chaque réponse inclut des en-têtes de limitation afin que les clients gèrent leurs quotas de manière proactive."
+      },
+      "pagination": {
+        "title": "Pagination",
+        "body": "Tous les points d'accès de liste imposent une pagination avec un maximum de 100 enregistrements par page. Les réponses suivent une enveloppe cohérente de succès et d'erreur avec identifiants de requête pour la traçabilité."
+      },
+      "sdk": {
+        "title": "Disponibilité des SDK",
+        "body": "Des SDK clients typés sont prévus avec le programme public d'intégration. Aujourd'hui, toutes les intégrations s'effectuent via l'API REST et l'architecture de webhooks dans le cadre d'accords de partenariat technique."
+      },
+      "ctaTitle": "Demander la Documentation API Complète",
+      "ctaBody": "Les contrats de points d'accès, schémas et spécifications d'intégration complets sont fournis aux équipes techniques gouvernementales et aux partenaires d'intégration.",
+      "ctaButton": "Demander la documentation API"
+    },
+    "changelog": {
+      "title": "Journal des Versions",
+      "subtitle": "Historique des versions de la plateforme.",
+      "entries": [
+        {
+          "version": "v1.0.0",
+          "date": "Juin 2026",
+          "summary": "Version initiale de la plateforme.",
+          "items": [
+            "Moteur de Registre de la Diaspora",
+            "Espace de Travail Ambassades (multi-missions)",
+            "Tableau de Bord d'Analytique Souveraine",
+            "Moteur d'Intelligence Dia (prévisions, regroupement, briefings exécutifs)",
+            "Déploiement à trois niveaux : Cloud, Government, Sovereign",
+            "Localisation complète EN/FR",
+            "Architecture de conformité RGPD, NDPR et Convention de Malabo de l'UA"
+          ]
+        }
+      ]
+    },
+    "status": {
+      "title": "État du Système",
+      "subtitle": "Disponibilité actuelle des services de la plateforme Civis.",
+      "servicesTitle": "Services de la Plateforme",
+      "services": {
+        "api": "API",
+        "webApp": "Application Web",
+        "database": "Base de données",
+        "ai": "Service IA"
+      },
+      "operational": "Opérationnel",
+      "incidentsTitle": "Incidents Récents",
+      "incidentsBody": "Aucun incident signalé au cours des 90 derniers jours.",
+      "uptimeTitle": "Disponibilité",
+      "uptimeBody": "Engagement de disponibilité de 99,9 % — mois en cours : 100 %."
+    }
+  },
+  "Legal": {
+    "title": "Mentions Légales",
+    "subtitle": "Le cadre juridique régissant la plateforme Civis — confidentialité, conditions d'utilisation, traitement des données, cookies et conformité.",
+    "effectiveDate": "Date d'effet : 12 juin 2026",
+    "version": "Version 1.0",
+    "navLabel": "Sections juridiques",
+    "nav": {
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation",
+      "dpa": "Accord de traitement des données",
+      "cookies": "Politique des cookies",
+      "compliance": "Conformité"
+    },
+    "privacy": {
+      "title": "Politique de Confidentialité",
+      "sections": [
+        {
+          "title": "Introduction",
+          "body": "Afronovation, Inc. opère Civis, la plateforme souveraine d'intelligence diaspora. La présente politique décrit comment les données personnelles sont collectées, utilisées et protégées sur la plateforme. Sur Civis, la confidentialité est une obligation de confiance souveraine — garantie par l'architecture, et non simplement affirmée dans des documents.",
+          "items": []
+        },
+        {
+          "title": "Données Collectées",
+          "body": "La plateforme traite les catégories de données suivantes, chacune sous un niveau de classification défini :",
+          "items": [
+            "Données d'identité — nom, date de naissance, nationalité",
+            "Données de contact — adresse courriel, numéro de téléphone, pays et ville de résidence",
+            "Données d'authentification — identifiants de compte et enregistrements de session",
+            "Données de registre — parcours professionnel, informations sur le ménage et données économiques volontaires",
+            "Données techniques — adresse IP, type de navigateur et informations d'appareil capturées à des fins de sécurité et d'audit"
+          ]
+        },
+        {
+          "title": "Utilisation de Vos Données",
+          "body": "Les données personnelles ne sont traitées que pour les finalités énoncées au moment de la collecte :",
+          "items": [
+            "Fourniture du service — exploitation du registre, de l'espace ambassades et du portail des inscrits",
+            "Authentification et sécurité des comptes",
+            "Audit et conformité réglementaire — journaux immuables des actions sensibles",
+            "Analyses agrégées et anonymisées — jamais de surveillance individuelle"
+          ]
+        },
+        {
+          "title": "Souveraineté et Stockage des Données",
+          "body": "Chaque tenant gouvernemental est isolé cryptographiquement. Les données résident sur une infrastructure souveraine ou conforme régionalement, aucun accès inter-tenants n'est techniquement possible, et toutes les données sont protégées par un chiffrement AES-256 au repos et TLS 1.3 en transit.",
+          "items": []
+        },
+        {
+          "title": "Architecture du Consentement",
+          "body": "Le consentement éclairé est recueilli avant tout stockage de données personnelles. Le consentement doit être libre, spécifique, éclairé et univoque — les cases pré-cochées sont interdites. Les enregistrements de consentement sont immuables, conservés avec le texte exact présenté au moment du consentement, et le retrait est possible à tout moment sans conséquence défavorable.",
+          "items": []
+        },
+        {
+          "title": "Conservation des Données",
+          "body": "Les durées de conservation sont configurables par entité gouvernementale dans le respect des minimums réglementaires. À la fin du contrat, les données personnelles sont effacées de manière sécurisée sous 90 jours avec preuve cryptographique de suppression. Les journaux d'audit sont anonymisés plutôt que supprimés, comme l'exige la conformité réglementaire.",
+          "items": []
+        },
+        {
+          "title": "Vos Droits",
+          "body": "Sous réserve de la configuration de votre entité gouvernementale et du droit applicable, vous pouvez exercer les droits suivants, avec réponse sous 30 jours calendaires :",
+          "items": [
+            "Accès — obtenir une copie de toutes les données personnelles vous concernant",
+            "Rectification — corriger des données inexactes ou incomplètes",
+            "Effacement — demander la suppression de vos données personnelles",
+            "Portabilité — recevoir vos données dans un format structuré et lisible par machine",
+            "Opposition — vous opposer au traitement pour des finalités spécifiques"
+          ]
+        },
+        {
+          "title": "Droit Applicable",
+          "body": "La présente politique s'inscrit dans le cadre du RGPD (UE) 2016/679, du Règlement nigérian sur la protection des données (NDPR) 2019, de la Convention de Malabo de l'Union Africaine et de la législation nationale applicable de chaque gouvernement déployant la plateforme.",
+          "items": []
+        },
+        {
+          "title": "Contact",
+          "body": "Questions de confidentialité : privacy@civisos.com. Délégué à la protection des données : dpo@civisos.com.",
+          "items": []
+        }
+      ]
+    },
+    "terms": {
+      "title": "Conditions d'Utilisation",
+      "sections": [
+        {
+          "title": "Acceptation",
+          "body": "Le service Civis est fourni exclusivement aux entités gouvernementales autorisées, aux missions diplomatiques et à leur personnel désigné. L'utilisation de la plateforme vaut acceptation des présentes conditions par l'entité gouvernementale et ses utilisateurs autorisés.",
+          "items": []
+        },
+        {
+          "title": "Description du Service",
+          "body": "Civis est une plateforme d'intelligence souveraine comprenant un registre de la diaspora, un espace de travail ambassades, une analytique souveraine et le moteur d'intelligence Dia, livrée selon trois niveaux de déploiement : Civis Cloud, Civis Government et Civis Sovereign.",
+          "items": []
+        },
+        {
+          "title": "Obligations de l'Entité Gouvernementale",
+          "body": "Chaque entité gouvernementale s'engage à :",
+          "items": [
+            "Désigner un administrateur de plateforme responsable de la gouvernance du tenant",
+            "Veiller à ce que le personnel respecte les exigences d'habilitation de sécurité applicables",
+            "Préserver la confidentialité des identifiants d'accès",
+            "Signaler sans délai tout incident de sécurité présumé"
+          ]
+        },
+        {
+          "title": "Propriété Intellectuelle",
+          "body": "L'ensemble de la propriété intellectuelle de la plateforme appartient à Afronovation, Inc. Les entités gouvernementales conservent la propriété pleine et exclusive de toutes les données qu'elles saisissent dans la plateforme — aucun droit sur les données gouvernementales n'est transféré à Afronovation, en aucune circonstance.",
+          "items": []
+        },
+        {
+          "title": "Engagement de Niveau de Service",
+          "body": "Afronovation s'engage sur une disponibilité mensuelle de 99,9 %. Les maintenances planifiées sont annoncées avec un préavis de 72 heures ; les correctifs de sécurité d'urgence peuvent être déployés sans préavis lorsque la protection des données souveraines l'exige.",
+          "items": []
+        },
+        {
+          "title": "Limitation de Responsabilité",
+          "body": "La responsabilité est limitée conformément aux conditions commerciales standard des services logiciels gouvernementaux, plafonnée au total des redevances versées au cours des douze mois précédant la réclamation.",
+          "items": []
+        },
+        {
+          "title": "Résiliation",
+          "body": "Chaque partie peut résilier moyennant un préavis écrit de 90 jours. À la résiliation, l'entité gouvernementale dispose d'une fenêtre d'export des données de 30 jours, suivie de la suppression sécurisée de toutes les données du tenant avec preuve cryptographique.",
+          "items": []
+        }
+      ]
+    },
+    "dpa": {
+      "title": "Accord de Traitement des Données",
+      "sections": [
+        {
+          "title": "Champ d'Application et Objet",
+          "body": "Le présent Accord de Traitement des Données régit la relation entre Afronovation, Inc. en qualité de sous-traitant et l'entité gouvernementale déployante en qualité de responsable du traitement, en conformité avec le RGPD, la Convention de Malabo de l'UA et le NDPR.",
+          "items": []
+        },
+        {
+          "title": "Instructions de Traitement",
+          "body": "Le sous-traitant agit uniquement sur instructions documentées du responsable du traitement. Si une instruction contrevenait au droit applicable de la protection des données, le sous-traitant en informe immédiatement le responsable avant tout traitement.",
+          "items": []
+        },
+        {
+          "title": "Mesures de Sécurité Techniques",
+          "body": "Le sous-traitant met en œuvre et maintient les mesures techniques suivantes :",
+          "items": [
+            "Chiffrement AES-256 au repos et TLS 1.3 en transit",
+            "Sécurité au niveau des lignes garantissant l'isolation des tenants dans la base de données",
+            "Authentification multifacteur pour tout accès administratif",
+            "Journalisation d'audit immuable de tous les accès et modifications de données",
+            "Tests d'intrusion réguliers par des tiers et évaluations de vulnérabilités",
+            "Réponse aux incidents avec notification du responsable du traitement sous 72 heures"
+          ]
+        },
+        {
+          "title": "Sous-traitants Ultérieurs",
+          "body": "Les sous-traitants ultérieurs approuvés et leur périmètre de traitement sont communiqués au responsable du traitement : Supabase (base de données et stockage), Vercel (hébergement et diffusion de l'application) et les hébergeurs applicables au niveau de déploiement retenu. Les sous-traitants ultérieurs font l'objet d'une évaluation de sécurité avant déploiement, puis annuellement.",
+          "items": []
+        },
+        {
+          "title": "Droits des Personnes Concernées",
+          "body": "Le sous-traitant assiste le responsable du traitement dans l'exécution de toutes les demandes de droits des personnes concernées — accès, rectification, effacement, limitation, opposition et portabilité — sous 30 jours.",
+          "items": []
+        },
+        {
+          "title": "Transferts Transfrontaliers",
+          "body": "Les données ne sont transférées au-delà des frontières qu'avec des garanties appropriées : clauses contractuelles types, décisions d'adéquation, ou déploiement sur une infrastructure souveraine qui élimine entièrement le transfert.",
+          "items": []
+        },
+        {
+          "title": "Résiliation",
+          "body": "À la fin des services, toutes les données personnelles sont supprimées de manière sécurisée sous 90 jours avec preuve cryptographique de suppression, sous réserve des obligations de conservation légale.",
+          "items": []
+        }
+      ]
+    },
+    "cookies": {
+      "title": "Politique des Cookies",
+      "sections": [
+        {
+          "title": "Cookies Utilisés",
+          "body": "La plateforme publique Civis utilise uniquement des cookies essentiels :",
+          "items": [
+            "Cookies de sécurité de session protégeant l'état d'authentification",
+            "Préférence de langue (NEXT_LOCALE) — mémorise votre choix EN/FR",
+            "Enregistrement du consentement (civis_cookie_consent) — conserve votre choix de consentement"
+          ]
+        },
+        {
+          "title": "Ce que Nous N'Utilisons Pas",
+          "body": "Aucun cookie publicitaire. Aucun traçage tiers. Aucun cookie analytique n'est déposé sans consentement explicite.",
+          "items": []
+        },
+        {
+          "title": "Consentement aux Cookies",
+          "body": "Un bandeau de consentement est présenté en bas de l'écran lors de la première visite. Votre choix est conservé dans le cookie civis_cookie_consent pendant 365 jours. Le consentement peut être retiré à tout moment en supprimant les cookies de votre navigateur.",
+          "items": []
+        },
+        {
+          "title": "Cookies Tiers",
+          "body": "La plateforme publique ne dépose aucun cookie tiers. La plateforme authentifiée peut utiliser des cookies Mapbox (diffusion des tuiles cartographiques) et Supabase (session d'authentification), tous deux couverts par des accords de sous-traitance.",
+          "items": []
+        },
+        {
+          "title": "Gestion des Cookies",
+          "body": "Les cookies peuvent être consultés et supprimés dans les paramètres de votre navigateur. Le blocage des cookies essentiels peut empêcher des fonctionnalités fondamentales, notamment la préférence de langue et la connexion sécurisée.",
+          "items": []
+        }
+      ]
+    },
+    "compliance": {
+      "title": "Conformité",
+      "intro": "Posture de conformité au regard des normes pertinentes pour les achats gouvernementaux souverains.",
+      "headers": {
+        "standard": "Norme",
+        "status": "Statut",
+        "scope": "Périmètre"
+      },
+      "rows": [
+        { "standard": "ISO 27001", "status": "Architecture alignée", "scope": "Gestion de la sécurité de l'information" },
+        { "standard": "SOC 2 Type II", "status": "Architecture alignée", "scope": "Critères de services de confiance" },
+        { "standard": "RGPD", "status": "Conforme", "scope": "Personnes concernées de l'UE et déploiements sous juridiction européenne" },
+        { "standard": "NDPR", "status": "Conforme", "scope": "Personnes concernées nigérianes et déploiements du gouvernement nigérian" },
+        { "standard": "Convention de Malabo (UA)", "status": "Conforme", "scope": "Déploiements des États membres de l'Union Africaine" },
+        { "standard": "WCAG 2.1 AA", "status": "Conforme", "scope": "Toutes les interfaces publiques de la plateforme" },
+        { "standard": "HSTS", "status": "Appliqué", "scope": "Tous les domaines de la plateforme" },
+        { "standard": "TLS 1.3", "status": "Appliqué", "scope": "Toutes les données en transit" },
+        { "standard": "AES-256", "status": "Appliqué", "scope": "Toutes les données au repos" }
+      ],
+      "contact": "Questions de conformité : compliance@civisos.com."
+    }
+  },
+  "CookieBanner": {
+    "regionLabel": "Consentement aux cookies",
+    "message": "Nous utilisons des cookies essentiels pour la sécurité et le fonctionnement de la plateforme. En poursuivant, vous acceptez les cookies décrits dans notre politique de confidentialité, conformément aux normes souveraines de protection des données.",
+    "privacyLink": "Politique de confidentialité",
+    "essentialOnly": "Essentiels uniquement",
+    "acceptAll": "Tout accepter"
+  },
+  "Auth": {
+    "signin": {
+      "brandTagline": "Intelligence Diaspora Souveraine",
+      "title": "Connexion à la Plateforme",
+      "subtitle": "Personnel gouvernemental autorisé uniquement",
+      "emailLabel": "Adresse e-mail",
+      "passwordLabel": "Mot de passe",
+      "submit": "Se connecter",
+      "signingIn": "Connexion en cours…",
+      "errorGeneric": "Échec de l'authentification. Veuillez réessayer.",
+      "trouble": "Des difficultés à vous connecter ? Contactez votre administrateur.",
+      "footer": "Civis — Afronovation, Inc. | Plateforme d'Intelligence Souveraine"
+    }
+  }
+}

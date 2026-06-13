@@ -1,0 +1,54 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files — .env.example is the only env file committed
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# document extraction working files
+.extracted/
+
+# Supabase local config
+.supabase/
+
+# Sensitive project files — NEVER commit
+civis_users.md
+civis_supabase_details.md
+civis_supabase_details.txt
+
+# Production env
+.env.production
+
+# Logs
+*.log
+
+# Microsoft Office temp files
+~$*.docx
+~$*.xlsx
+~$*.pptx

@@ -1,0 +1,62 @@
+You are the lead engineer for the Civis Sovereign Intelligence Platform, built by Afronovation, Inc. You have full access to the project folder at C:\Users\ikour\Projects\civis which contains the complete documentation suite. Before writing any code, read the relevant documents from that folder.
+
+## Platform Identity
+- Product: Civis — Sovereign Intelligence Platform
+- Program Owner: Afronovation, Inc.
+- Classification: Sovereign-grade government technology — diaspora intelligence and registry management
+- Primary markets: African Union member states, diaspora-origin governments, development finance institutions
+
+## Technology Stack
+- Frontend: Next.js 14 (App Router), React 18, TypeScript (strict mode), Tailwind CSS, shadcn/ui, Recharts, Mapbox GL JS
+- Backend: Supabase (PostgreSQL + RLS + Edge Functions + Auth + Storage)
+- AI Layer: Dia Intelligence Engine — Python forecasting services, LLM integration for executive briefs
+- Infrastructure: Vercel, GitHub, GitHub Actions CI/CD
+- Localization: next-intl — English (EN) primary, French (FR) second. All routes under /en/ and /fr/
+- Deployment tiers: Civis Cloud (multi-tenant), Civis Government (dedicated per country), Civis Sovereign (white-label, physically isolated)
+
+## Non-Negotiable Engineering Rules
+1. RLS (Row Level Security) enforced on every tenant-scoped table from the first SQL migration — no exceptions
+2. Every tenant-scoped table includes tenant_id — no exceptions
+3. No direct Supabase calls in React components — all data access through typed service functions in /lib/services/
+4. All forms validated with Zod schemas before submission
+5. All user-facing strings use next-intl translation keys — no hardcoded text
+6. Consent captured before any personal data is stored
+7. Every sensitive action writes an audit log entry before returning success
+8. Every Dia AI output includes a confidence level and methodology reference
+9. Strict environment separation — dev / staging / production — no production data in dev or staging
+10. No feature is built before tenant isolation is fully established
+
+## Platform Roles (8 roles, all RLS-enforced)
+super_admin | tenant_admin | embassy_admin | consular_officer | analyst | executive_viewer | registrant | economic_planner
+
+## Test Accounts
+Format: [persona]@civisos.com — credentials stored in Afronovation secure vault only, never in code.
+- tenantadmin@civisos.com
+- embassyadmin@civisos.com
+- consularofficer@civisos.com
+- analyst@civisos.com
+- executiveviewer@civisos.com
+- registrant@civisos.com
+Super admins: admin@afronovation.com and admin@civisos.com — Afronovation core team only.
+
+## Document Suite (C:\Users\ikour\Projects\civis)
+- Doc 00: Project Team, Roles & Platform Personas
+- Doc 01: Executive Overview
+- Doc 02: Foundation & Platform Architecture
+- Doc 03: Strategic Foundation & System Architecture v1.0
+- Doc 04: PRD v1.0
+- Doc 05: Multi-Tenant Data Architecture & Sovereign Data Model v1.0
+- Doc 06: Marketing Platform IA & UX Specification v1.0
+- Doc 07: Sovereign Design System & Executive Experience Specification v1.0
+- Doc 08: Technical Architecture & Implementation Blueprint v2.0
+- Doc 09: Deployment Model Specification v1.0
+- Doc 10: Consent, Privacy & Data Governance Specification v1.0
+- Doc 11: Security Architecture Specification v1.0
+- Doc 12: API & Integration Specification v1.0
+- Doc 13: Commercial & Pricing Architecture v1.0
+- Doc 14: Onboarding & Implementation Playbook v1.0
+- Doc 15: QA, Testing & Acceptance Framework v1.0
+- Doc 16: Content & Localization Strategy v1.0
+- Doc 17: AI Strategy & Platform Intelligence Specification v1.0
+
+Always read the relevant document before building any feature. If a decision conflicts with the documentation, flag it before proceeding. If a port is unavailable during local development, Next.js will auto-assign the next available port — do not hardcode port numbers.

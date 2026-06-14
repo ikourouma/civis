@@ -1165,6 +1165,7 @@
       "export": "Export",
       "services": "Services",
       "profile": "My Profile",
+      "reference_data": "Reference Data",
       "sign_out": "Sign Out"
     },
     "admin": {
@@ -1257,5 +1258,59 @@
     "link_documents_desc": "Upload supporting identity documents.",
     "link_consent": "Consent Record",
     "link_consent_desc": "View or withdraw your data consent."
+  },
+  "reference_data": {
+    "eyebrow": "Sovereign Command",
+    "page_title": "Reference Data Management",
+    "page_subtitle": "Manage canonical lists and review user-submitted suggestions",
+    "search_placeholder": "Search entries...",
+    "empty_pending": "No suggestions awaiting review.",
+    "empty_canonical": "No entries found.",
+    "tab_pending": "Pending Suggestions",
+    "tab_countries": "Countries",
+    "tab_occupations": "Occupations",
+    "tab_industries": "Industries",
+    "tab_fields": "Fields of Study",
+    "tab_education": "Education Levels",
+    "tab_associations": "Diaspora Associations",
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "merge": "Merge into existing",
+      "add_new": "Add New",
+      "view_details": "View Details",
+      "cancel": "Cancel"
+    },
+    "suggestion": {
+      "submitted_by": "Submitted by",
+      "submitted_at": "Submitted",
+      "category": "Category",
+      "value": "Suggested Value",
+      "approve_confirm": "Add this as a new canonical entry?",
+      "reject_reason": "Reason for rejection",
+      "merge_into": "Merge into which existing entry?",
+      "merged_success": "Suggestion merged successfully",
+      "approved_success": "Suggestion approved and added to canonical list"
+    }
+  },
+  "autocomplete": {
+    "add_new": "Add new: {value}",
+    "suggest_confirm_title": "Add new entry?",
+    "suggest_confirm_message": "We don't have '{value}' in our list yet. Would you like to add it as a new entry?",
+    "suggest_confirm_action": "Add new",
+    "suggest_cancel": "Cancel",
+    "suggest_recorded": "Your suggestion has been recorded. A super administrator will review it for inclusion in our standard list.",
+    "no_matches": "No matches found",
+    "min_chars": "Type at least 2 characters to search"
+  },
+  "phone_input": {
+    "label": "Phone Number",
+    "helper": "Enter your phone number including area code",
+    "invalid_format": "Invalid phone number for {country}"
+  },
+  "country_selector": {
+    "search_placeholder": "Search countries...",
+    "au_members": "African Union Member States",
+    "all_countries": "All Countries"
   }
 }

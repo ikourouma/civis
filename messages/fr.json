@@ -1165,6 +1165,7 @@
       "export": "Exporter",
       "services": "Services",
       "profile": "Mon Profil",
+      "reference_data": "Données de Référence",
       "sign_out": "Déconnexion"
     },
     "admin": {
@@ -1257,5 +1258,59 @@
     "link_documents_desc": "Téléchargez vos documents d'identité.",
     "link_consent": "Enregistrement du consentement",
     "link_consent_desc": "Consultez ou retirez votre consentement aux données."
+  },
+  "reference_data": {
+    "eyebrow": "Commandement Souverain",
+    "page_title": "Gestion des Données de Référence",
+    "page_subtitle": "Gérer les listes canoniques et examiner les suggestions des utilisateurs",
+    "search_placeholder": "Rechercher des entrées...",
+    "empty_pending": "Aucune suggestion en attente de révision.",
+    "empty_canonical": "Aucune entrée trouvée.",
+    "tab_pending": "Suggestions en Attente",
+    "tab_countries": "Pays",
+    "tab_occupations": "Professions",
+    "tab_industries": "Secteurs d'Activité",
+    "tab_fields": "Domaines d'Études",
+    "tab_education": "Niveaux d'Éducation",
+    "tab_associations": "Associations de la Diaspora",
+    "actions": {
+      "approve": "Approuver",
+      "reject": "Rejeter",
+      "merge": "Fusionner avec une entrée existante",
+      "add_new": "Ajouter",
+      "view_details": "Voir les détails",
+      "cancel": "Annuler"
+    },
+    "suggestion": {
+      "submitted_by": "Soumis par",
+      "submitted_at": "Soumis le",
+      "category": "Catégorie",
+      "value": "Valeur suggérée",
+      "approve_confirm": "Ajouter ceci comme nouvelle entrée canonique ?",
+      "reject_reason": "Motif du rejet",
+      "merge_into": "Fusionner avec quelle entrée existante ?",
+      "merged_success": "Suggestion fusionnée avec succès",
+      "approved_success": "Suggestion approuvée et ajoutée à la liste canonique"
+    }
+  },
+  "autocomplete": {
+    "add_new": "Ajouter : {value}",
+    "suggest_confirm_title": "Ajouter une nouvelle entrée ?",
+    "suggest_confirm_message": "« {value} » ne figure pas encore dans notre liste. Souhaitez-vous l'ajouter comme nouvelle entrée ?",
+    "suggest_confirm_action": "Ajouter",
+    "suggest_cancel": "Annuler",
+    "suggest_recorded": "Votre suggestion a été enregistrée. Un super administrateur l'examinera en vue de son inclusion dans notre liste standard.",
+    "no_matches": "Aucune correspondance trouvée",
+    "min_chars": "Saisissez au moins 2 caractères pour rechercher"
+  },
+  "phone_input": {
+    "label": "Numéro de téléphone",
+    "helper": "Saisissez votre numéro de téléphone, indicatif régional inclus",
+    "invalid_format": "Numéro de téléphone invalide pour {country}"
+  },
+  "country_selector": {
+    "search_placeholder": "Rechercher des pays...",
+    "au_members": "États membres de l'Union africaine",
+    "all_countries": "Tous les pays"
   }
 }

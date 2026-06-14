@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Background — transparent for adaptive light/dark theming -->
+  <!-- Letter C — uses currentColor for light/dark mode adaptation -->
+  <text x="6" y="50" font-family="Inter, Helvetica, Arial, sans-serif" font-weight="700" font-size="48" fill="currentColor">C</text>
+  <!-- Gold dot — fixed brand color -->
+  <circle cx="44" cy="48" r="5" fill="#C9A84C"/>
+</svg>

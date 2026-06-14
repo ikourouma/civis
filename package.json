@@ -9,7 +9,12 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "seed:countries": "tsx scripts/seeds/seed-countries.ts",
+    "seed:occupations": "tsx scripts/seeds/seed-occupations.ts",
+    "seed:industries": "tsx scripts/seeds/seed-industries.ts",
+    "seed:fields": "tsx scripts/seeds/seed-fields-of-study.ts",
+    "seed:all": "npm run seed:countries && npm run seed:occupations && npm run seed:industries && npm run seed:fields"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.1",
@@ -17,7 +22,10 @@
     "@supabase/supabase-js": "^2.47.10",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "country-flag-icons": "^1.6.17",
     "framer-motion": "^12.40.0",
+    "i18n-iso-countries": "^7.14.0",
+    "libphonenumber-js": "^1.13.6",
     "lucide-react": "^0.469.0",
     "next": "^14.2.21",
     "next-intl": "^3.26.3",
@@ -31,14 +39,18 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^17.4.2",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.21",
     "eslint-config-prettier": "^9.1.0",
+    "png-to-ico": "^3.0.1",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
+    "sharp": "^0.35.1",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.22.4",
     "typescript": "^5.7.2"
   }
 }

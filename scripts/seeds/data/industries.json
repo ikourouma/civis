@@ -1,0 +1,100 @@
+[
+  { "name_en": "Agriculture, Forestry, Fishing and Hunting", "name_fr": "Agriculture, foresterie, pêche et chasse", "naics_code": "11" },
+  { "name_en": "Crop Production", "name_fr": "Production végétale", "naics_code": "111" },
+  { "name_en": "Animal Production and Aquaculture", "name_fr": "Production animale et aquaculture", "naics_code": "112" },
+  { "name_en": "Forestry and Logging", "name_fr": "Foresterie et exploitation forestière", "naics_code": "113" },
+  { "name_en": "Fishing, Hunting and Trapping", "name_fr": "Pêche, chasse et piégeage", "naics_code": "114" },
+
+  { "name_en": "Mining, Quarrying, and Oil and Gas Extraction", "name_fr": "Extraction minière, pétrolière et gazière", "naics_code": "21" },
+  { "name_en": "Oil and Gas Extraction", "name_fr": "Extraction de pétrole et de gaz", "naics_code": "211" },
+  { "name_en": "Mining (except Oil and Gas)", "name_fr": "Extraction minière (sauf pétrole et gaz)", "naics_code": "212" },
+
+  { "name_en": "Utilities", "name_fr": "Services publics", "naics_code": "22" },
+  { "name_en": "Electric Power Generation and Distribution", "name_fr": "Production et distribution d'électricité", "naics_code": "2211" },
+  { "name_en": "Water, Sewage and Other Systems", "name_fr": "Eau, assainissement et autres systèmes", "naics_code": "2213" },
+
+  { "name_en": "Construction", "name_fr": "Construction", "naics_code": "23" },
+  { "name_en": "Construction of Buildings", "name_fr": "Construction de bâtiments", "naics_code": "236" },
+  { "name_en": "Heavy and Civil Engineering Construction", "name_fr": "Génie civil et travaux lourds", "naics_code": "237" },
+  { "name_en": "Specialty Trade Contractors", "name_fr": "Entrepreneurs spécialisés", "naics_code": "238" },
+
+  { "name_en": "Manufacturing", "name_fr": "Fabrication", "naics_code": "31-33" },
+  { "name_en": "Food Manufacturing", "name_fr": "Fabrication de produits alimentaires", "naics_code": "311" },
+  { "name_en": "Beverage and Tobacco Product Manufacturing", "name_fr": "Fabrication de boissons et de produits du tabac", "naics_code": "312" },
+  { "name_en": "Textile Mills", "name_fr": "Usines de textiles", "naics_code": "313" },
+  { "name_en": "Apparel Manufacturing", "name_fr": "Fabrication de vêtements", "naics_code": "315" },
+  { "name_en": "Wood Product Manufacturing", "name_fr": "Fabrication de produits en bois", "naics_code": "321" },
+  { "name_en": "Chemical Manufacturing", "name_fr": "Fabrication de produits chimiques", "naics_code": "325" },
+  { "name_en": "Pharmaceutical and Medicine Manufacturing", "name_fr": "Fabrication de produits pharmaceutiques", "naics_code": "3254" },
+  { "name_en": "Machinery Manufacturing", "name_fr": "Fabrication de machines", "naics_code": "333" },
+  { "name_en": "Computer and Electronic Product Manufacturing", "name_fr": "Fabrication de produits informatiques et électroniques", "naics_code": "334" },
+  { "name_en": "Transportation Equipment Manufacturing", "name_fr": "Fabrication de matériel de transport", "naics_code": "336" },
+
+  { "name_en": "Wholesale Trade", "name_fr": "Commerce de gros", "naics_code": "42" },
+  { "name_en": "Retail Trade", "name_fr": "Commerce de détail", "naics_code": "44-45" },
+  { "name_en": "Food and Beverage Retailers", "name_fr": "Détaillants de produits alimentaires", "naics_code": "445" },
+  { "name_en": "Clothing and Accessories Retailers", "name_fr": "Détaillants de vêtements et accessoires", "naics_code": "458" },
+
+  { "name_en": "Transportation and Warehousing", "name_fr": "Transport et entreposage", "naics_code": "48-49" },
+  { "name_en": "Air Transportation", "name_fr": "Transport aérien", "naics_code": "481" },
+  { "name_en": "Water Transportation", "name_fr": "Transport par eau", "naics_code": "483" },
+  { "name_en": "Truck Transportation", "name_fr": "Transport par camion", "naics_code": "484" },
+  { "name_en": "Warehousing and Storage", "name_fr": "Entreposage et stockage", "naics_code": "493" },
+
+  { "name_en": "Information", "name_fr": "Information", "naics_code": "51" },
+  { "name_en": "Publishing Industries", "name_fr": "Industries de l'édition", "naics_code": "513" },
+  { "name_en": "Telecommunications", "name_fr": "Télécommunications", "naics_code": "517" },
+  { "name_en": "Computing Infrastructure and Data Processing", "name_fr": "Infrastructure informatique et traitement des données", "naics_code": "518" },
+  { "name_en": "Software Publishers", "name_fr": "Éditeurs de logiciels", "naics_code": "5132" },
+
+  { "name_en": "Finance and Insurance", "name_fr": "Finance et assurance", "naics_code": "52" },
+  { "name_en": "Banking and Credit Intermediation", "name_fr": "Banque et intermédiation financière", "naics_code": "522" },
+  { "name_en": "Securities and Investments", "name_fr": "Valeurs mobilières et investissements", "naics_code": "523" },
+  { "name_en": "Insurance Carriers", "name_fr": "Sociétés d'assurance", "naics_code": "524" },
+
+  { "name_en": "Real Estate and Rental and Leasing", "name_fr": "Immobilier, location et crédit-bail", "naics_code": "53" },
+  { "name_en": "Real Estate", "name_fr": "Immobilier", "naics_code": "531" },
+
+  { "name_en": "Professional, Scientific, and Technical Services", "name_fr": "Services professionnels, scientifiques et techniques", "naics_code": "54" },
+  { "name_en": "Legal Services", "name_fr": "Services juridiques", "naics_code": "5411" },
+  { "name_en": "Accounting and Bookkeeping Services", "name_fr": "Services de comptabilité", "naics_code": "5412" },
+  { "name_en": "Architectural and Engineering Services", "name_fr": "Services d'architecture et d'ingénierie", "naics_code": "5413" },
+  { "name_en": "Computer Systems Design Services", "name_fr": "Services de conception de systèmes informatiques", "naics_code": "5415" },
+  { "name_en": "Management and Technical Consulting", "name_fr": "Conseil en gestion et technique", "naics_code": "5416" },
+  { "name_en": "Scientific Research and Development", "name_fr": "Recherche et développement scientifique", "naics_code": "5417" },
+  { "name_en": "Advertising and Public Relations", "name_fr": "Publicité et relations publiques", "naics_code": "5418" },
+
+  { "name_en": "Management of Companies and Enterprises", "name_fr": "Gestion de sociétés et d'entreprises", "naics_code": "55" },
+
+  { "name_en": "Administrative and Support Services", "name_fr": "Services administratifs et de soutien", "naics_code": "56" },
+  { "name_en": "Waste Management and Remediation", "name_fr": "Gestion des déchets et assainissement", "naics_code": "562" },
+
+  { "name_en": "Educational Services", "name_fr": "Services éducatifs", "naics_code": "61" },
+  { "name_en": "Elementary and Secondary Schools", "name_fr": "Écoles primaires et secondaires", "naics_code": "6111" },
+  { "name_en": "Colleges and Universities", "name_fr": "Collèges et universités", "naics_code": "6113" },
+
+  { "name_en": "Health Care and Social Assistance", "name_fr": "Soins de santé et assistance sociale", "naics_code": "62" },
+  { "name_en": "Ambulatory Health Care Services", "name_fr": "Services de soins ambulatoires", "naics_code": "621" },
+  { "name_en": "Hospitals", "name_fr": "Hôpitaux", "naics_code": "622" },
+  { "name_en": "Nursing and Residential Care", "name_fr": "Soins infirmiers et hébergement", "naics_code": "623" },
+  { "name_en": "Social Assistance", "name_fr": "Assistance sociale", "naics_code": "624" },
+
+  { "name_en": "Arts, Entertainment, and Recreation", "name_fr": "Arts, spectacles et loisirs", "naics_code": "71" },
+  { "name_en": "Performing Arts and Spectator Sports", "name_fr": "Arts du spectacle et sports", "naics_code": "711" },
+  { "name_en": "Museums and Historical Sites", "name_fr": "Musées et sites historiques", "naics_code": "712" },
+
+  { "name_en": "Accommodation and Food Services", "name_fr": "Hébergement et restauration", "naics_code": "72" },
+  { "name_en": "Accommodation", "name_fr": "Hébergement", "naics_code": "721" },
+  { "name_en": "Food Services and Drinking Places", "name_fr": "Services de restauration et débits de boissons", "naics_code": "722" },
+
+  { "name_en": "Other Services (except Public Administration)", "name_fr": "Autres services (sauf administration publique)", "naics_code": "81" },
+  { "name_en": "Repair and Maintenance", "name_fr": "Réparation et entretien", "naics_code": "811" },
+  { "name_en": "Religious and Civic Organizations", "name_fr": "Organisations religieuses et civiques", "naics_code": "813" },
+
+  { "name_en": "Public Administration", "name_fr": "Administration publique", "naics_code": "92" },
+  { "name_en": "International Affairs and Diplomacy", "name_fr": "Affaires internationales et diplomatie", "naics_code": "9281" },
+
+  { "name_en": "Non-Governmental Organization (NGO)", "name_fr": "Organisation non gouvernementale (ONG)", "naics_code": null },
+  { "name_en": "Renewable Energy", "name_fr": "Énergie renouvelable", "naics_code": null },
+  { "name_en": "Tourism and Travel", "name_fr": "Tourisme et voyage", "naics_code": null }
+]

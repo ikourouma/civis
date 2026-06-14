@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BarChart3,
   Briefcase,
   Building2,
   ChevronLeft,
   ChevronRight,
+  Database,
   Download,
   FileText,
   Folder,
@@ -25,6 +26,7 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
 import { Link } from '@/i18n/navigation';
+import { getSuggestionCounts } from '@/lib/services/admin/reference-management.service';
 import type { CivisUser, PlatformRole } from '@/lib/services/auth/auth.types';
 import { cn } from '@/lib/utils';
 
@@ -43,7 +45,8 @@ type NavKey =
   | 'reports'
   | 'export'
   | 'services'
-  | 'profile';
+  | 'profile'
+  | 'reference_data';
 
 interface NavItem {
   key: NavKey;
@@ -56,6 +59,7 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'dashboard', href: '/admin/dashboard', Icon: LayoutDashboard },
     { key: 'tenants', href: '/admin/tenants', Icon: Globe },
     { key: 'users', href: '/admin/users', Icon: Users },
+    { key: 'reference_data', href: '/admin/reference-data', Icon: Database },
     { key: 'audit_logs', href: '/admin/audit', Icon: Shield },
     { key: 'settings', href: '/admin/settings', Icon: Settings },
   ],
@@ -112,6 +116,19 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
   const pathname = usePathname();
   const items = NAV_ITEMS[user.role];
   const [collapsed, setCollapsed] = useState(false);
+  const [pendingSuggestions, setPendingSuggestions] = useState(0);
+
+  // Super admins see a live count of reference-data suggestions awaiting review.
+  useEffect(() => {
+    if (user.role !== 'super_admin') return;
+    let active = true;
+    getSuggestionCounts().then(({ pending }) => {
+      if (active) setPendingSuggestions(pending);
+    });
+    return () => {
+      active = false;
+    };
+  }, [user.role]);
 
   return (
     <aside
@@ -184,7 +201,17 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
                     />
                   )}
                   <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                  {!collapsed && <span>{t(key)}</span>}
+                  {!collapsed && <span className="flex-1">{t(key)}</span>}
+                  {key === 'reference_data' && pendingSuggestions > 0 && (
+                    <span
+                      className={cn(
+                        'inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[9px] font-bold text-navy-deepest',
+                        collapsed && 'absolute right-1 top-1',
+                      )}
+                    >
+                      {pendingSuggestions}
+                    </span>
+                  )}
                 </Link>
               </li>
             );

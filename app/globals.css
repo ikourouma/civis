@@ -42,3 +42,56 @@
     @apply bg-background text-foreground antialiased;
   }
 }
+
+/* ============================================================
+ * CivisLoader — brand-mark spinner (rotating gold ring + "C.")
+ * ============================================================ */
+.civis-loader {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.civis-loader-ring {
+  position: absolute;
+  inset: 0;
+  animation: civis-spin 2s linear infinite;
+}
+
+.civis-loader-mark {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+}
+
+.civis-loader-c {
+  color: #ffffff;
+  font-family: var(--font-inter, 'Inter', sans-serif);
+  font-weight: 700;
+  font-size: 0.55em;
+  letter-spacing: -0.02em;
+}
+
+.civis-loader-dot {
+  color: #c9a84c;
+  font-weight: 900;
+  font-size: 0.7em;
+  margin-left: 0.02em;
+}
+
+@keyframes civis-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .civis-loader-ring {
+    animation: none;
+  }
+}

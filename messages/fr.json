@@ -1166,6 +1166,7 @@
       "services": "Services",
       "profile": "Mon Profil",
       "reference_data": "Données de Référence",
+      "branding": "Identité de Marque",
       "sign_out": "Déconnexion"
     },
     "admin": {
@@ -1312,5 +1313,38 @@
     "search_placeholder": "Rechercher des pays...",
     "au_members": "États membres de l'Union africaine",
     "all_countries": "Tous les pays"
+  },
+  "branding": {
+    "admin": {
+      "eyebrow": "Marque Souveraine",
+      "page_title": "Identité de Marque par Pays",
+      "page_subtitle": "Gérer l'identité de marque souveraine par déploiement national",
+      "section_identity": "Identité",
+      "section_palette": "Palette de Couleurs",
+      "section_assets": "Ressources de Marque",
+      "section_localization": "Localisation",
+      "section_source": "Source et Version",
+      "add_country": "Ajouter une Marque Pays",
+      "preview_as_tenant": "Aperçu en tant que Locataire",
+      "save_changes": "Enregistrer",
+      "saved": "Marque mise à jour.",
+      "uploaded": "Ressource téléversée.",
+      "upload_flag": "Téléverser le Drapeau",
+      "upload_seal": "Téléverser le Sceau",
+      "upload_lockup": "Téléverser le Logo Combiné"
+    },
+    "tenant": {
+      "eyebrow": "Votre Marque Souveraine",
+      "page_title": "Votre Marque Souveraine",
+      "request_customization": "Demander une Personnalisation",
+      "customization_help": "Besoin d'ajustements à votre marque souveraine ? Soumettez une demande de personnalisation à l'équipe Afronovation.",
+      "request_placeholder": "Décrivez les ajustements de marque dont vous avez besoin…",
+      "request_sent": "Votre demande a été enregistrée. L'équipe Afronovation vous contactera."
+    },
+    "tier_labels": {
+      "cloud": "Civis Cloud — Infrastructure Souveraine Partagée",
+      "government": "Civis Government — Déploiement National Dédié",
+      "sovereign": "Civis Sovereign — Souveraineté en Marque Blanche Complète"
+    }
   }
 }

@@ -1,0 +1,146 @@
+[
+  {
+    "countryCode": "BW",
+    "primary": "#00AEEF",
+    "primaryDark": "#0090C5",
+    "primaryLight": "#E8F7FC",
+    "secondary": "#000000",
+    "accent": "#FFFFFF"
+  },
+  {
+    "countryCode": "CI",
+    "primary": "#FF8C00",
+    "primaryDark": "#E67300",
+    "primaryLight": "#FFF8EB",
+    "secondary": "#00954A",
+    "accent": "#FFFFFF"
+  },
+  {
+    "countryCode": "CM",
+    "primary": "#007A3D",
+    "primaryDark": "#006230",
+    "primaryLight": "#E8F5EC",
+    "secondary": "#CE1126",
+    "accent": "#FCD116"
+  },
+  {
+    "countryCode": "DZ",
+    "primary": "#006233",
+    "primaryDark": "#004D28",
+    "primaryLight": "#E8F5EC",
+    "secondary": "#D21034",
+    "accent": "#FFFFFF"
+  },
+  {
+    "countryCode": "EG",
+    "primary": "#C8102E",
+    "primaryDark": "#A00D24",
+    "primaryLight": "#FFF5F6",
+    "secondary": "#000000",
+    "accent": "#C09A5B"
+  },
+  {
+    "countryCode": "ET",
+    "primary": "#078930",
+    "primaryDark": "#056C25",
+    "primaryLight": "#E8F5EC",
+    "secondary": "#DA121A",
+    "accent": "#FCDD09"
+  },
+  {
+    "countryCode": "GH",
+    "primary": "#EF3340",
+    "primaryDark": "#CE1126",
+    "primaryLight": "#FFF5F6",
+    "secondary": "#FCD116",
+    "accent": "#006B3F"
+  },
+  {
+    "countryCode": "KE",
+    "primary": "#BB0000",
+    "primaryDark": "#8B0000",
+    "primaryLight": "#FFF5F5",
+    "secondary": "#006600",
+    "accent": "#FFFFFF"
+  },
+  {
+    "countryCode": "MA",
+    "primary": "#C1272D",
+    "primaryDark": "#A01F24",
+    "primaryLight": "#FFF5F5",
+    "secondary": "#006233",
+    "accent": "#FFD700"
+  },
+  {
+    "countryCode": "NG",
+    "primary": "#008751",
+    "primaryDark": "#006B3F",
+    "primaryLight": "#E8F5EE",
+    "secondary": "#FFFFFF",
+    "accent": "#008751"
+  },
+  {
+    "countryCode": "RW",
+    "primary": "#00A1DE",
+    "primaryDark": "#0080B0",
+    "primaryLight": "#E8F7FC",
+    "secondary": "#FAD201",
+    "accent": "#20603D"
+  },
+  {
+    "countryCode": "SN",
+    "primary": "#00853F",
+    "primaryDark": "#006B32",
+    "primaryLight": "#E8F5EC",
+    "secondary": "#FDEF42",
+    "accent": "#E31B23"
+  },
+  {
+    "countryCode": "TN",
+    "primary": "#E70013",
+    "primaryDark": "#C4000F",
+    "primaryLight": "#FFF5F5",
+    "secondary": "#FFFFFF",
+    "accent": "#E70013"
+  },
+  {
+    "countryCode": "TZ",
+    "primary": "#1EB53A",
+    "primaryDark": "#169030",
+    "primaryLight": "#E8F8EC",
+    "secondary": "#00A3DD",
+    "accent": "#FCD116"
+  },
+  {
+    "countryCode": "UG",
+    "primary": "#D4B800",
+    "primaryDark": "#B39B00",
+    "primaryLight": "#FFFBEA",
+    "secondary": "#000000",
+    "accent": "#DE3831"
+  },
+  {
+    "countryCode": "ZA",
+    "primary": "#007749",
+    "primaryDark": "#005C38",
+    "primaryLight": "#E8F5EE",
+    "secondary": "#FFB81C",
+    "accent": "#DE3831"
+  },
+  {
+    "countryCode": "ZM",
+    "primary": "#198754",
+    "primaryDark": "#146C43",
+    "primaryLight": "#E8F5EE",
+    "secondary": "#EF7D00",
+    "accent": "#000000"
+  },
+  {
+    "countryCode": "ZW",
+    "primary": "#006400",
+    "primaryDark": "#005000",
+    "primaryLight": "#E8F5EC",
+    "secondary": "#FFD200",
+    "accent": "#EF3340"
+  }
+]

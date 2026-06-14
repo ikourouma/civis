@@ -34,6 +34,29 @@
   }
 }
 
+/* ============================================================
+ * Country branding tokens (Mission 005-A.2)
+ * Defaults to the Afronovation platform brand. BrandProvider
+ * overrides these on :root at runtime per the active tenant brand.
+ * See lib/branding/README.md.
+ * ============================================================ */
+:root,
+[data-brand='default'],
+[data-brand='af'] {
+  --civis-brand-primary: #2a3f62;
+  --civis-brand-secondary: #c9a84c;
+  --civis-brand-accent: #0d1b2e;
+  --civis-brand-neutral-dark: #0d1b2e;
+  --civis-brand-neutral-light: #eaf2fa;
+  --civis-surface-50: #f5f8fc;
+  --civis-surface-100: #eaf2fa;
+  --civis-surface-500: #2a3f62;
+  --civis-surface-700: #1a2c42;
+  --civis-surface-900: #0d1b2e;
+  --civis-font-display: 'Inter', system-ui, sans-serif;
+  --civis-font-body: 'Inter', system-ui, sans-serif;
+}
+
 @layer base {
   * {
     @apply border-border;

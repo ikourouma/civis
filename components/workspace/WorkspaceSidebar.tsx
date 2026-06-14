@@ -15,6 +15,7 @@ import {
   LayoutDashboard,
   type LucideIcon,
   LogOut,
+  Palette,
   Settings,
   Shield,
   TrendingUp,
@@ -46,7 +47,8 @@ type NavKey =
   | 'export'
   | 'services'
   | 'profile'
-  | 'reference_data';
+  | 'reference_data'
+  | 'branding';
 
 interface NavItem {
   key: NavKey;
@@ -60,6 +62,7 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'tenants', href: '/admin/tenants', Icon: Globe },
     { key: 'users', href: '/admin/users', Icon: Users },
     { key: 'reference_data', href: '/admin/reference-data', Icon: Database },
+    { key: 'branding', href: '/admin/branding', Icon: Palette },
     { key: 'audit_logs', href: '/admin/audit', Icon: Shield },
     { key: 'settings', href: '/admin/settings', Icon: Settings },
   ],
@@ -68,6 +71,7 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'registry', href: '/workspace/registry', Icon: Users },
     { key: 'embassies', href: '/workspace/embassy', Icon: Building2 },
     { key: 'analytics', href: '/intelligence/dashboard', Icon: BarChart3 },
+    { key: 'branding', href: '/workspace/branding', Icon: Palette },
     { key: 'users', href: '/workspace/users', Icon: UserCog },
     { key: 'settings', href: '/workspace/settings', Icon: Settings },
   ],

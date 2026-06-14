@@ -1166,6 +1166,7 @@
       "services": "Services",
       "profile": "My Profile",
       "reference_data": "Reference Data",
+      "branding": "Branding",
       "sign_out": "Sign Out"
     },
     "admin": {
@@ -1312,5 +1313,38 @@
     "search_placeholder": "Search countries...",
     "au_members": "African Union Member States",
     "all_countries": "All Countries"
+  },
+  "branding": {
+    "admin": {
+      "eyebrow": "Sovereign Brand",
+      "page_title": "Country Branding",
+      "page_subtitle": "Manage sovereign brand identity per country deployment",
+      "section_identity": "Identity",
+      "section_palette": "Color Palette",
+      "section_assets": "Brand Assets",
+      "section_localization": "Localization",
+      "section_source": "Source & Version",
+      "add_country": "Add Country Brand",
+      "preview_as_tenant": "Preview as Tenant",
+      "save_changes": "Save Changes",
+      "saved": "Brand updated.",
+      "uploaded": "Asset uploaded.",
+      "upload_flag": "Upload Flag",
+      "upload_seal": "Upload Seal",
+      "upload_lockup": "Upload Lockup"
+    },
+    "tenant": {
+      "eyebrow": "Your Sovereign Brand",
+      "page_title": "Your Sovereign Brand",
+      "request_customization": "Request Customization",
+      "customization_help": "Need adjustments to your sovereign brand? Submit a customization request to the Afronovation team.",
+      "request_placeholder": "Describe the brand adjustments you need…",
+      "request_sent": "Your request has been recorded. The Afronovation team will be in touch."
+    },
+    "tier_labels": {
+      "cloud": "Civis Cloud — Shared Sovereign Infrastructure",
+      "government": "Civis Government — Dedicated National Deployment",
+      "sovereign": "Civis Sovereign — Full White-Label Sovereignty"
+    }
   }
 }

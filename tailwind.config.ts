@@ -19,6 +19,17 @@ const config: Config = {
     },
     extend: {
       colors: {
+        // Runtime country-branding tokens — Mission 005-A.2 (resolve via CSS vars)
+        'brand-primary': 'var(--civis-brand-primary)',
+        'brand-secondary': 'var(--civis-brand-secondary)',
+        'brand-accent': 'var(--civis-brand-accent)',
+        'brand-neutral-dark': 'var(--civis-brand-neutral-dark)',
+        'brand-neutral-light': 'var(--civis-brand-neutral-light)',
+        'surface-50': 'var(--civis-surface-50)',
+        'surface-100': 'var(--civis-surface-100)',
+        'surface-500': 'var(--civis-surface-500)',
+        'surface-700': 'var(--civis-surface-700)',
+        'surface-900': 'var(--civis-surface-900)',
         // Civis brand tokens — Mission 001
         navy: {
           DEFAULT: '#2A3F62',
@@ -82,6 +93,9 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        // Runtime brand typography — Mission 005-A.2
+        display: 'var(--civis-font-display)',
+        body: 'var(--civis-font-body)',
       },
       fontSize: {
         // Sovereign typography scale — Doc 07

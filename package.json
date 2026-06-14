@@ -14,7 +14,11 @@
     "seed:occupations": "tsx scripts/seeds/seed-occupations.ts",
     "seed:industries": "tsx scripts/seeds/seed-industries.ts",
     "seed:fields": "tsx scripts/seeds/seed-fields-of-study.ts",
-    "seed:all": "npm run seed:countries && npm run seed:occupations && npm run seed:industries && npm run seed:fields"
+    "seed:all": "npm run seed:countries && npm run seed:occupations && npm run seed:industries && npm run seed:fields",
+    "brand:extract": "tsx scripts/branding/extract-bridge55-themes.ts",
+    "brand:assets": "tsx scripts/branding/migrate-assets.ts",
+    "brand:seed": "tsx scripts/branding/seed-country-brands.ts",
+    "brand:all": "npm run brand:extract && npm run brand:assets && npm run brand:seed"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.1",

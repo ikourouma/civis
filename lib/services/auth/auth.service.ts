@@ -18,6 +18,17 @@ export async function getSession(): Promise<CivisSession | null> {
 
   if (!profile) return null;
 
+  // Active embassy assignments (drives embassy-scoped intelligence for the Ambassador)
+  const { data: staffRows } = await supabase
+    .from('civis_embassy_staff')
+    .select('embassy_id')
+    .eq('user_id', session.user.id)
+    .eq('is_active', true);
+
+  const embassyIds = (staffRows ?? [])
+    .map((r) => r.embassy_id as string)
+    .filter(Boolean);
+
   return {
     user: {
       id: profile.id,
@@ -25,6 +36,7 @@ export async function getSession(): Promise<CivisSession | null> {
       fullName: profile.full_name,
       role: profile.role,
       tenantId: profile.tenant_id,
+      embassyIds,
       isActive: profile.is_active,
       lastSignInAt: profile.last_sign_in_at,
     },

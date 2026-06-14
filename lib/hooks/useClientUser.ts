@@ -21,6 +21,7 @@ function mapProfile(row: {
     fullName: row.full_name,
     role: row.role,
     tenantId: row.tenant_id,
+    embassyIds: [], // marketing header has no embassy-scope dependency
     isActive: row.is_active,
     lastSignInAt: row.last_sign_in_at,
   };

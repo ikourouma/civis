@@ -1,23 +1,16 @@
-import { redirect } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 
-import { getCurrentUser } from '@/lib/services/auth';
-import { getMyRegistrantRecord } from '@/lib/services/registrants';
-import { RegistrationWizard } from '@/components/portal/RegistrationWizard';
+import { TenantSelect } from '@/components/portal/TenantSelect';
+import { getPublicTenants } from '@/lib/services/tenants/public-tenant.service';
 
 interface PageProps {
   params: { locale: string };
 }
 
-export default async function RegisterPage({ params: { locale } }: PageProps) {
+// Public entry point for the two-phase registration flow (no auth required).
+export default async function RegisterEntryPage({ params: { locale } }: PageProps) {
   setRequestLocale(locale);
+  const tenants = await getPublicTenants();
 
-  const user = await getCurrentUser();
-  if (!user) redirect(`/${locale}/auth/signin`);
-
-  // Already registered — redirect to portal dashboard
-  const existing = await getMyRegistrantRecord(user.id);
-  if (existing) redirect(`/${locale}/portal/dashboard`);
-
-  return <RegistrationWizard user={user} locale={locale} />;
+  return <TenantSelect tenants={tenants} locale={locale as 'en' | 'fr'} />;
 }

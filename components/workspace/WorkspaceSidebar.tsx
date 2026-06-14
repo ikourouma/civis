@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import {
   BarChart3,
-  Briefcase,
   Building2,
   ChevronLeft,
   ChevronRight,
@@ -21,6 +20,7 @@ import {
   TrendingUp,
   User,
   UserCog,
+  UserPlus,
   Users,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -28,6 +28,7 @@ import { usePathname } from 'next/navigation';
 
 import { Link } from '@/i18n/navigation';
 import { getSuggestionCounts } from '@/lib/services/admin/reference-management.service';
+import { getMyCompleteness } from '@/lib/services/documents/document.actions';
 import type { CivisUser, PlatformRole } from '@/lib/services/auth/auth.types';
 import { cn } from '@/lib/utils';
 
@@ -48,7 +49,9 @@ type NavKey =
   | 'services'
   | 'profile'
   | 'reference_data'
-  | 'branding';
+  | 'branding'
+  | 'complete_profile'
+  | 'privacy';
 
 interface NavItem {
   key: NavKey;
@@ -95,9 +98,12 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'dashboard', href: '/executive/dashboard', Icon: LayoutDashboard },
   ],
   registrant: [
-    { key: 'profile', href: '/portal/dashboard', Icon: User },
+    { key: 'dashboard', href: '/portal/dashboard', Icon: LayoutDashboard },
+    { key: 'complete_profile', href: '/portal/profile/complete', Icon: UserPlus },
     { key: 'documents', href: '/portal/documents', Icon: FileText },
-    { key: 'services', href: '/portal/services', Icon: Briefcase },
+    { key: 'profile', href: '/portal/profile', Icon: User },
+    { key: 'privacy', href: '/portal/privacy', Icon: Shield },
+    { key: 'settings', href: '/portal/settings', Icon: Settings },
   ],
   economic_planner: [
     { key: 'intelligence', href: '/intelligence/dashboard', Icon: TrendingUp },
@@ -121,6 +127,7 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
   const items = NAV_ITEMS[user.role];
   const [collapsed, setCollapsed] = useState(false);
   const [pendingSuggestions, setPendingSuggestions] = useState(0);
+  const [completeness, setCompleteness] = useState<number | null>(null);
 
   // Super admins see a live count of reference-data suggestions awaiting review.
   useEffect(() => {
@@ -128,6 +135,18 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
     let active = true;
     getSuggestionCounts().then(({ pending }) => {
       if (active) setPendingSuggestions(pending);
+    });
+    return () => {
+      active = false;
+    };
+  }, [user.role]);
+
+  // Registrants see their profile completeness on the "Complete Profile" item.
+  useEffect(() => {
+    if (user.role !== 'registrant') return;
+    let active = true;
+    getMyCompleteness().then((score) => {
+      if (active) setCompleteness(score);
     });
     return () => {
       active = false;
@@ -216,6 +235,14 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
                       {pendingSuggestions}
                     </span>
                   )}
+                  {key === 'complete_profile' &&
+                    !collapsed &&
+                    completeness !== null &&
+                    completeness < 100 && (
+                      <span className="inline-flex items-center justify-center rounded-full bg-gold px-1.5 text-[9px] font-bold text-navy-deepest">
+                        {completeness}%
+                      </span>
+                    )}
                 </Link>
               </li>
             );

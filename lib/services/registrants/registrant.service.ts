@@ -1,7 +1,13 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 
-export type RegistrationStatus = 'draft' | 'submitted' | 'active' | 'inactive' | 'archived';
+export type RegistrationStatus =
+  | 'draft'
+  | 'basic_registered'
+  | 'submitted'
+  | 'active'
+  | 'inactive'
+  | 'archived';
 export type VerificationStatus = 'unverified' | 'pending_review' | 'verified' | 'rejected';
 
 export interface Registrant {
@@ -46,6 +52,7 @@ export interface Registrant {
   profileCompletenessScore: number;
   isDuplicate: boolean;
   notes: string | null;
+  profilePhotoUrl: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -156,6 +163,9 @@ interface RegistrantRow {
   profile_completeness_score: number;
   is_duplicate: boolean;
   notes: string | null;
+  profile_photo_url: string | null;
+  basic_registration_at: string | null;
+  full_registration_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -203,6 +213,7 @@ function mapRegistrant(row: RegistrantRow): Registrant {
     profileCompletenessScore: row.profile_completeness_score,
     isDuplicate: row.is_duplicate,
     notes: row.notes,
+    profilePhotoUrl: row.profile_photo_url,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -507,4 +518,344 @@ export async function getMyRegistrantRecord(profileId: string): Promise<Registra
 
   if (error || !data) return null;
   return mapRegistrant(data as RegistrantRow);
+}
+
+// ============================================================
+// Mission 005-B — Two-phase registration
+// ============================================================
+
+export interface BasicRegistrationInput {
+  tenantId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneCountryCode: string; // ISO alpha-2
+  phoneNumber: string; // E.164
+  preferredLanguage: string;
+  consentTextSnapshot: string;
+  consentVersion: string;
+  consentLanguage: string;
+  ipAddress?: string;
+  userAgent?: string;
+}
+
+export interface BasicRegistrationResult {
+  registrantId: string | null;
+  profileId: string | null;
+  status: 'basic_registered' | null;
+  // Transient one-time password so the client can auto-establish a session.
+  // The account owner resets it later; magic-link auth is a future mission.
+  sessionPassword?: string;
+  error?: string;
+}
+
+function generatePassword(): string {
+  // 24 chars, mixed — transient session credential only.
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#$%';
+  let out = '';
+  for (let i = 0; i < 24; i++) out += chars[Math.floor(Math.random() * chars.length)];
+  return out;
+}
+
+// Phase 1 — create the account + registrant with status 'basic_registered'.
+// Consent is captured BEFORE the registrant PII row is written.
+export async function submitBasicRegistration(
+  input: BasicRegistrationInput,
+): Promise<BasicRegistrationResult> {
+  const admin = createAdminClient();
+
+  // 1. Validate tenant is live
+  const { data: tenant } = await admin
+    .from('civis_tenants')
+    .select('id, status')
+    .eq('id', input.tenantId)
+    .maybeSingle();
+
+  if (!tenant || !['active', 'pilot'].includes(tenant.status as string)) {
+    return { registrantId: null, profileId: null, status: null, error: 'Invalid or inactive tenant.' };
+  }
+
+  // 2. Create the auth user (email pre-confirmed so the citizen can be auto-signed in)
+  const sessionPassword = generatePassword();
+  const fullName = `${input.firstName} ${input.lastName}`.trim();
+
+  const { data: authData, error: authError } = await admin.auth.admin.createUser({
+    email: input.email,
+    password: sessionPassword,
+    email_confirm: true,
+    user_metadata: { full_name: fullName, role: 'registrant' },
+  });
+
+  if (authError || !authData?.user) {
+    const msg = authError?.message?.toLowerCase().includes('already')
+      ? 'An account with this email already exists. Please sign in instead.'
+      : authError?.message ?? 'Could not create your account.';
+    return { registrantId: null, profileId: null, status: null, error: msg };
+  }
+
+  const userId = authData.user.id;
+
+  // 3. Profile row is created by trigger — set role + tenant
+  await admin
+    .from('profiles')
+    .update({ full_name: fullName, role: 'registrant', tenant_id: input.tenantId })
+    .eq('id', userId);
+
+  // 4. Capture consent FIRST (before the registrant PII row)
+  const { data: consent, error: consentError } = await admin
+    .from('civis_consent_records')
+    .insert({
+      tenant_id: input.tenantId,
+      registrant_id: null,
+      consent_type: 'registration',
+      consent_version: input.consentVersion,
+      consent_language: input.consentLanguage,
+      consent_text_snapshot: input.consentTextSnapshot,
+      consented: true,
+      ip_address: input.ipAddress ?? null,
+      user_agent: input.userAgent ?? null,
+      captured_at: new Date().toISOString(),
+    })
+    .select('id')
+    .single();
+
+  if (consentError || !consent) {
+    return { registrantId: null, profileId: userId, status: null, error: 'Failed to record consent.' };
+  }
+
+  // Audit consent capture (audit-before-success)
+  await admin.from('audit_logs').insert({
+    user_id: userId,
+    user_role: 'registrant',
+    action: 'CONSENT_CAPTURED',
+    resource: 'civis_consent_records',
+    resource_id: consent.id,
+    metadata: { tenant_id: input.tenantId, language: input.consentLanguage },
+  });
+
+  // 5. Create the registrant row (basic_registered)
+  const now = new Date().toISOString();
+  const { data: registrant, error: regError } = await admin
+    .from('civis_registrants')
+    .insert({
+      tenant_id: input.tenantId,
+      profile_id: userId,
+      first_name: input.firstName,
+      last_name: input.lastName,
+      nationality: '',
+      country_of_residence: '',
+      city_of_residence: '',
+      email: input.email,
+      phone_primary: input.phoneNumber,
+      preferred_language: input.preferredLanguage,
+      registration_status: 'basic_registered',
+      verification_status: 'unverified',
+      consent_captured: true,
+      consent_record_id: consent.id,
+      consent_captured_at: now,
+      basic_registration_at: now,
+      profile_completeness_score: 25,
+    })
+    .select('id')
+    .single();
+
+  if (regError || !registrant) {
+    return { registrantId: null, profileId: userId, status: null, error: regError?.message ?? 'Registration failed.' };
+  }
+
+  // Link consent record back to the registrant
+  await admin.from('civis_consent_records').update({ registrant_id: registrant.id }).eq('id', consent.id);
+
+  // Audit basic registration
+  await admin.from('audit_logs').insert({
+    user_id: userId,
+    user_role: 'registrant',
+    action: 'BASIC_REGISTRATION_COMPLETED',
+    resource: 'civis_registrants',
+    resource_id: registrant.id,
+    metadata: { tenant_id: input.tenantId },
+  });
+
+  return {
+    registrantId: registrant.id,
+    profileId: userId,
+    status: 'basic_registered',
+    sessionPassword,
+  };
+}
+
+export type ProfileSection = 'personal' | 'residence' | 'professional' | 'documents';
+
+// Recompute completeness from a full registrant row (0–100).
+function fullCompleteness(r: RegistrantRow): number {
+  const checks: boolean[] = [
+    !!r.first_name,
+    !!r.last_name,
+    !!r.date_of_birth,
+    !!r.gender,
+    !!r.nationality,
+    !!r.country_of_birth,
+    !!r.city_of_birth,
+    !!r.email,
+    !!r.phone_primary,
+    !!r.country_of_residence,
+    !!r.city_of_residence,
+    !!r.entry_year,
+    !!r.occupation,
+    !!r.education_level,
+    !!r.consent_captured,
+    !!r.profile_photo_url,
+  ];
+  const score = Math.round((checks.filter(Boolean).length / checks.length) * 100);
+  return score;
+}
+
+const REQUIRED_FOR_SUBMIT: (keyof RegistrantRow)[] = [
+  'date_of_birth',
+  'gender',
+  'nationality',
+  'country_of_birth',
+  'city_of_birth',
+  'country_of_residence',
+  'city_of_residence',
+];
+
+// Phase 2 — save a profile section, recompute completeness, auto-advance to submitted.
+export async function completeProfileSection(
+  registrantId: string,
+  section: ProfileSection,
+  data: Partial<CreateRegistrantInput> & {
+    secondNationality?: string;
+    addressLine1?: string;
+    addressLine2?: string;
+    stateRegion?: string;
+    postalCode?: string;
+    departureYear?: number;
+    profilePhotoUrl?: string;
+  },
+  actorId: string,
+): Promise<{ success: boolean; newCompletenessScore: number; status: RegistrationStatus | null; error?: string }> {
+  const admin = createAdminClient();
+
+  // Verify ownership
+  const { data: existing } = await admin
+    .from('civis_registrants')
+    .select('*')
+    .eq('id', registrantId)
+    .maybeSingle();
+
+  if (!existing) return { success: false, newCompletenessScore: 0, status: null, error: 'Registrant not found.' };
+  if ((existing as RegistrantRow).profile_id !== actorId) {
+    return { success: false, newCompletenessScore: 0, status: null, error: 'Unauthorized.' };
+  }
+
+  const updates: Record<string, unknown> = {};
+  const set = (k: string, v: unknown) => {
+    if (v !== undefined) updates[k] = v;
+  };
+
+  if (section === 'personal') {
+    set('date_of_birth', data.dateOfBirth);
+    set('gender', data.gender);
+    set('middle_name', data.middleName);
+    set('preferred_name', data.preferredName);
+    set('nationality', data.nationality);
+    set('dual_nationality', data.secondNationality);
+    set('country_of_birth', data.countryOfBirth);
+    set('city_of_birth', data.cityOfBirth);
+  } else if (section === 'residence') {
+    set('phone_secondary', data.phoneSecondary);
+    set('country_of_residence', data.countryOfResidence);
+    set('city_of_residence', data.cityOfResidence);
+    set('years_abroad', data.departureYear ? new Date().getFullYear() - data.departureYear : undefined);
+    set('entry_year', data.entryYear);
+  } else if (section === 'professional') {
+    set('occupation', data.occupation);
+    set('employer', data.employer);
+    set('industry_sector', data.industrySector);
+    set('education_level', data.educationLevel);
+    set('field_of_study', data.fieldOfStudy);
+    set('generation', data.generation);
+    set('diaspora_association', data.diasporaAssociation);
+    set('return_interest', data.returnInterest);
+    set('investment_interest', data.investmentInterest);
+  } else if (section === 'documents') {
+    set('profile_photo_url', data.profilePhotoUrl);
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await admin.from('civis_registrants').update(updates).eq('id', registrantId);
+  }
+
+  // Re-read to recompute completeness from the merged row
+  const { data: merged } = await admin
+    .from('civis_registrants')
+    .select('*')
+    .eq('id', registrantId)
+    .single();
+
+  const mergedRow = merged as RegistrantRow;
+  const score = fullCompleteness(mergedRow);
+
+  const requiredComplete = REQUIRED_FOR_SUBMIT.every((k) => !!mergedRow[k]);
+  let status = mergedRow.registration_status as RegistrationStatus;
+
+  const finalUpdates: Record<string, unknown> = { profile_completeness_score: score };
+  if (score >= 80 && requiredComplete && status === 'basic_registered') {
+    status = 'submitted';
+    finalUpdates.registration_status = 'submitted';
+    finalUpdates.verification_status = 'pending_review';
+    finalUpdates.full_registration_at = new Date().toISOString();
+  }
+  await admin.from('civis_registrants').update(finalUpdates).eq('id', registrantId);
+
+  await admin.from('audit_logs').insert({
+    user_id: actorId,
+    user_role: 'registrant',
+    action: 'PROFILE_SECTION_COMPLETED',
+    resource: 'civis_registrants',
+    resource_id: registrantId,
+    metadata: { section, completeness: score },
+  });
+
+  return { success: true, newCompletenessScore: score, status };
+}
+
+// Explicit submit-for-verification (when required fields are met).
+export async function submitForVerification(
+  registrantId: string,
+  actorId: string,
+): Promise<{ success: boolean; error?: string }> {
+  const admin = createAdminClient();
+  const { data: existing } = await admin
+    .from('civis_registrants')
+    .select('*')
+    .eq('id', registrantId)
+    .maybeSingle();
+
+  if (!existing) return { success: false, error: 'Registrant not found.' };
+  const row = existing as RegistrantRow;
+  if (row.profile_id !== actorId) return { success: false, error: 'Unauthorized.' };
+
+  const requiredComplete = REQUIRED_FOR_SUBMIT.every((k) => !!row[k]);
+  if (!requiredComplete) return { success: false, error: 'Complete all required fields first.' };
+
+  await admin.from('audit_logs').insert({
+    user_id: actorId,
+    user_role: 'registrant',
+    action: 'PROFILE_SUBMITTED',
+    resource: 'civis_registrants',
+    resource_id: registrantId,
+  });
+
+  const { error } = await admin
+    .from('civis_registrants')
+    .update({
+      registration_status: 'submitted',
+      verification_status: 'pending_review',
+      full_registration_at: new Date().toISOString(),
+    })
+    .eq('id', registrantId);
+
+  return { success: !error, error: error?.message };
 }

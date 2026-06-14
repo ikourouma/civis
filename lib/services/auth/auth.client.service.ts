@@ -34,6 +34,16 @@ export async function signIn(credentials: SignInCredentials): Promise<AuthResult
     };
   }
 
+  const { data: staffRows } = await supabase
+    .from('civis_embassy_staff')
+    .select('embassy_id')
+    .eq('user_id', data.session.user.id)
+    .eq('is_active', true);
+
+  const embassyIds = (staffRows ?? [])
+    .map((r) => r.embassy_id as string)
+    .filter(Boolean);
+
   const session: CivisSession = {
     user: {
       id: profile.id,
@@ -41,6 +51,7 @@ export async function signIn(credentials: SignInCredentials): Promise<AuthResult
       fullName: profile.full_name,
       role: profile.role,
       tenantId: profile.tenant_id,
+      embassyIds,
       isActive: profile.is_active,
       lastSignInAt: profile.last_sign_in_at,
     },

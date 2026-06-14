@@ -14,8 +14,24 @@ export interface CivisUser {
   fullName: string | null;
   role: PlatformRole;
   tenantId: string | null;
+  embassyIds: string[]; // Active embassy assignments (Mission 005-B)
   isActive: boolean;
   lastSignInAt: string | null;
+}
+
+export interface ScopedQuery {
+  tenantId: string;
+  embassyIds?: string[]; // If present, scope further to these embassies
+  isEmbassyScoped: boolean;
+}
+
+// Resolve the data scope for a user — embassy-scoped if they have assignments.
+export function getScopeForUser(user: CivisUser): ScopedQuery {
+  return {
+    tenantId: user.tenantId!,
+    embassyIds: user.embassyIds.length > 0 ? user.embassyIds : undefined,
+    isEmbassyScoped: user.embassyIds.length > 0,
+  };
 }
 
 export interface CivisSession {

@@ -55,9 +55,14 @@ export function getDefaultRoute(role: PlatformRole, locale: string): string {
   return routes[role];
 }
 
+// Public path prefixes that override protection (citizen-facing, pre-auth).
+// The two-phase registration flow must be reachable without a session.
+const PUBLIC_PREFIXES = ['/portal/register'];
+
 // Match a pathname (without locale) against the route permission map.
-// Returns the longest matching prefix or null.
+// Returns the longest matching prefix or null. Public prefixes return null.
 export function getProtectedPrefix(pathnameWithoutLocale: string): string | null {
+  if (PUBLIC_PREFIXES.some((p) => pathnameWithoutLocale.startsWith(p))) return null;
   const prefixes = Object.keys(ROUTE_PERMISSIONS).sort((a, b) => b.length - a.length);
   return prefixes.find((p) => pathnameWithoutLocale.startsWith(p)) ?? null;
 }

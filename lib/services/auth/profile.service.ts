@@ -18,6 +18,7 @@ export async function getUserProfile(userId: string): Promise<CivisUser | null> 
     fullName: profile.full_name,
     role: profile.role,
     tenantId: profile.tenant_id,
+    embassyIds: [], // not needed in account/profile display context
     isActive: profile.is_active,
     lastSignInAt: profile.last_sign_in_at,
   };

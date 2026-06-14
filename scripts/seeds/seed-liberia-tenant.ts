@@ -184,12 +184,21 @@ async function main() {
         continue;
       }
 
+      // Upsert (not update) so the profile exists even if the auth trigger skipped it.
       const { error: profileError } = await admin
         .from('profiles')
-        .update({ full_name: persona.full_name, role: persona.role, tenant_id: tenant.id })
-        .eq('id', userId);
+        .upsert(
+          {
+            id: userId,
+            email: persona.email,
+            full_name: persona.full_name,
+            role: persona.role,
+            tenant_id: tenant.id,
+          },
+          { onConflict: 'id' },
+        );
       if (profileError) {
-        console.error(`⚠️  Profile update failed for ${persona.email}: ${profileError.message}`);
+        console.error(`⚠️  Profile upsert failed for ${persona.email}: ${profileError.message}`);
       }
 
       if (persona.assign_embassy) {

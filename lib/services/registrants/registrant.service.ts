@@ -595,11 +595,14 @@ export async function submitBasicRegistration(
 
   const userId = authData.user.id;
 
-  // 3. Profile row is created by trigger — set role + tenant
+  // 3. Ensure the profile exists with role + tenant (upsert — resilient even if
+  //    the auth trigger skipped the insert).
   await admin
     .from('profiles')
-    .update({ full_name: fullName, role: 'registrant', tenant_id: input.tenantId })
-    .eq('id', userId);
+    .upsert(
+      { id: userId, email: input.email, full_name: fullName, role: 'registrant', tenant_id: input.tenantId },
+      { onConflict: 'id' },
+    );
 
   // 4. Capture consent FIRST (before the registrant PII row)
   const { data: consent, error: consentError } = await admin

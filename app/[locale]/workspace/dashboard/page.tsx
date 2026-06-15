@@ -1,23 +1,21 @@
-import { ArrowRight, BarChart3, Building2, Users } from 'lucide-react';
+import { ArrowRight, BarChart3, Building2, Clock, Plus, UserCog, Users } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { Link } from '@/i18n/navigation';
 import { getCurrentUser } from '@/lib/services/auth';
+import { getEmbassiesWithCounts } from '@/lib/services/embassies';
 import { getCurrentTenant } from '@/lib/services/tenants';
+import { createAdminClient } from '@/lib/supabase/admin';
+import { cn } from '@/lib/utils';
 
 interface PageProps {
   params: { locale: string };
 }
 
-const TIER_LABEL: Record<string, string> = {
-  cloud: 'Cloud',
-  government: 'Government',
-  sovereign: 'Sovereign',
-};
-
+const TIER_LABEL: Record<string, string> = { cloud: 'Cloud', government: 'Government', sovereign: 'Sovereign' };
 const STATUS_BADGE: Record<string, string> = {
-  active: 'bg-success-teal/15 text-success-teal',
+  active: 'bg-emerald-400/15 text-emerald-400',
   pilot: 'bg-gold/15 text-gold',
   suspended: 'bg-red-400/15 text-red-400',
   archived: 'bg-white/5 text-surface/50',
@@ -28,82 +26,148 @@ export default async function WorkspaceDashboardPage({ params: { locale } }: Pag
   const t = await getTranslations('Workspace');
 
   const user = await getCurrentUser();
-  if (!user) {
-    redirect(`/${locale}/auth/signin`);
-  }
+  if (!user) redirect(`/${locale}/auth/signin`);
 
   const tenant = await getCurrentTenant();
+  const isTenantAdmin = ['tenant_admin', 'super_admin'].includes(user.role);
+  const tenantId = user.tenantId;
 
-  const modules = [
-    { key: 'registry', href: '/workspace/registry', Icon: Users },
-    { key: 'embassies', href: '/workspace/embassy', Icon: Building2 },
-    { key: 'analytics', href: '/intelligence/dashboard', Icon: BarChart3 },
-  ] as const;
+  const admin = createAdminClient();
+
+  // Live KPIs (tenant-scoped)
+  const [embassyCount, staffCount, registrantCount, pendingCount] = tenantId
+    ? await Promise.all([
+        admin.from('civis_embassies').select('id', { count: 'exact', head: true }).eq('tenant_id', tenantId).eq('status', 'active'),
+        admin.from('profiles').select('id', { count: 'exact', head: true }).eq('tenant_id', tenantId).neq('role', 'registrant'),
+        admin.from('civis_registrants').select('id', { count: 'exact', head: true }).eq('tenant_id', tenantId),
+        admin.from('civis_registrants').select('id', { count: 'exact', head: true }).eq('tenant_id', tenantId).eq('verification_status', 'pending_review'),
+      ])
+    : [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }];
+
+  const embassies = await getEmbassiesWithCounts();
+
+  // Recent activity across the tenant
+  let activity: { action: string; created_at: string }[] = [];
+  if (tenantId) {
+    const { data: tenantUsers } = await admin.from('profiles').select('id').eq('tenant_id', tenantId);
+    const ids = (tenantUsers as { id: string }[] | null)?.map((u) => u.id) ?? [];
+    if (ids.length > 0) {
+      const { data } = await admin
+        .from('audit_logs')
+        .select('action, created_at')
+        .in('user_id', ids)
+        .order('created_at', { ascending: false })
+        .limit(10);
+      activity = (data as { action: string; created_at: string }[]) ?? [];
+    }
+  }
+
+  const tiles = [
+    { label: 'Total Embassies', value: embassyCount.count ?? 0, Icon: Building2 },
+    { label: 'Total Staff', value: staffCount.count ?? 0, Icon: UserCog },
+    { label: 'Total Registrants', value: registrantCount.count ?? 0, Icon: Users },
+    { label: 'Pending Verification', value: pendingCount.count ?? 0, Icon: Clock },
+  ];
+
+  const quickActions = [
+    { label: 'Create Embassy', href: '/workspace/embassy/manage', Icon: Plus },
+    { label: 'Add Staff Member', href: '/workspace/users', Icon: UserCog },
+    { label: 'View Registry', href: '/workspace/registry', Icon: Users },
+    { label: 'View Analytics', href: '/intelligence/dashboard', Icon: BarChart3 },
+  ];
 
   return (
-    <div className="mx-auto max-w-5xl">
-      <header className="mb-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gold">
-          {t('common.welcome')}
-        </p>
-        <h1 className="mt-2 text-3xl font-bold text-white">
-          {user.fullName ?? user.email}
-        </h1>
-        <p className="mt-2 text-sm text-surface/60">
-          {t('common.role_label')}: <span className="text-surface/80">{user.role}</span>
-        </p>
+    <div className="mx-auto max-w-6xl space-y-8">
+      <header>
+        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gold">{t('common.welcome')}</p>
+        <h1 className="mt-2 text-3xl font-bold text-white">{user.fullName ?? user.email}</h1>
+        {tenant && (
+          <p className="mt-1 flex items-center gap-2 text-sm text-surface/60">
+            {tenant.name}
+            <span className="rounded bg-navy/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-surface">
+              {TIER_LABEL[tenant.deploymentTier] ?? tenant.deploymentTier}
+            </span>
+            <span className={cn('rounded px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider', STATUS_BADGE[tenant.status])}>
+              {tenant.status}
+            </span>
+          </p>
+        )}
       </header>
 
-      {/* Tenant card */}
-      {tenant && (
-        <section className="mb-10 rounded-2xl border border-white/5 bg-navy-deep p-6">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-surface/40">
-            {t('common.tenant_label')}
-          </p>
-          <div className="mt-2 flex flex-wrap items-baseline justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-bold text-white">{tenant.name}</h2>
-              <p className="mt-1 text-xs text-surface/60">
-                {tenant.officialCountryName ?? tenant.name} · {tenant.countryCode}
-                {tenant.region ? ` · ${tenant.region}` : ''}
-              </p>
+      {/* KPIs */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {tiles.map(({ label, value, Icon }) => (
+          <div key={label} className="rounded-xl border border-white/5 bg-navy-deep p-5">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-surface/40">{label}</p>
+              <Icon className="h-4 w-4 text-gold/70" />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="inline-flex rounded bg-navy/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-surface">
-                {TIER_LABEL[tenant.deploymentTier] ?? tenant.deploymentTier}
-              </span>
-              <span
-                className={`inline-flex rounded px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${STATUS_BADGE[tenant.status] ?? ''}`}
+            <p className="text-3xl font-bold text-white">{value}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Quick actions */}
+      {isTenantAdmin && (
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {quickActions.map(({ label, href, Icon }) => (
+            <Link
+              key={label}
+              href={href}
+              className="flex items-center gap-3 rounded-xl border border-white/5 bg-navy-deep p-4 transition-colors hover:border-gold/30"
+            >
+              <Icon className="h-5 w-5 text-gold/70" />
+              <span className="text-sm font-medium text-white">{label}</span>
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {/* Embassy overview */}
+      {embassies.length > 0 && (
+        <section>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-white">Embassies</h2>
+            <Link href="/workspace/embassy/manage" className="text-xs font-medium text-gold hover:underline">
+              View All →
+            </Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {embassies.slice(0, 6).map((e) => (
+              <Link
+                key={e.id}
+                href={`/workspace/embassy/${e.id}`}
+                className="rounded-xl border border-white/5 bg-navy-deep p-4 transition-colors hover:border-gold/30"
               >
-                {tenant.status}
-              </span>
-            </div>
+                <p className="truncate text-sm font-semibold text-white">{e.name}</p>
+                <p className="mt-1 text-xs text-surface/50">{e.staffCount} staff · {e.registrantCount} registrants</p>
+                <span className={cn('mt-3 inline-flex rounded px-2 py-0.5 text-[10px] font-semibold uppercase', e.status === 'active' ? 'bg-emerald-400/15 text-emerald-400' : 'bg-white/5 text-surface/40')}>
+                  {e.status}
+                </span>
+              </Link>
+            ))}
           </div>
         </section>
       )}
 
-      {/* Module cards */}
-      <div className="grid gap-4 md:grid-cols-3">
-        {modules.map(({ key, href, Icon }) => (
-          <Link
-            key={key}
-            href={href}
-            className="group flex h-full flex-col rounded-2xl border border-white/5 bg-navy-deep p-6 transition-colors hover:border-gold/30"
-          >
-            <Icon className="h-5 w-5 text-gold/70" aria-hidden="true" />
-            <h3 className="mt-4 text-base font-semibold text-white">
-              {t(`nav.${key}`)}
-            </h3>
-            <p className="mt-2 flex-1 text-xs text-surface/50">
-              {t('common.coming_soon')}
-            </p>
-            <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-gold/80 group-hover:text-gold">
-              {t('common.open')}
-              <ArrowRight className="h-3 w-3" aria-hidden="true" />
-            </span>
-          </Link>
-        ))}
-      </div>
+      {/* Recent activity */}
+      <section className="overflow-hidden rounded-xl border border-white/5 bg-navy-deep">
+        <div className="border-b border-white/5 px-6 py-4">
+          <h2 className="text-sm font-semibold text-white">Recent Activity</h2>
+        </div>
+        {activity.length === 0 ? (
+          <p className="px-6 py-8 text-center text-sm text-surface/40">No recent activity.</p>
+        ) : (
+          <ul className="divide-y divide-white/5">
+            {activity.map((a, i) => (
+              <li key={i} className="flex items-center justify-between px-6 py-3">
+                <span className="text-sm capitalize text-surface/70">{a.action.replace(/_/g, ' ').toLowerCase()}</span>
+                <span className="text-xs text-surface/40">{new Date(a.created_at).toLocaleDateString()}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }

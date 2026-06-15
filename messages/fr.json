@@ -1169,6 +1169,7 @@
       "branding": "Identité de Marque",
       "complete_profile": "Compléter le Profil",
       "privacy": "Confidentialité",
+      "staff": "Personnel",
       "sign_out": "Déconnexion"
     },
     "admin": {
@@ -1496,5 +1497,94 @@
     "kpi_this_month": "Ce mois-ci",
     "recent_registrations": "Inscriptions récentes",
     "no_registrations": "Aucune inscription pour le moment."
+  },
+  "embassy_management": {
+    "page_title": "Gestion des Ambassades",
+    "page_subtitle": "Gérez les missions diplomatiques de votre gouvernement dans le monde",
+    "create_embassy": "Créer une Ambassade",
+    "create_embassy_success": "Ambassade créée avec succès",
+    "fields": {
+      "name_label": "Nom de l'Ambassade",
+      "name_helper": "Le nom officiel de la mission diplomatique.",
+      "name_placeholder": "Ambassade du Libéria — Washington D.C.",
+      "mission_type_label": "Type de Mission",
+      "mission_type_helper": "Le type de mission diplomatique.",
+      "host_country_label": "Pays Hôte",
+      "host_country_helper": "Le pays où se trouve cette mission.",
+      "host_city_label": "Ville Hôte",
+      "host_city_helper": "La ville où se trouve cette mission.",
+      "address_label": "Adresse",
+      "address_helper": "Adresse postale complète de la mission.",
+      "email_label": "E-mail de Contact",
+      "phone_label": "Téléphone de Contact",
+      "website_label": "Site Web",
+      "head_of_mission_label": "Chef de Mission",
+      "head_of_mission_helper": "Nom ou titre du chef de mission.",
+      "timezone_label": "Fuseau Horaire",
+      "jurisdiction_label": "Pays sous Juridiction",
+      "jurisdiction_helper": "Sélectionnez tous les pays dont cette ambassade sert les citoyens de la diaspora.",
+      "jurisdiction_desc_label": "Description de la Juridiction",
+      "jurisdiction_desc_placeholder": "Citoyens libériens résidant aux États-Unis et au Canada"
+    },
+    "tabs": {
+      "profile": "Profil",
+      "staff": "Personnel",
+      "registrants": "Inscrits",
+      "activity": "Journal d'Activité"
+    },
+    "deactivate": "Désactiver",
+    "deactivate_confirm": "Êtes-vous sûr de vouloir désactiver cette ambassade ? Les données existantes seront préservées.",
+    "reactivate": "Réactiver"
+  },
+  "staff_management": {
+    "page_title": "Gestion des Utilisateurs",
+    "page_subtitle": "Gérez les comptes du personnel pour le déploiement Civis de votre gouvernement",
+    "add_staff": "Ajouter un Membre",
+    "add_staff_success": "Compte du personnel créé avec succès",
+    "fields": {
+      "name_label": "Nom Complet",
+      "name_helper": "Le nom officiel du membre du personnel.",
+      "email_label": "Adresse E-mail",
+      "email_helper": "Adresse e-mail gouvernementale. Ce sera son identifiant de connexion.",
+      "role_label": "Rôle",
+      "role_helper": "Détermine ce que cet utilisateur peut voir et faire sur la plateforme.",
+      "embassy_label": "Affectation à une Ambassade",
+      "embassy_helper": "De quelle ambassade ce membre travaillera-t-il ?",
+      "send_welcome": "Envoyer un e-mail de bienvenue avec les instructions de connexion"
+    },
+    "roles": {
+      "embassy_admin": "Admin d'Ambassade — Gestion complète d'une seule ambassade.",
+      "consular_officer": "Agent Consulaire — Traiter les inscriptions, vérifier les documents, gérer les dossiers.",
+      "analyst": "Analyste — Accès au tableau de bord, génération de rapports, export de données.",
+      "executive_viewer": "Observateur Exécutif — Accès en lecture seule aux tableaux de bord et au renseignement."
+    },
+    "actions": {
+      "edit_role": "Changer de Rôle",
+      "assign_embassy": "Affecter une Ambassade",
+      "unassign_embassy": "Retirer de l'Ambassade",
+      "deactivate": "Désactiver le Compte",
+      "reactivate": "Réactiver le Compte",
+      "reset_password": "Réinitialiser le Mot de Passe",
+      "deactivate_confirm": "La désactivation de ce compte empêchera l'utilisateur de se connecter. Les données existantes seront préservées.",
+      "reset_confirm": "Un lien de réinitialisation du mot de passe sera envoyé à l'adresse e-mail de cet utilisateur."
+    },
+    "tiles": {
+      "total_users": "Total du Personnel",
+      "embassy_admins": "Admins d'Ambassade",
+      "consular_officers": "Agents Consulaires",
+      "analysts": "Analystes"
+    }
+  },
+  "tenant_create": {
+    "section_admin": "Administrateur Initial du Tenant",
+    "provision_new": "Créer un nouvel utilisateur",
+    "assign_existing": "Assigner un utilisateur existant",
+    "admin_email_helper": "Cet utilisateur aura le contrôle administratif complet du tenant.",
+    "admin_name_helper": "Le nom officiel de l'administrateur de plateforme désigné.",
+    "branding_section": "Identité de Marque du Pays",
+    "branding_helper": "Sélectionnez une marque pays",
+    "branding_found": "Marque trouvée",
+    "branding_not_found": "Aucune marque configurée pour ce pays",
+    "submit_with_admin": "Créer le Tenant et Assigner l'Administrateur"
   }
 }

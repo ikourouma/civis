@@ -1169,6 +1169,7 @@
       "branding": "Branding",
       "complete_profile": "Complete Profile",
       "privacy": "Privacy & Rights",
+      "staff": "Staff",
       "sign_out": "Sign Out"
     },
     "admin": {
@@ -1496,5 +1497,94 @@
     "kpi_this_month": "This Month",
     "recent_registrations": "Recent Registrations",
     "no_registrations": "No registrations yet."
+  },
+  "embassy_management": {
+    "page_title": "Embassy Management",
+    "page_subtitle": "Manage your government's diplomatic missions worldwide",
+    "create_embassy": "Create New Embassy",
+    "create_embassy_success": "Embassy created successfully",
+    "fields": {
+      "name_label": "Embassy Name",
+      "name_helper": "The official name of the diplomatic mission.",
+      "name_placeholder": "Embassy of Liberia — Washington D.C.",
+      "mission_type_label": "Mission Type",
+      "mission_type_helper": "The type of diplomatic mission.",
+      "host_country_label": "Host Country",
+      "host_country_helper": "The country where this mission is located.",
+      "host_city_label": "Host City",
+      "host_city_helper": "The city where this mission is located.",
+      "address_label": "Address",
+      "address_helper": "Full street address of the mission.",
+      "email_label": "Contact Email",
+      "phone_label": "Contact Phone",
+      "website_label": "Website",
+      "head_of_mission_label": "Head of Mission",
+      "head_of_mission_helper": "Name or title of the Head of Mission.",
+      "timezone_label": "Timezone",
+      "jurisdiction_label": "Jurisdiction Countries",
+      "jurisdiction_helper": "Select all countries whose diaspora citizens this embassy serves.",
+      "jurisdiction_desc_label": "Jurisdiction Description",
+      "jurisdiction_desc_placeholder": "Liberian citizens residing in the United States and Canada"
+    },
+    "tabs": {
+      "profile": "Profile",
+      "staff": "Staff",
+      "registrants": "Registrants",
+      "activity": "Activity Log"
+    },
+    "deactivate": "Deactivate",
+    "deactivate_confirm": "Are you sure you want to deactivate this embassy? Existing data will be preserved.",
+    "reactivate": "Reactivate"
+  },
+  "staff_management": {
+    "page_title": "User Management",
+    "page_subtitle": "Manage staff accounts for your government's Civis deployment",
+    "add_staff": "Add Staff Member",
+    "add_staff_success": "Staff account created successfully",
+    "fields": {
+      "name_label": "Full Name",
+      "name_helper": "The official name of the staff member.",
+      "email_label": "Email Address",
+      "email_helper": "Government email address. This will be their sign-in credential.",
+      "role_label": "Role",
+      "role_helper": "Determines what this user can see and do on the platform.",
+      "embassy_label": "Embassy Assignment",
+      "embassy_helper": "Which embassy will this staff member work from?",
+      "send_welcome": "Send welcome email with sign-in instructions"
+    },
+    "roles": {
+      "embassy_admin": "Embassy Admin — Full management of a single embassy.",
+      "consular_officer": "Consular Officer — Process registrations, verify documents, manage cases.",
+      "analyst": "Analyst — Access intelligence dashboard, generate reports, export data.",
+      "executive_viewer": "Executive Viewer — View-only access to dashboards and intelligence."
+    },
+    "actions": {
+      "edit_role": "Change Role",
+      "assign_embassy": "Assign Embassy",
+      "unassign_embassy": "Unassign from Embassy",
+      "deactivate": "Deactivate Account",
+      "reactivate": "Reactivate Account",
+      "reset_password": "Reset Password",
+      "deactivate_confirm": "Deactivating this account will prevent the user from signing in. Existing data will be preserved.",
+      "reset_confirm": "A password reset link will be sent to this user's email address."
+    },
+    "tiles": {
+      "total_users": "Total Staff",
+      "embassy_admins": "Embassy Admins",
+      "consular_officers": "Consular Officers",
+      "analysts": "Analysts"
+    }
+  },
+  "tenant_create": {
+    "section_admin": "Initial Tenant Administrator",
+    "provision_new": "Provision new user",
+    "assign_existing": "Assign existing user",
+    "admin_email_helper": "This user will have full administrative control over the tenant.",
+    "admin_name_helper": "The official name of the designated platform administrator.",
+    "branding_section": "Country Branding",
+    "branding_helper": "Select a country brand",
+    "branding_found": "Brand found",
+    "branding_not_found": "No brand configured for this country",
+    "submit_with_admin": "Create Tenant & Assign Administrator"
   }
 }

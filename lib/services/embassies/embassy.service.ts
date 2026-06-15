@@ -61,6 +61,24 @@ export interface CreateEmbassyInput {
   jurisdictionDescription?: string;
   headOfMission?: string;
   timezone?: string;
+  jurisdictionCountries?: { code: string; name: string }[];
+}
+
+export interface EmbassyJurisdiction {
+  countryCode: string;
+  countryName: string | null;
+}
+
+export interface EmbassyWithCounts extends Embassy {
+  staffCount: number;
+  registrantCount: number;
+}
+
+export interface EmbassyDetail {
+  embassy: Embassy;
+  staff: EmbassyStaffMember[];
+  stats: EmbassyStats;
+  jurisdictions: EmbassyJurisdiction[];
 }
 
 interface EmbassyRow {
@@ -202,7 +220,12 @@ export async function updateEmbassy(
       ...(input.address !== undefined && { address: input.address }),
       ...(input.email !== undefined && { email: input.email }),
       ...(input.phone !== undefined && { phone: input.phone }),
+      ...(input.website !== undefined && { website: input.website }),
       ...(input.headOfMission !== undefined && { head_of_mission: input.headOfMission }),
+      ...(input.timezone !== undefined && { timezone: input.timezone }),
+      ...(input.jurisdictionDescription !== undefined && {
+        jurisdiction_description: input.jurisdictionDescription,
+      }),
     })
     .eq('id', id);
 
@@ -309,4 +332,184 @@ export async function getEmbassyStats(embassyId: string): Promise<EmbassyStats> 
     verified: verifiedRes.count ?? 0,
     thisMonth: monthRes.count ?? 0,
   };
+}
+
+// ============================================================
+// Mission 005-C — Tenant Admin embassy management
+// ============================================================
+
+// Create embassy + jurisdiction entries + audit. tenant_admin scope enforced by caller.
+export async function createEmbassyWithJurisdiction(
+  input: CreateEmbassyInput,
+  actorId: string,
+  tenantId: string,
+): Promise<{ embassy: Embassy | null; error: string | null }> {
+  const admin = createAdminClient();
+
+  const { data, error } = await admin
+    .from('civis_embassies')
+    .insert({
+      tenant_id: tenantId,
+      name: input.name,
+      mission_type: input.missionType,
+      host_country: input.hostCountry,
+      host_country_code: input.hostCountryCode.toUpperCase(),
+      host_city: input.hostCity,
+      address: input.address ?? null,
+      email: input.email ?? null,
+      phone: input.phone ?? null,
+      website: input.website ?? null,
+      jurisdiction_description: input.jurisdictionDescription ?? null,
+      head_of_mission: input.headOfMission ?? null,
+      timezone: input.timezone ?? null,
+    })
+    .select()
+    .single();
+
+  if (error || !data) {
+    return { embassy: null, error: error?.message ?? 'Failed to create embassy' };
+  }
+
+  // Jurisdictions — default to host country if none provided
+  const jurisdictions =
+    input.jurisdictionCountries && input.jurisdictionCountries.length > 0
+      ? input.jurisdictionCountries
+      : [{ code: input.hostCountryCode.toUpperCase(), name: input.hostCountry }];
+
+  await admin.from('civis_embassy_jurisdictions').insert(
+    jurisdictions.map((j) => ({
+      tenant_id: tenantId,
+      embassy_id: data.id,
+      country_code: j.code.toUpperCase(),
+      country_name: j.name,
+    })),
+  );
+
+  await admin.from('audit_logs').insert({
+    user_id: actorId,
+    user_role: 'tenant_admin',
+    action: 'EMBASSY_CREATED',
+    resource: 'civis_embassies',
+    resource_id: data.id,
+    metadata: {
+      embassy_name: input.name,
+      host_country: input.hostCountry,
+      host_city: input.hostCity,
+      mission_type: input.missionType,
+    },
+  });
+
+  return { embassy: mapEmbassy(data as EmbassyRow), error: null };
+}
+
+// Replace an embassy's jurisdiction set.
+export async function setEmbassyJurisdictions(
+  embassyId: string,
+  tenantId: string,
+  countries: { code: string; name: string }[],
+): Promise<{ error: string | null }> {
+  const admin = createAdminClient();
+  await admin.from('civis_embassy_jurisdictions').delete().eq('embassy_id', embassyId);
+  if (countries.length > 0) {
+    const { error } = await admin.from('civis_embassy_jurisdictions').insert(
+      countries.map((c) => ({
+        tenant_id: tenantId,
+        embassy_id: embassyId,
+        country_code: c.code.toUpperCase(),
+        country_name: c.name,
+      })),
+    );
+    return { error: error?.message ?? null };
+  }
+  return { error: null };
+}
+
+export async function deactivateEmbassy(
+  embassyId: string,
+  reason: string,
+  actorId: string,
+): Promise<{ error: string | null }> {
+  const admin = createAdminClient();
+  const { data: emb } = await admin.from('civis_embassies').select('name').eq('id', embassyId).maybeSingle();
+  await admin.from('audit_logs').insert({
+    user_id: actorId,
+    user_role: 'tenant_admin',
+    action: 'EMBASSY_DEACTIVATED',
+    resource: 'civis_embassies',
+    resource_id: embassyId,
+    metadata: { embassy_name: emb?.name, reason },
+  });
+  const { error } = await admin.from('civis_embassies').update({ status: 'inactive' }).eq('id', embassyId);
+  return { error: error?.message ?? null };
+}
+
+export async function reactivateEmbassy(
+  embassyId: string,
+  actorId: string,
+): Promise<{ error: string | null }> {
+  const admin = createAdminClient();
+  const { data: emb } = await admin.from('civis_embassies').select('name').eq('id', embassyId).maybeSingle();
+  await admin.from('audit_logs').insert({
+    user_id: actorId,
+    user_role: 'tenant_admin',
+    action: 'EMBASSY_REACTIVATED',
+    resource: 'civis_embassies',
+    resource_id: embassyId,
+    metadata: { embassy_name: emb?.name },
+  });
+  const { error } = await admin.from('civis_embassies').update({ status: 'active' }).eq('id', embassyId);
+  return { error: error?.message ?? null };
+}
+
+// Single embassy by id (RLS-scoped).
+export async function getEmbassyById(id: string): Promise<Embassy | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from('civis_embassies').select('*').eq('id', id).maybeSingle();
+  if (error || !data) return null;
+  return mapEmbassy(data as EmbassyRow);
+}
+
+// All embassies for the current tenant, with staff + registrant counts.
+export async function getEmbassiesWithCounts(): Promise<EmbassyWithCounts[]> {
+  const admin = createAdminClient();
+  const supabase = await createClient();
+
+  // RLS-scoped list (tenant rows only)
+  const { data: embassies } = await supabase.from('civis_embassies').select('*').order('name');
+  if (!embassies) return [];
+
+  return Promise.all(
+    (embassies as EmbassyRow[]).map(async (e) => {
+      const [{ count: staffCount }, { count: registrantCount }] = await Promise.all([
+        admin.from('civis_embassy_staff').select('id', { count: 'exact', head: true }).eq('embassy_id', e.id).eq('is_active', true),
+        admin.from('civis_registrants').select('id', { count: 'exact', head: true }).eq('embassy_id', e.id),
+      ]);
+      return { ...mapEmbassy(e), staffCount: staffCount ?? 0, registrantCount: registrantCount ?? 0 };
+    }),
+  );
+}
+
+export async function getEmbassyJurisdictions(embassyId: string): Promise<EmbassyJurisdiction[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('civis_embassy_jurisdictions')
+    .select('country_code, country_name')
+    .eq('embassy_id', embassyId)
+    .order('country_code');
+  return ((data as { country_code: string; country_name: string | null }[]) ?? []).map((j) => ({
+    countryCode: j.country_code,
+    countryName: j.country_name,
+  }));
+}
+
+// Full embassy detail bundle for the detail page.
+export async function getEmbassyWithStaffAndStats(embassyId: string): Promise<EmbassyDetail | null> {
+  const embassy = await getEmbassyById(embassyId);
+  if (!embassy) return null;
+  const [staff, stats, jurisdictions] = await Promise.all([
+    getEmbassyStaff(embassyId),
+    getEmbassyStats(embassyId),
+    getEmbassyJurisdictions(embassyId),
+  ]);
+  return { embassy, staff, stats, jurisdictions };
 }

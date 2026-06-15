@@ -51,7 +51,8 @@ type NavKey =
   | 'reference_data'
   | 'branding'
   | 'complete_profile'
-  | 'privacy';
+  | 'privacy'
+  | 'staff';
 
 interface NavItem {
   key: NavKey;
@@ -72,16 +73,17 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
   tenant_admin: [
     { key: 'dashboard', href: '/workspace/dashboard', Icon: LayoutDashboard },
     { key: 'registry', href: '/workspace/registry', Icon: Users },
-    { key: 'embassies', href: '/workspace/embassy', Icon: Building2 },
+    { key: 'embassies', href: '/workspace/embassy/manage', Icon: Building2 },
+    { key: 'staff', href: '/workspace/users', Icon: UserCog },
     { key: 'analytics', href: '/intelligence/dashboard', Icon: BarChart3 },
     { key: 'branding', href: '/workspace/branding', Icon: Palette },
-    { key: 'users', href: '/workspace/users', Icon: UserCog },
     { key: 'settings', href: '/workspace/settings', Icon: Settings },
   ],
   embassy_admin: [
     { key: 'embassies', href: '/workspace/embassy', Icon: Building2 },
     { key: 'registry', href: '/workspace/registry', Icon: Users },
     { key: 'cases', href: '/workspace/cases', Icon: Folder },
+    { key: 'staff', href: '/workspace/embassy/staff', Icon: UserCog },
     { key: 'reports', href: '/workspace/reports', Icon: FileText },
   ],
   consular_officer: [

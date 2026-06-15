@@ -1,18 +1,17 @@
 import { redirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { UserManagementClient } from '@/components/workspace/UserManagementClient';
+import { EmbassyManageClient } from '@/components/workspace/EmbassyManageClient';
 import { getCurrentUser } from '@/lib/services/auth';
-import { getEmbassiesByTenant } from '@/lib/services/embassies';
-import { getStaffStats, getTenantStaff } from '@/lib/services/staff';
+import { getEmbassiesWithCounts } from '@/lib/services/embassies';
 
 interface PageProps {
   params: { locale: string };
 }
 
-export default async function UsersPage({ params: { locale } }: PageProps) {
+export default async function EmbassyManagePage({ params: { locale } }: PageProps) {
   setRequestLocale(locale);
-  const t = await getTranslations('staff_management');
+  const t = await getTranslations('embassy_management');
 
   const user = await getCurrentUser();
   if (!user) redirect(`/${locale}/auth/signin`);
@@ -20,26 +19,17 @@ export default async function UsersPage({ params: { locale } }: PageProps) {
     redirect(`/${locale}/workspace/dashboard`);
   }
 
-  const [staff, stats, embassies] = await Promise.all([
-    getTenantStaff(),
-    getStaffStats(),
-    getEmbassiesByTenant(),
-  ]);
+  const embassies = await getEmbassiesWithCounts();
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="mx-auto max-w-6xl">
       <header className="mb-8">
         <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gold">{t('page_title')}</p>
         <h1 className="mt-2 text-3xl font-bold text-white">{t('page_title')}</h1>
         <p className="mt-2 text-sm text-surface/60">{t('page_subtitle')}</p>
       </header>
 
-      <UserManagementClient
-        locale={locale as 'en' | 'fr'}
-        staff={staff}
-        stats={stats}
-        embassies={embassies.map((e) => ({ id: e.id, name: e.name }))}
-      />
+      <EmbassyManageClient locale={locale as 'en' | 'fr'} embassies={embassies} />
     </div>
   );
 }

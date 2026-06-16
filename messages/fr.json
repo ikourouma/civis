@@ -1586,5 +1586,93 @@
     "branding_found": "Marque trouvée",
     "branding_not_found": "Aucune marque configurée pour ce pays",
     "submit_with_admin": "Créer le Tenant et Assigner l'Administrateur"
+  },
+  "intelligence": {
+    "dashboard": {
+      "title": "Tableau de Renseignement Diaspora",
+      "subtitle": "{country} — {count} dossiers",
+      "date_range": {
+        "30_days": "30 jours",
+        "90_days": "90 jours",
+        "12_months": "12 mois",
+        "all_time": "Tout",
+        "custom": "Personnalisé"
+      },
+      "kpi": {
+        "total": "Total Inscrits",
+        "active": "Actifs",
+        "pending": "En attente de vérification",
+        "this_month": "Ce mois-ci",
+        "completeness": "Complétude moy.",
+        "growth": "Croissance vs précédent"
+      },
+      "sections": {
+        "registration_trend": "Tendances d'inscription",
+        "geographic": "Répartition géographique",
+        "age": "Répartition par âge",
+        "gender": "Répartition par genre",
+        "generation": "Répartition par génération",
+        "professions": "Principales professions",
+        "education": "Niveau d'éducation",
+        "engagement": "Signaux d'engagement de la diaspora",
+        "completeness": "Complétude des profils",
+        "embassy_performance": "Performance des ambassades",
+        "field_completion": "Taux de complétion des champs"
+      },
+      "engagement": {
+        "return_interest": "Intérêt pour le retour",
+        "investment_interest": "Intérêt pour l'investissement",
+        "association_membership": "Adhésion à une association"
+      },
+      "view_all_countries": "Voir tous les pays",
+      "view_full_dashboard": "Voir le tableau de renseignement complet"
+    },
+    "executive": {
+      "title": "Renseignement National sur la Diaspora",
+      "embassy_title": "Renseignement d'Ambassade",
+      "subtitle": "{country} — Dernière mise à jour : {timestamp}",
+      "hero_label": "Citoyens de la diaspora inscrits",
+      "top_host_country": "Premier pays d'accueil",
+      "momentum": "Dynamique d'inscription",
+      "vs_last_month": "vs mois dernier",
+      "verification_status": "Statut de vérification",
+      "download_briefing": "Télécharger la note d'une page",
+      "download_embassy_briefing": "Télécharger la note d'ambassade",
+      "view_full": "Voir le tableau de renseignement complet"
+    },
+    "reports": {
+      "title": "Générateur de Rapports",
+      "subtitle": "Générez des rapports de renseignement à partir de vos données souveraines",
+      "types": {
+        "overview": "Rapport d'aperçu de la diaspora",
+        "overview_desc": "Résumé de toute la diaspora inscrite — démographie, géographie, tendances",
+        "country": "Rapport d'analyse par pays",
+        "country_desc": "Analyse détaillée pour un pays d'accueil unique",
+        "embassy": "Rapport de performance des ambassades",
+        "embassy_desc": "Métriques opérationnelles de toutes les ambassades",
+        "campaign": "Rapport de campagne d'inscription",
+        "campaign_desc": "Tendances d'inscription et métriques de conversion",
+        "quality": "Rapport de qualité des données",
+        "quality_desc": "Complétude des profils, taux de complétion, lacunes de données"
+      },
+      "recent": "Rapports récents",
+      "generate": "Générer"
+    },
+    "export": {
+      "title": "Export de Données",
+      "subtitle": "Exportez les données du registre de la diaspora pour analyse externe",
+      "scope_all": "Tous les inscrits",
+      "scope_active": "Actifs uniquement",
+      "scope_submitted": "Soumis uniquement",
+      "scope_embassy": "Par ambassade",
+      "format_csv": "CSV (tableur)",
+      "format_pdf": "PDF (note)",
+      "privacy_names": "Inclure les noms",
+      "privacy_email": "Inclure les adresses e-mail",
+      "privacy_phone": "Inclure les numéros de téléphone (admin tenant uniquement)",
+      "audit_warning": "Tous les exports sont enregistrés dans la piste d'audit et attribués à votre compte.",
+      "export_button": "Exporter les données",
+      "history": "Historique des exports"
+    }
   }
 }

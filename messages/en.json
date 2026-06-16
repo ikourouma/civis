@@ -1586,5 +1586,93 @@
     "branding_found": "Brand found",
     "branding_not_found": "No brand configured for this country",
     "submit_with_admin": "Create Tenant & Assign Administrator"
+  },
+  "intelligence": {
+    "dashboard": {
+      "title": "Diaspora Intelligence Dashboard",
+      "subtitle": "{country} — {count} Records",
+      "date_range": {
+        "30_days": "30 Days",
+        "90_days": "90 Days",
+        "12_months": "12 Months",
+        "all_time": "All Time",
+        "custom": "Custom"
+      },
+      "kpi": {
+        "total": "Total Registered",
+        "active": "Active",
+        "pending": "Pending Verification",
+        "this_month": "This Month",
+        "completeness": "Avg. Completeness",
+        "growth": "Growth vs Previous"
+      },
+      "sections": {
+        "registration_trend": "Registration Trends",
+        "geographic": "Geographic Distribution",
+        "age": "Age Distribution",
+        "gender": "Gender Distribution",
+        "generation": "Generation Breakdown",
+        "professions": "Top Professions",
+        "education": "Education Level",
+        "engagement": "Diaspora Engagement Signals",
+        "completeness": "Profile Completeness",
+        "embassy_performance": "Embassy Performance",
+        "field_completion": "Field Completion Rates"
+      },
+      "engagement": {
+        "return_interest": "Interest in Returning",
+        "investment_interest": "Interest in Investing",
+        "association_membership": "Association Membership"
+      },
+      "view_all_countries": "View all countries",
+      "view_full_dashboard": "View Full Intelligence Dashboard"
+    },
+    "executive": {
+      "title": "National Diaspora Intelligence",
+      "embassy_title": "Embassy Intelligence",
+      "subtitle": "{country} — Last updated: {timestamp}",
+      "hero_label": "Registered Diaspora Citizens",
+      "top_host_country": "Top Host Country",
+      "momentum": "Registration Momentum",
+      "vs_last_month": "vs last month",
+      "verification_status": "Verification Status",
+      "download_briefing": "Download One-Page Briefing",
+      "download_embassy_briefing": "Download Embassy Briefing",
+      "view_full": "View Full Intelligence Dashboard"
+    },
+    "reports": {
+      "title": "Report Builder",
+      "subtitle": "Generate intelligence reports from your sovereign diaspora data",
+      "types": {
+        "overview": "Diaspora Overview Report",
+        "overview_desc": "Summary of all registered diaspora — demographics, geography, trends",
+        "country": "Country Deep-Dive Report",
+        "country_desc": "Detailed analysis for a single host country",
+        "embassy": "Embassy Performance Report",
+        "embassy_desc": "Operational metrics across all embassies",
+        "campaign": "Registration Campaign Report",
+        "campaign_desc": "Registration trends and conversion metrics",
+        "quality": "Data Quality Report",
+        "quality_desc": "Profile completeness, field completion rates, data gaps"
+      },
+      "recent": "Recent Reports",
+      "generate": "Generate"
+    },
+    "export": {
+      "title": "Data Export",
+      "subtitle": "Export diaspora registry data for external analysis",
+      "scope_all": "All Registrants",
+      "scope_active": "Active Only",
+      "scope_submitted": "Submitted Only",
+      "scope_embassy": "By Embassy",
+      "format_csv": "CSV (spreadsheet)",
+      "format_pdf": "PDF (briefing)",
+      "privacy_names": "Include names",
+      "privacy_email": "Include email addresses",
+      "privacy_phone": "Include phone numbers (tenant admin only)",
+      "audit_warning": "All exports are logged in the audit trail and attributed to your account.",
+      "export_button": "Export Data",
+      "history": "Export History"
+    }
   }
 }

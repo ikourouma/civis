@@ -3,6 +3,15 @@ import { redirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { Link } from '@/i18n/navigation';
+import { DonutChart, HorizontalBarChart, TrendAreaChart } from '@/components/intelligence/charts';
+import {
+  getCountryDistribution,
+  getDashboardKPIs,
+  getFieldCompletionRates,
+  getProfessionDistribution,
+  getRegistrationStatusBreakdown,
+  getRegistrationTrends,
+} from '@/lib/services/analytics';
 import { getCurrentUser } from '@/lib/services/auth';
 import { getEmbassiesWithCounts } from '@/lib/services/embassies';
 import { getCurrentTenant } from '@/lib/services/tenants';
@@ -45,6 +54,20 @@ export default async function WorkspaceDashboardPage({ params: { locale } }: Pag
     : [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }];
 
   const embassies = await getEmbassiesWithCounts();
+
+  // Operational analytics (tenant-scoped)
+  const analyticsScope = tenantId ? { tenantId } : null;
+  const [trends, statusBreakdown, topCountries, topProfessions, analyticsKpis, fieldRates] = analyticsScope
+    ? await Promise.all([
+        getRegistrationTrends(analyticsScope, { from: new Date(Date.now() - 90 * 24 * 3.6e6), period: 'month' }),
+        getRegistrationStatusBreakdown(analyticsScope),
+        getCountryDistribution(analyticsScope, 5),
+        getProfessionDistribution(analyticsScope, 5),
+        getDashboardKPIs(analyticsScope),
+        getFieldCompletionRates(analyticsScope),
+      ])
+    : [[], [], [], [], null, []];
+  const lowFields = (fieldRates as { field: string; completionRate: number }[]).filter((f) => f.completionRate < 50);
 
   // Recent activity across the tenant
   let activity: { action: string; created_at: string }[] = [];
@@ -148,6 +171,59 @@ export default async function WorkspaceDashboardPage({ params: { locale } }: Pag
             ))}
           </div>
         </section>
+      )}
+
+      {/* Registration overview + quick intelligence */}
+      {analyticsScope && (analyticsKpis?.totalRegistrants ?? 0) > 0 && (
+        <>
+          <section>
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-white">Registration Overview</h2>
+              <Link href="/intelligence/dashboard" className="text-xs font-medium text-gold hover:underline">
+                View Full Intelligence Dashboard →
+              </Link>
+            </div>
+            <div className="grid gap-4 lg:grid-cols-3">
+              <div className="rounded-xl border border-white/5 bg-navy-deep p-5 lg:col-span-2">
+                <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Registration Trend</p>
+                <TrendAreaChart data={trends as typeof trends} />
+              </div>
+              <div className="rounded-xl border border-white/5 bg-navy-deep p-5">
+                <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Status</p>
+                <DonutChart data={(statusBreakdown as { label: string; count: number }[]).map((s) => ({ label: s.label, count: s.count }))} height={200} />
+              </div>
+            </div>
+          </section>
+
+          <section className="grid gap-4 lg:grid-cols-3">
+            <div className="rounded-xl border border-white/5 bg-navy-deep p-5">
+              <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Top Countries</p>
+              <HorizontalBarChart data={(topCountries as { countryName: string; count: number }[]).map((c) => ({ label: c.countryName, count: c.count }))} height={200} />
+            </div>
+            <div className="rounded-xl border border-white/5 bg-navy-deep p-5">
+              <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Top Professions</p>
+              <HorizontalBarChart data={(topProfessions as { occupation: string; count: number }[]).map((p) => ({ label: p.occupation, count: p.count }))} height={200} />
+            </div>
+            <div className="rounded-xl border border-white/5 bg-navy-deep p-5">
+              <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Data Quality</p>
+              <p className="text-4xl font-bold text-white">{analyticsKpis?.avgCompletenessScore ?? 0}%</p>
+              <p className="text-xs text-surface/50">Average profile completeness</p>
+              {lowFields.length > 0 && (
+                <div className="mt-4 border-t border-white/5 pt-3">
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-red-400/80">Fields below 50%</p>
+                  <ul className="space-y-1">
+                    {lowFields.map((f) => (
+                      <li key={f.field} className="flex justify-between text-xs">
+                        <span className="text-surface/60">{f.field}</span>
+                        <span className="text-red-400">{f.completionRate}%</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </section>
+        </>
       )}
 
       {/* Recent activity */}

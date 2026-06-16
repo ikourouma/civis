@@ -19,10 +19,12 @@
     "brand:assets": "tsx scripts/branding/migrate-assets.ts",
     "brand:seed": "tsx scripts/branding/seed-country-brands.ts",
     "brand:all": "npm run brand:extract && npm run brand:assets && npm run brand:seed",
-    "seed:liberia": "tsx scripts/seeds/seed-liberia-tenant.ts"
+    "seed:liberia": "tsx scripts/seeds/seed-liberia-tenant.ts",
+    "seed:registrants": "tsx scripts/seeds/seed-liberian-registrants.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.1",
+    "@react-pdf/renderer": "^4.5.1",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.10",
     "class-variance-authority": "^0.7.1",
@@ -37,9 +39,11 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-intersection-observer": "^10.0.3",
+    "recharts": "^3.8.1",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
     "@types/node": "^20.17.10",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",

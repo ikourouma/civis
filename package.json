@@ -20,7 +20,8 @@
     "brand:seed": "tsx scripts/branding/seed-country-brands.ts",
     "brand:all": "npm run brand:extract && npm run brand:assets && npm run brand:seed",
     "seed:liberia": "tsx scripts/seeds/seed-liberia-tenant.ts",
-    "seed:registrants": "tsx scripts/seeds/seed-liberian-registrants.ts"
+    "seed:registrants": "tsx scripts/seeds/seed-liberian-registrants.ts",
+    "seed:entitlements": "tsx scripts/seeds/seed-liberia-entitlements.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.1",

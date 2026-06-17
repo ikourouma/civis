@@ -122,7 +122,12 @@
       "subtitle": "Civis is the sovereign intelligence platform that transforms fragmented diaspora data into verified registries, policy-grade analytics, and AI-powered forecasting — built for African Union governments.",
       "primaryCta": "Request a Government Briefing",
       "secondaryCta": "Explore the Platform",
-      "badges": ["ISO 27001 Compliant", "GDPR Ready", "SOC 2 Architecture", "Sovereign Cloud"],
+      "badges": [
+        "ISO 27001 Compliant",
+        "GDPR Ready",
+        "SOC 2 Architecture",
+        "Sovereign Cloud"
+      ],
       "panel": {
         "label": "Live Intelligence",
         "status": "Active",
@@ -334,10 +339,22 @@
         }
       ],
       "metrics": [
-        { "value": "2.4M+", "label": "Diaspora Records Supported" },
-        { "value": "99.97%", "label": "Data Deduplication Accuracy" },
-        { "value": "<24h", "label": "Registration Processing Time" },
-        { "value": "100%", "label": "Consent Coverage" }
+        {
+          "value": "2.4M+",
+          "label": "Diaspora Records Supported"
+        },
+        {
+          "value": "99.97%",
+          "label": "Data Deduplication Accuracy"
+        },
+        {
+          "value": "<24h",
+          "label": "Registration Processing Time"
+        },
+        {
+          "value": "100%",
+          "label": "Consent Coverage"
+        }
       ]
     },
     "embassy": {
@@ -377,10 +394,22 @@
         }
       ],
       "metrics": [
-        { "value": "85%", "label": "Reduction in Processing Time" },
-        { "value": "40%", "label": "Fewer Missed Appointments" },
-        { "value": "30+", "label": "Missions in One Workspace" },
-        { "value": "100%", "label": "Immutable Audit Coverage" }
+        {
+          "value": "85%",
+          "label": "Reduction in Processing Time"
+        },
+        {
+          "value": "40%",
+          "label": "Fewer Missed Appointments"
+        },
+        {
+          "value": "30+",
+          "label": "Missions in One Workspace"
+        },
+        {
+          "value": "100%",
+          "label": "Immutable Audit Coverage"
+        }
       ]
     },
     "analytics": {
@@ -420,10 +449,22 @@
         }
       ],
       "metrics": [
-        { "value": "90%", "label": "Faster Ministerial Report Generation" },
-        { "value": "360°", "label": "Diaspora View — Host Country to Profession" },
-        { "value": "Real-Time", "label": "Dashboard Refresh" },
-        { "value": "API-Ready", "label": "For National Data Infrastructure" }
+        {
+          "value": "90%",
+          "label": "Faster Ministerial Report Generation"
+        },
+        {
+          "value": "360°",
+          "label": "Diaspora View — Host Country to Profession"
+        },
+        {
+          "value": "Real-Time",
+          "label": "Dashboard Refresh"
+        },
+        {
+          "value": "API-Ready",
+          "label": "For National Data Infrastructure"
+        }
       ]
     },
     "dia": {
@@ -463,10 +504,22 @@
         }
       ],
       "metrics": [
-        { "value": "12–24 mo", "label": "Forecast Horizon" },
-        { "value": "100%", "label": "AI Outputs with Confidence Scores" },
-        { "value": "100%", "label": "Sovereign Data Boundary" },
-        { "value": "<5 min", "label": "Executive Brief Generation" }
+        {
+          "value": "12–24 mo",
+          "label": "Forecast Horizon"
+        },
+        {
+          "value": "100%",
+          "label": "AI Outputs with Confidence Scores"
+        },
+        {
+          "value": "100%",
+          "label": "Sovereign Data Boundary"
+        },
+        {
+          "value": "<5 min",
+          "label": "Executive Brief Generation"
+        }
       ]
     }
   },
@@ -1114,15 +1167,51 @@
         "scope": "Scope"
       },
       "rows": [
-        { "standard": "ISO 27001", "status": "Architecture Aligned", "scope": "Information security management" },
-        { "standard": "SOC 2 Type II", "status": "Architecture Aligned", "scope": "Trust service criteria" },
-        { "standard": "GDPR", "status": "Compliant", "scope": "EU data subjects and EU-jurisdiction deployments" },
-        { "standard": "NDPR", "status": "Compliant", "scope": "Nigerian data subjects and Nigerian government deployments" },
-        { "standard": "AU Malabo Convention", "status": "Compliant", "scope": "African Union member state deployments" },
-        { "standard": "WCAG 2.1 AA", "status": "Compliant", "scope": "All public-facing platform interfaces" },
-        { "standard": "HSTS", "status": "Enforced", "scope": "All platform domains" },
-        { "standard": "TLS 1.3", "status": "Enforced", "scope": "All data in transit" },
-        { "standard": "AES-256", "status": "Enforced", "scope": "All data at rest" }
+        {
+          "standard": "ISO 27001",
+          "status": "Architecture Aligned",
+          "scope": "Information security management"
+        },
+        {
+          "standard": "SOC 2 Type II",
+          "status": "Architecture Aligned",
+          "scope": "Trust service criteria"
+        },
+        {
+          "standard": "GDPR",
+          "status": "Compliant",
+          "scope": "EU data subjects and EU-jurisdiction deployments"
+        },
+        {
+          "standard": "NDPR",
+          "status": "Compliant",
+          "scope": "Nigerian data subjects and Nigerian government deployments"
+        },
+        {
+          "standard": "AU Malabo Convention",
+          "status": "Compliant",
+          "scope": "African Union member state deployments"
+        },
+        {
+          "standard": "WCAG 2.1 AA",
+          "status": "Compliant",
+          "scope": "All public-facing platform interfaces"
+        },
+        {
+          "standard": "HSTS",
+          "status": "Enforced",
+          "scope": "All platform domains"
+        },
+        {
+          "standard": "TLS 1.3",
+          "status": "Enforced",
+          "scope": "All data in transit"
+        },
+        {
+          "standard": "AES-256",
+          "status": "Enforced",
+          "scope": "All data at rest"
+        }
       ],
       "contact": "Compliance inquiries: compliance@civisos.com."
     }
@@ -1170,7 +1259,8 @@
       "complete_profile": "Complete Profile",
       "privacy": "Privacy & Rights",
       "staff": "Staff",
-      "sign_out": "Sign Out"
+      "sign_out": "Sign Out",
+      "entitlements": "Entitlements"
     },
     "admin": {
       "eyebrow": "Sovereign Command",
@@ -1673,6 +1763,41 @@
       "audit_warning": "All exports are logged in the audit trail and attributed to your account.",
       "export_button": "Export Data",
       "history": "Export History"
+    }
+  },
+  "entitlements": {
+    "page_title": "Platform Entitlements",
+    "page_subtitle": "Configure which capabilities each tenant role can access. Access requires both a permitting role and an enabled entitlement.",
+    "select_tenant": "Tenant",
+    "active_overrides": "Active overrides",
+    "using_defaults": "Using defaults",
+    "domains": {
+      "registry": "Registry",
+      "registrant_actions": "Registrant Actions",
+      "embassy": "Embassy",
+      "staff": "Staff",
+      "intelligence": "Intelligence",
+      "executive": "Executive",
+      "audit": "Audit",
+      "gdpr": "Data Protection",
+      "settings": "Settings",
+      "dia_ai": "DIA Intelligence (AI)",
+      "monitoring": "Monitoring"
+    },
+    "labels": {
+      "premium": "Premium",
+      "default": "Default",
+      "on": "On",
+      "off": "Off",
+      "override": "Override",
+      "coming_soon": "Coming soon"
+    },
+    "actions": {
+      "saved_success": "Changes saved.",
+      "reset_confirm": "Reset all overrides for this role to defaults?",
+      "reset_defaults": "Reset to defaults",
+      "copy_from_tenant": "Copy from tenant",
+      "save_changes": "Save changes"
     }
   }
 }

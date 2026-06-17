@@ -122,7 +122,12 @@
       "subtitle": "Civis est la plateforme d'intelligence souveraine qui transforme des données diaspora fragmentées en registres vérifiés, en analyses de niveau politique publique et en prévisions propulsées par l'IA — conçue pour les gouvernements de l'Union Africaine.",
       "primaryCta": "Demander un briefing gouvernemental",
       "secondaryCta": "Explorer la plateforme",
-      "badges": ["Conforme ISO 27001", "Prêt pour le RGPD", "Architecture SOC 2", "Cloud souverain"],
+      "badges": [
+        "Conforme ISO 27001",
+        "Prêt pour le RGPD",
+        "Architecture SOC 2",
+        "Cloud souverain"
+      ],
       "panel": {
         "label": "Intelligence en Direct",
         "status": "Actif",
@@ -334,10 +339,22 @@
         }
       ],
       "metrics": [
-        { "value": "2,4 M+", "label": "Dossiers diaspora pris en charge" },
-        { "value": "99,97 %", "label": "Précision de déduplication des données" },
-        { "value": "<24 h", "label": "Délai de traitement des enregistrements" },
-        { "value": "100 %", "label": "Couverture du consentement" }
+        {
+          "value": "2,4 M+",
+          "label": "Dossiers diaspora pris en charge"
+        },
+        {
+          "value": "99,97 %",
+          "label": "Précision de déduplication des données"
+        },
+        {
+          "value": "<24 h",
+          "label": "Délai de traitement des enregistrements"
+        },
+        {
+          "value": "100 %",
+          "label": "Couverture du consentement"
+        }
       ]
     },
     "embassy": {
@@ -377,10 +394,22 @@
         }
       ],
       "metrics": [
-        { "value": "85 %", "label": "Réduction du délai de traitement" },
-        { "value": "40 %", "label": "Rendez-vous manqués en moins" },
-        { "value": "30+", "label": "Missions dans un seul espace de travail" },
-        { "value": "100 %", "label": "Couverture d'audit immuable" }
+        {
+          "value": "85 %",
+          "label": "Réduction du délai de traitement"
+        },
+        {
+          "value": "40 %",
+          "label": "Rendez-vous manqués en moins"
+        },
+        {
+          "value": "30+",
+          "label": "Missions dans un seul espace de travail"
+        },
+        {
+          "value": "100 %",
+          "label": "Couverture d'audit immuable"
+        }
       ]
     },
     "analytics": {
@@ -420,10 +449,22 @@
         }
       ],
       "metrics": [
-        { "value": "90 %", "label": "Génération des rapports ministériels accélérée" },
-        { "value": "360°", "label": "Vue diaspora — du pays d'accueil à la profession" },
-        { "value": "Temps réel", "label": "Actualisation des tableaux de bord" },
-        { "value": "Prêt API", "label": "Pour l'infrastructure nationale de données" }
+        {
+          "value": "90 %",
+          "label": "Génération des rapports ministériels accélérée"
+        },
+        {
+          "value": "360°",
+          "label": "Vue diaspora — du pays d'accueil à la profession"
+        },
+        {
+          "value": "Temps réel",
+          "label": "Actualisation des tableaux de bord"
+        },
+        {
+          "value": "Prêt API",
+          "label": "Pour l'infrastructure nationale de données"
+        }
       ]
     },
     "dia": {
@@ -463,10 +504,22 @@
         }
       ],
       "metrics": [
-        { "value": "12–24 mois", "label": "Horizon de prévision" },
-        { "value": "100 %", "label": "Résultats IA avec score de confiance" },
-        { "value": "100 %", "label": "Périmètre de données souverain" },
-        { "value": "<5 min", "label": "Génération de briefing exécutif" }
+        {
+          "value": "12–24 mois",
+          "label": "Horizon de prévision"
+        },
+        {
+          "value": "100 %",
+          "label": "Résultats IA avec score de confiance"
+        },
+        {
+          "value": "100 %",
+          "label": "Périmètre de données souverain"
+        },
+        {
+          "value": "<5 min",
+          "label": "Génération de briefing exécutif"
+        }
       ]
     }
   },
@@ -1114,15 +1167,51 @@
         "scope": "Périmètre"
       },
       "rows": [
-        { "standard": "ISO 27001", "status": "Architecture alignée", "scope": "Gestion de la sécurité de l'information" },
-        { "standard": "SOC 2 Type II", "status": "Architecture alignée", "scope": "Critères de services de confiance" },
-        { "standard": "RGPD", "status": "Conforme", "scope": "Personnes concernées de l'UE et déploiements sous juridiction européenne" },
-        { "standard": "NDPR", "status": "Conforme", "scope": "Personnes concernées nigérianes et déploiements du gouvernement nigérian" },
-        { "standard": "Convention de Malabo (UA)", "status": "Conforme", "scope": "Déploiements des États membres de l'Union Africaine" },
-        { "standard": "WCAG 2.1 AA", "status": "Conforme", "scope": "Toutes les interfaces publiques de la plateforme" },
-        { "standard": "HSTS", "status": "Appliqué", "scope": "Tous les domaines de la plateforme" },
-        { "standard": "TLS 1.3", "status": "Appliqué", "scope": "Toutes les données en transit" },
-        { "standard": "AES-256", "status": "Appliqué", "scope": "Toutes les données au repos" }
+        {
+          "standard": "ISO 27001",
+          "status": "Architecture alignée",
+          "scope": "Gestion de la sécurité de l'information"
+        },
+        {
+          "standard": "SOC 2 Type II",
+          "status": "Architecture alignée",
+          "scope": "Critères de services de confiance"
+        },
+        {
+          "standard": "RGPD",
+          "status": "Conforme",
+          "scope": "Personnes concernées de l'UE et déploiements sous juridiction européenne"
+        },
+        {
+          "standard": "NDPR",
+          "status": "Conforme",
+          "scope": "Personnes concernées nigérianes et déploiements du gouvernement nigérian"
+        },
+        {
+          "standard": "Convention de Malabo (UA)",
+          "status": "Conforme",
+          "scope": "Déploiements des États membres de l'Union Africaine"
+        },
+        {
+          "standard": "WCAG 2.1 AA",
+          "status": "Conforme",
+          "scope": "Toutes les interfaces publiques de la plateforme"
+        },
+        {
+          "standard": "HSTS",
+          "status": "Appliqué",
+          "scope": "Tous les domaines de la plateforme"
+        },
+        {
+          "standard": "TLS 1.3",
+          "status": "Appliqué",
+          "scope": "Toutes les données en transit"
+        },
+        {
+          "standard": "AES-256",
+          "status": "Appliqué",
+          "scope": "Toutes les données au repos"
+        }
       ],
       "contact": "Questions de conformité : compliance@civisos.com."
     }
@@ -1170,7 +1259,8 @@
       "complete_profile": "Compléter le Profil",
       "privacy": "Confidentialité",
       "staff": "Personnel",
-      "sign_out": "Déconnexion"
+      "sign_out": "Déconnexion",
+      "entitlements": "Habilitations"
     },
     "admin": {
       "eyebrow": "Commandement Souverain",
@@ -1673,6 +1763,41 @@
       "audit_warning": "Tous les exports sont enregistrés dans la piste d'audit et attribués à votre compte.",
       "export_button": "Exporter les données",
       "history": "Historique des exports"
+    }
+  },
+  "entitlements": {
+    "page_title": "Habilitations de la plateforme",
+    "page_subtitle": "Configurez les capacités accessibles à chaque rôle par locataire. L'accès nécessite à la fois un rôle autorisant et une habilitation activée.",
+    "select_tenant": "Locataire",
+    "active_overrides": "Dérogations actives",
+    "using_defaults": "Valeurs par défaut",
+    "domains": {
+      "registry": "Registre",
+      "registrant_actions": "Actions des inscrits",
+      "embassy": "Ambassade",
+      "staff": "Personnel",
+      "intelligence": "Renseignement",
+      "executive": "Direction",
+      "audit": "Audit",
+      "gdpr": "Protection des données",
+      "settings": "Paramètres",
+      "dia_ai": "Renseignement DIA (IA)",
+      "monitoring": "Surveillance"
+    },
+    "labels": {
+      "premium": "Premium",
+      "default": "Défaut",
+      "on": "Activé",
+      "off": "Désactivé",
+      "override": "Dérogation",
+      "coming_soon": "Bientôt disponible"
+    },
+    "actions": {
+      "saved_success": "Modifications enregistrées.",
+      "reset_confirm": "Réinitialiser toutes les dérogations de ce rôle aux valeurs par défaut ?",
+      "reset_defaults": "Réinitialiser",
+      "copy_from_tenant": "Copier depuis un locataire",
+      "save_changes": "Enregistrer"
     }
   }
 }

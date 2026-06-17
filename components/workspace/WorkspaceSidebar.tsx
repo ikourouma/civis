@@ -17,6 +17,7 @@ import {
   Palette,
   Settings,
   Shield,
+  ToggleRight,
   TrendingUp,
   User,
   UserCog,
@@ -27,6 +28,8 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
 import { Link } from '@/i18n/navigation';
+import { useEntitlement } from '@/components/providers/EntitlementProvider';
+import type { CapabilityCode } from '@/lib/entitlements/capabilities';
 import { getSuggestionCounts } from '@/lib/services/admin/reference-management.service';
 import { getMyCompleteness } from '@/lib/services/documents/document.actions';
 import type { CivisUser, PlatformRole } from '@/lib/services/auth/auth.types';
@@ -52,12 +55,15 @@ type NavKey =
   | 'branding'
   | 'complete_profile'
   | 'privacy'
-  | 'staff';
+  | 'staff'
+  | 'entitlements';
 
 interface NavItem {
   key: NavKey;
   href: string;
   Icon: LucideIcon;
+  // When set, the item is shown only if the tenant entitles this capability.
+  capability?: CapabilityCode;
 }
 
 const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
@@ -67,34 +73,35 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'users', href: '/admin/users', Icon: Users },
     { key: 'reference_data', href: '/admin/reference-data', Icon: Database },
     { key: 'branding', href: '/admin/branding', Icon: Palette },
+    { key: 'entitlements', href: '/admin/entitlements', Icon: ToggleRight },
     { key: 'audit_logs', href: '/admin/audit', Icon: Shield },
     { key: 'settings', href: '/admin/settings', Icon: Settings },
   ],
   tenant_admin: [
     { key: 'dashboard', href: '/workspace/dashboard', Icon: LayoutDashboard },
-    { key: 'registry', href: '/workspace/registry', Icon: Users },
+    { key: 'registry', href: '/workspace/registry', Icon: Users, capability: 'REGISTRY_VIEW_LIST' },
     { key: 'embassies', href: '/workspace/embassy/manage', Icon: Building2 },
-    { key: 'staff', href: '/workspace/users', Icon: UserCog },
-    { key: 'analytics', href: '/intelligence/dashboard', Icon: BarChart3 },
+    { key: 'staff', href: '/workspace/users', Icon: UserCog, capability: 'STAFF_PROVISION' },
+    { key: 'analytics', href: '/intelligence/dashboard', Icon: BarChart3, capability: 'INTELLIGENCE_DASHBOARD' },
     { key: 'branding', href: '/workspace/branding', Icon: Palette },
-    { key: 'settings', href: '/workspace/settings', Icon: Settings },
+    { key: 'settings', href: '/workspace/settings', Icon: Settings, capability: 'SETTINGS_VIEW' },
   ],
   embassy_admin: [
     { key: 'embassies', href: '/workspace/embassy', Icon: Building2 },
-    { key: 'registry', href: '/workspace/registry', Icon: Users },
+    { key: 'registry', href: '/workspace/registry', Icon: Users, capability: 'REGISTRY_VIEW_LIST' },
     { key: 'cases', href: '/workspace/cases', Icon: Folder },
-    { key: 'staff', href: '/workspace/embassy/staff', Icon: UserCog },
+    { key: 'staff', href: '/workspace/embassy/staff', Icon: UserCog, capability: 'EMBASSY_VIEW_STAFF' },
     { key: 'reports', href: '/workspace/reports', Icon: FileText },
   ],
   consular_officer: [
     { key: 'cases', href: '/workspace/cases', Icon: Folder },
-    { key: 'registry', href: '/workspace/registry', Icon: Users },
+    { key: 'registry', href: '/workspace/registry', Icon: Users, capability: 'REGISTRY_VIEW_LIST' },
     { key: 'documents', href: '/workspace/documents', Icon: FileText },
   ],
   analyst: [
-    { key: 'intelligence', href: '/intelligence/dashboard', Icon: BarChart3 },
-    { key: 'reports', href: '/intelligence/reports', Icon: FileText },
-    { key: 'export', href: '/intelligence/export', Icon: Download },
+    { key: 'intelligence', href: '/intelligence/dashboard', Icon: BarChart3, capability: 'INTELLIGENCE_DASHBOARD' },
+    { key: 'reports', href: '/intelligence/reports', Icon: FileText, capability: 'INTELLIGENCE_REPORTS' },
+    { key: 'export', href: '/intelligence/export', Icon: Download, capability: 'INTELLIGENCE_EXPORT' },
   ],
   executive_viewer: [
     { key: 'dashboard', href: '/executive/dashboard', Icon: LayoutDashboard },
@@ -126,7 +133,12 @@ const ROLE_BADGE_LABEL: Record<PlatformRole, string> = {
 export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: string }) {
   const t = useTranslations('Workspace.nav');
   const pathname = usePathname();
-  const items = NAV_ITEMS[user.role];
+  const { hasCapability } = useEntitlement();
+  // Items without a `capability` are always visible; gated items are hidden
+  // unless the tenant has the capability enabled (super_admin always passes).
+  const items = NAV_ITEMS[user.role].filter(
+    (item) => !item.capability || hasCapability(item.capability),
+  );
   const [collapsed, setCollapsed] = useState(false);
   const [pendingSuggestions, setPendingSuggestions] = useState(0);
   const [completeness, setCompleteness] = useState<number | null>(null);

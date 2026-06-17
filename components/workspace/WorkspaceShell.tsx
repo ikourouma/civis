@@ -1,12 +1,14 @@
 import { redirect } from 'next/navigation';
 
 import { BrandProvider } from '@/components/providers/BrandProvider';
+import { EntitlementProvider } from '@/components/providers/EntitlementProvider';
 import { SessionProvider } from '@/components/providers/SessionProvider';
 import { WorkspaceHeader } from '@/components/workspace/WorkspaceHeader';
 import { WorkspaceSidebar } from '@/components/workspace/WorkspaceSidebar';
 import { tierForBrandSource } from '@/lib/branding/tier-rules';
 import { getCurrentUser } from '@/lib/services/auth';
 import { getDefaultBrand, getTenantBrand } from '@/lib/services/branding';
+import { getUserCapabilities } from '@/lib/services/entitlements/entitlement.service';
 
 interface WorkspaceShellProps {
   children: React.ReactNode;
@@ -25,21 +27,26 @@ export async function WorkspaceShell({ children, locale, title }: WorkspaceShell
   }
 
   // Resolve the tenant's sovereign brand (falls back to the Afronovation platform brand).
-  const brand = user.tenantId ? await getTenantBrand(user.tenantId) : await getDefaultBrand();
+  const [brand, capabilities] = await Promise.all([
+    user.tenantId ? getTenantBrand(user.tenantId) : getDefaultBrand(),
+    getUserCapabilities(user.id),
+  ]);
   const tier = tierForBrandSource(brand?.brandSource);
 
   return (
     <SessionProvider user={user}>
       <BrandProvider initialBrand={brand} tier={tier}>
-        <div className="flex h-screen overflow-hidden bg-navy-deepest text-surface">
-          <WorkspaceSidebar user={user} locale={locale} />
-          <div className="flex flex-1 flex-col overflow-hidden">
-            <WorkspaceHeader user={user} title={title} />
-            <main className="flex-1 overflow-y-auto bg-navy-deepest px-6 py-8 lg:px-10">
-              {children}
-            </main>
+        <EntitlementProvider enabledCapabilities={capabilities}>
+          <div className="flex h-screen overflow-hidden bg-navy-deepest text-surface">
+            <WorkspaceSidebar user={user} locale={locale} />
+            <div className="flex flex-1 flex-col overflow-hidden">
+              <WorkspaceHeader user={user} title={title} />
+              <main className="flex-1 overflow-y-auto bg-navy-deepest px-6 py-8 lg:px-10">
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
+        </EntitlementProvider>
       </BrandProvider>
     </SessionProvider>
   );

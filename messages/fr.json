@@ -1260,7 +1260,9 @@
       "privacy": "Confidentialité",
       "staff": "Personnel",
       "sign_out": "Déconnexion",
-      "entitlements": "Habilitations"
+      "entitlements": "Habilitations",
+      "gdpr": "Demandes de données",
+      "audit": "Journal d'audit"
     },
     "admin": {
       "eyebrow": "Commandement Souverain",
@@ -1799,5 +1801,203 @@
       "copy_from_tenant": "Copier depuis un locataire",
       "save_changes": "Enregistrer"
     }
+  },
+  "registrant_detail": {
+    "breadcrumb_registry": "Registre",
+    "tabs": {
+      "personal": "Personnel",
+      "contact": "Contact et résidence",
+      "professional": "Professionnel",
+      "documents": "Documents",
+      "consent": "Consentement",
+      "notes": "Notes",
+      "activity": "Activité"
+    },
+    "actions": {
+      "approve": "Approuver",
+      "reject": "Rejeter",
+      "edit_profile": "Modifier le profil",
+      "flag_duplicate": "Signaler un doublon",
+      "edit_section": "Modifier",
+      "save_changes": "Enregistrer",
+      "cancel_edit": "Annuler",
+      "edit_warning": "Vous modifiez des champs d'identité. Cette action est journalisée.",
+      "open_full_profile": "Ouvrir le profil complet"
+    },
+    "documents": {
+      "no_access": "L'accès aux documents n'est pas activé pour votre rôle. Contactez votre administrateur de plateforme.",
+      "preview": "Aperçu",
+      "download": "Télécharger",
+      "approve_doc": "Approuver le document",
+      "reject_doc": "Rejeter le document"
+    },
+    "consent": {
+      "no_access": "L'accès aux enregistrements de consentement n'est pas activé pour votre rôle.",
+      "type": "Type de consentement",
+      "version": "Version",
+      "language": "Langue",
+      "captured_at": "Saisi le",
+      "view_full_text": "Voir le texte complet du consentement"
+    },
+    "notes": {
+      "add_placeholder": "Ajouter une note interne sur cet inscrit…",
+      "add_button": "Ajouter une note",
+      "empty": "Aucune note n'a encore été ajoutée."
+    },
+    "search": {
+      "placeholder": "Rechercher par nom ou courriel…",
+      "mode_queue": "File d'attente",
+      "mode_search": "Rechercher tout",
+      "no_results": "Aucun inscrit ne correspond à votre recherche.",
+      "profile_not_enabled": "Vue du profil non activée pour votre rôle"
+    },
+    "scope": {
+      "embassy": "Inscrits affichés pour : {embassy_name}",
+      "tenant": "Tous les inscrits pour : {country_name}",
+      "platform": "Tous les inscrits, tous les locataires"
+    }
+  },
+  "audit": {
+    "page_title": "Journal d'audit",
+    "page_subtitle_tenant": "Toute l'activité de la plateforme pour {country_name}",
+    "page_subtitle_platform": "Toute l'activité de la plateforme, tous les locataires",
+    "filters": {
+      "date_range": "Plage de dates",
+      "action_type": "Type d'action",
+      "user": "Utilisateur",
+      "search": "Rechercher dans les détails",
+      "tenant": "Locataire"
+    },
+    "action_groups": {
+      "all": "Tous les événements",
+      "registration": "Inscriptions",
+      "staff": "Personnel",
+      "embassy": "Ambassades",
+      "export": "Exports de données",
+      "entitlement": "Habilitations",
+      "system": "Système"
+    },
+    "stats": {
+      "total_events": "Total d'événements",
+      "unique_users": "Utilisateurs uniques",
+      "most_common": "Action la plus fréquente"
+    },
+    "export_button": "Exporter le journal",
+    "columns": {
+      "timestamp": "Horodatage",
+      "action": "Action",
+      "performed_by": "Effectué par",
+      "role": "Rôle",
+      "resource": "Ressource",
+      "details": "Détails",
+      "ip_address": "Adresse IP"
+    }
+  },
+  "gdpr": {
+    "page_title": "Vos données et droits à la vie privée",
+    "page_subtitle": "Gérez vos données personnelles et exercez vos droits en vertu de la législation applicable sur la protection des données.",
+    "consent_section": "Votre enregistrement de consentement",
+    "rights_section": "Vos droits sur les données",
+    "history_section": "Historique de vos demandes",
+    "retention_section": "Informations sur la conservation des données",
+    "request_export": {
+      "title": "Demander l'exportation des données",
+      "description": "Demandez une copie de toutes les données personnelles que votre gouvernement détient à votre sujet.",
+      "button": "Demander l'exportation",
+      "success": "Votre demande a été soumise. Votre gouvernement la traitera dans un délai de 30 jours."
+    },
+    "request_correction": {
+      "title": "Demander une correction",
+      "description": "Demandez une correction de vos données personnelles si une information est inexacte.",
+      "button": "Demander une correction",
+      "which_fields": "Quels champs doivent être corrigés ?",
+      "correct_info": "Quelle est l'information correcte ?",
+      "reason": "Motif"
+    },
+    "request_deletion": {
+      "title": "Demander la suppression",
+      "description": "Demandez la suppression de votre compte et de toutes les données associées.",
+      "button": "Demander la suppression",
+      "confirm": "Ceci supprimera définitivement votre inscription, tous les documents téléversés et toutes les données associées. Cette action est irréversible.",
+      "type_delete": "Tapez DELETE pour confirmer"
+    },
+    "withdraw_consent": {
+      "button": "Retirer le consentement",
+      "confirm": "Le retrait du consentement désactivera votre inscription. Cette action est irréversible."
+    },
+    "admin": {
+      "page_title": "Demandes des personnes concernées",
+      "page_subtitle": "Traiter les demandes de droits des citoyens (RGPD articles 15, 16, 17)",
+      "pending": "En attente",
+      "in_progress": "En cours",
+      "overdue": "En retard",
+      "completed_month": "Terminées ce mois-ci",
+      "process": "Traiter",
+      "complete": "Terminer",
+      "deny": "Refuser",
+      "deny_reason": "Motif du refus",
+      "generate_export": "Générer l'exportation",
+      "apply_corrections": "Appliquer les corrections",
+      "execute_deletion": "Exécuter la suppression",
+      "deletion_confirm": "Ceci supprimera définitivement l'inscription du citoyen, ses documents, ses enregistrements de consentement, ses notes et toutes les données associées. Le journal d'audit sera conservé à des fins de conformité."
+    },
+    "statuses": {
+      "pending": "En attente",
+      "in_progress": "En cours",
+      "completed": "Terminée",
+      "denied": "Refusée"
+    }
+  },
+  "settings": {
+    "page_title": "Paramètres du locataire",
+    "page_subtitle": "Configurez votre déploiement Civis",
+    "tabs": {
+      "general": "Général",
+      "security": "Sécurité",
+      "retention": "Conservation des données",
+      "consent": "Consentement",
+      "notifications": "Notifications"
+    },
+    "general": {
+      "tenant_name": "Nom du locataire",
+      "country_code": "Code pays",
+      "deployment_tier": "Niveau de déploiement",
+      "default_language": "Langue par défaut",
+      "supported_languages": "Langues prises en charge",
+      "contact_email": "Courriel de contact principal",
+      "timezone": "Fuseau horaire"
+    },
+    "security": {
+      "mfa_roles": "Rôles nécessitant la MFA",
+      "password_max_age": "Âge maximal du mot de passe (jours)",
+      "session_timeout": "Délai d'expiration de session (minutes)",
+      "max_login_attempts": "Tentatives de connexion maximales",
+      "mfa_note": "L'application de la MFA sera disponible dans une future version de la plateforme."
+    },
+    "retention": {
+      "period": "Période de conservation des données (jours)",
+      "period_helper": "Combien de temps les données des citoyens doivent-elles être conservées après la fermeture du compte ?",
+      "auto_delete": "Suppression automatique",
+      "auto_delete_helper": "Lorsque activée, les données dépassant la période de conservation sont automatiquement supprimées.",
+      "policy_description": "Description de la politique de conservation",
+      "policy_helper": "Décrivez la politique de conservation des données de votre gouvernement. Ceci est affiché aux citoyens."
+    },
+    "consent": {
+      "text_en": "Texte de consentement (anglais)",
+      "text_fr": "Texte de consentement (français)",
+      "version": "Version du consentement",
+      "version_note": "L'enregistrement crée une nouvelle version du consentement. Les enregistrements existants ne sont pas modifiés.",
+      "preview": "Aperçu"
+    },
+    "notifications": {
+      "email_toggle": "Notifications par courriel",
+      "new_registration": "Nouvelle inscription soumise",
+      "registration_approved": "Inscription approuvée",
+      "gdpr_request": "Demande RGPD reçue",
+      "staff_provisioned": "Compte personnel créé",
+      "embassy_created": "Ambassade créée",
+      "future_note": "La livraison des notifications par courriel sera disponible dans une future version de la plateforme."
+    },
+    "save": "Enregistrer les paramètres"
   }
 }

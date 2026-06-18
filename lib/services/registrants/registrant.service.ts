@@ -824,6 +824,221 @@ export async function completeProfileSection(
   return { success: true, newCompletenessScore: score, status };
 }
 
+// ============================================================
+// Mission 006-B — Staff-side profile editing, documents, activity
+// ============================================================
+
+export type StaffEditSection = 'personal' | 'contact' | 'professional';
+
+export interface StaffSectionInput {
+  // personal
+  firstName?: string;
+  lastName?: string;
+  middleName?: string | null;
+  preferredName?: string | null;
+  dateOfBirth?: string | null;
+  gender?: string | null;
+  nationality?: string;
+  dualNationality?: string | null;
+  countryOfBirth?: string | null;
+  cityOfBirth?: string | null;
+  generation?: string | null;
+  // contact
+  email?: string | null;
+  phonePrimary?: string | null;
+  phoneSecondary?: string | null;
+  countryOfResidence?: string;
+  cityOfResidence?: string;
+  yearsAbroad?: number | null;
+  entryYear?: number | null;
+  // professional
+  occupation?: string | null;
+  employer?: string | null;
+  industrySector?: string | null;
+  educationLevel?: string | null;
+  fieldOfStudy?: string | null;
+  diasporaAssociation?: string | null;
+  returnInterest?: boolean;
+  investmentInterest?: boolean;
+}
+
+const SECTION_AUDIT_ACTION: Record<StaffEditSection, string> = {
+  personal: 'REGISTRANT_IDENTITY_EDITED',
+  contact: 'REGISTRANT_CONTACT_EDITED',
+  professional: 'REGISTRANT_PROFESSIONAL_EDITED',
+};
+
+// Staff edit of a registrant section. Audit-logs with the section-specific action,
+// then recomputes the completeness score from the merged row.
+export async function staffUpdateSection(
+  id: string,
+  section: StaffEditSection,
+  input: StaffSectionInput,
+  actorId: string,
+  actorRole: string,
+): Promise<{ error: string | null }> {
+  const admin = createAdminClient();
+  const updates: Record<string, unknown> = {};
+  const set = (k: string, v: unknown) => {
+    if (v !== undefined) updates[k] = v;
+  };
+
+  if (section === 'personal') {
+    set('first_name', input.firstName);
+    set('last_name', input.lastName);
+    set('middle_name', input.middleName);
+    set('preferred_name', input.preferredName);
+    set('date_of_birth', input.dateOfBirth);
+    set('gender', input.gender);
+    set('nationality', input.nationality);
+    set('dual_nationality', input.dualNationality);
+    set('country_of_birth', input.countryOfBirth);
+    set('city_of_birth', input.cityOfBirth);
+    set('generation', input.generation);
+  } else if (section === 'contact') {
+    set('email', input.email);
+    set('phone_primary', input.phonePrimary);
+    set('phone_secondary', input.phoneSecondary);
+    set('country_of_residence', input.countryOfResidence);
+    set('city_of_residence', input.cityOfResidence);
+    set('years_abroad', input.yearsAbroad);
+    set('entry_year', input.entryYear);
+  } else {
+    set('occupation', input.occupation);
+    set('employer', input.employer);
+    set('industry_sector', input.industrySector);
+    set('education_level', input.educationLevel);
+    set('field_of_study', input.fieldOfStudy);
+    set('diaspora_association', input.diasporaAssociation);
+    set('return_interest', input.returnInterest);
+    set('investment_interest', input.investmentInterest);
+  }
+
+  // Audit BEFORE the write (mission rule: audit-before-success).
+  await admin.from('audit_logs').insert({
+    user_id: actorId,
+    user_role: actorRole,
+    action: SECTION_AUDIT_ACTION[section],
+    resource: 'civis_registrants',
+    resource_id: id,
+    metadata: { section, fields: Object.keys(updates) },
+  });
+
+  if (Object.keys(updates).length > 0) {
+    const { error } = await admin.from('civis_registrants').update(updates).eq('id', id);
+    if (error) return { error: error.message };
+  }
+
+  // Recompute completeness from the merged row.
+  const { data: merged } = await admin
+    .from('civis_registrants')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+  if (merged) {
+    const score = fullCompleteness(merged as RegistrantRow);
+    await admin.from('civis_registrants').update({ profile_completeness_score: score }).eq('id', id);
+  }
+
+  return { error: null };
+}
+
+// Flag a registrant as a potential duplicate for review.
+export async function flagDuplicate(
+  id: string,
+  actorId: string,
+  actorRole: string,
+): Promise<{ error: string | null }> {
+  const admin = createAdminClient();
+  await admin.from('audit_logs').insert({
+    user_id: actorId,
+    user_role: actorRole,
+    action: 'REGISTRANT_FLAGGED_DUPLICATE',
+    resource: 'civis_registrants',
+    resource_id: id,
+  });
+  const { error } = await admin
+    .from('civis_registrants')
+    .update({ is_duplicate: true })
+    .eq('id', id);
+  return { error: error?.message ?? null };
+}
+
+export interface RegistrantDocument {
+  id: string;
+  documentType: string;
+  fileName: string;
+  status: string;
+  storagePath: string;
+  mimeType: string | null;
+  reviewedBy: string | null;
+  reviewedAt: string | null;
+  rejectionNotes: string | null;
+  createdAt: string;
+}
+
+// Documents for a registrant (admin client — caller is an entitlement-guarded staff page).
+export async function getRegistrantDocuments(registrantId: string): Promise<RegistrantDocument[]> {
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from('civis_registrant_documents')
+    .select('id, document_type, file_name, status, storage_path, mime_type, reviewed_by, reviewed_at, rejection_notes, created_at')
+    .eq('registrant_id', registrantId)
+    .order('created_at', { ascending: false });
+  return (
+    (data as {
+      id: string; document_type: string; file_name: string; status: string;
+      storage_path: string; mime_type: string | null; reviewed_by: string | null;
+      reviewed_at: string | null; rejection_notes: string | null; created_at: string;
+    }[]) ?? []
+  ).map((d) => ({
+    id: d.id,
+    documentType: d.document_type,
+    fileName: d.file_name,
+    status: d.status,
+    storagePath: d.storage_path,
+    mimeType: d.mime_type,
+    reviewedBy: d.reviewed_by,
+    reviewedAt: d.reviewed_at,
+    rejectionNotes: d.rejection_notes,
+    createdAt: d.created_at,
+  }));
+}
+
+export interface RegistrantActivityEntry {
+  id: string;
+  action: string;
+  userEmail: string | null;
+  userRole: string | null;
+  metadata: Record<string, unknown>;
+  createdAt: string;
+}
+
+// Audit trail filtered to one registrant (admin client — always-visible Activity tab).
+export async function getRegistrantActivity(registrantId: string): Promise<RegistrantActivityEntry[]> {
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from('audit_logs')
+    .select('id, action, user_email, user_role, metadata, created_at')
+    .eq('resource', 'civis_registrants')
+    .eq('resource_id', registrantId)
+    .order('created_at', { ascending: false })
+    .limit(100);
+  return (
+    (data as {
+      id: string; action: string; user_email: string | null;
+      user_role: string | null; metadata: Record<string, unknown>; created_at: string;
+    }[]) ?? []
+  ).map((a) => ({
+    id: a.id,
+    action: a.action,
+    userEmail: a.user_email,
+    userRole: a.user_role,
+    metadata: a.metadata ?? {},
+    createdAt: a.created_at,
+  }));
+}
+
 // Explicit submit-for-verification (when required fields are met).
 export async function submitForVerification(
   registrantId: string,

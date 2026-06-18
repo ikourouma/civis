@@ -1260,7 +1260,9 @@
       "privacy": "Privacy & Rights",
       "staff": "Staff",
       "sign_out": "Sign Out",
-      "entitlements": "Entitlements"
+      "entitlements": "Entitlements",
+      "gdpr": "Data Requests",
+      "audit": "Audit Trail"
     },
     "admin": {
       "eyebrow": "Sovereign Command",
@@ -1799,5 +1801,203 @@
       "copy_from_tenant": "Copy from tenant",
       "save_changes": "Save changes"
     }
+  },
+  "registrant_detail": {
+    "breadcrumb_registry": "Registry",
+    "tabs": {
+      "personal": "Personal",
+      "contact": "Contact & Residence",
+      "professional": "Professional",
+      "documents": "Documents",
+      "consent": "Consent",
+      "notes": "Notes",
+      "activity": "Activity"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "edit_profile": "Edit Profile",
+      "flag_duplicate": "Flag Duplicate",
+      "edit_section": "Edit Section",
+      "save_changes": "Save Changes",
+      "cancel_edit": "Cancel",
+      "edit_warning": "You are editing identity fields. This action is audit-logged.",
+      "open_full_profile": "Open Full Profile"
+    },
+    "documents": {
+      "no_access": "Document access is not enabled for your role. Contact your platform administrator.",
+      "preview": "Preview",
+      "download": "Download",
+      "approve_doc": "Approve Document",
+      "reject_doc": "Reject Document"
+    },
+    "consent": {
+      "no_access": "Consent record access is not enabled for your role.",
+      "type": "Consent Type",
+      "version": "Version",
+      "language": "Language",
+      "captured_at": "Captured At",
+      "view_full_text": "View Full Consent Text"
+    },
+    "notes": {
+      "add_placeholder": "Add an internal note about this registrant...",
+      "add_button": "Add Note",
+      "empty": "No notes have been added yet."
+    },
+    "search": {
+      "placeholder": "Search by name or email...",
+      "mode_queue": "Queue View",
+      "mode_search": "Search All",
+      "no_results": "No registrants match your search.",
+      "profile_not_enabled": "Profile view not enabled for your role"
+    },
+    "scope": {
+      "embassy": "Showing registrants for: {embassy_name}",
+      "tenant": "Showing all registrants for: {country_name}",
+      "platform": "Showing all registrants across all tenants"
+    }
+  },
+  "audit": {
+    "page_title": "Audit Trail",
+    "page_subtitle_tenant": "All platform activity for {country_name}",
+    "page_subtitle_platform": "All platform activity across all tenants",
+    "filters": {
+      "date_range": "Date Range",
+      "action_type": "Action Type",
+      "user": "User",
+      "search": "Search in details",
+      "tenant": "Tenant"
+    },
+    "action_groups": {
+      "all": "All Events",
+      "registration": "Registration Events",
+      "staff": "Staff Events",
+      "embassy": "Embassy Events",
+      "export": "Data Export",
+      "entitlement": "Entitlement Changes",
+      "system": "System Events"
+    },
+    "stats": {
+      "total_events": "Total Events",
+      "unique_users": "Unique Users",
+      "most_common": "Most Common Action"
+    },
+    "export_button": "Export Audit Logs",
+    "columns": {
+      "timestamp": "Timestamp",
+      "action": "Action",
+      "performed_by": "Performed By",
+      "role": "Role",
+      "resource": "Resource",
+      "details": "Details",
+      "ip_address": "IP Address"
+    }
+  },
+  "gdpr": {
+    "page_title": "Your Data & Privacy Rights",
+    "page_subtitle": "Manage your personal data and exercise your rights under applicable data protection law.",
+    "consent_section": "Your Consent Record",
+    "rights_section": "Your Data Rights",
+    "history_section": "Your Request History",
+    "retention_section": "Data Retention Information",
+    "request_export": {
+      "title": "Request Data Export",
+      "description": "Request a copy of all personal data your government holds about you.",
+      "button": "Request Export",
+      "success": "Your request has been submitted. Your government will process it within 30 days."
+    },
+    "request_correction": {
+      "title": "Request Data Correction",
+      "description": "Request a correction to your personal data if something is inaccurate.",
+      "button": "Request Correction",
+      "which_fields": "Which field(s) need correction?",
+      "correct_info": "What is the correct information?",
+      "reason": "Supporting reason"
+    },
+    "request_deletion": {
+      "title": "Request Data Deletion",
+      "description": "Request the deletion of your account and all associated personal data.",
+      "button": "Request Deletion",
+      "confirm": "This will permanently delete your registration, all uploaded documents, and all associated data. This action cannot be undone.",
+      "type_delete": "Type DELETE to confirm"
+    },
+    "withdraw_consent": {
+      "button": "Withdraw Consent",
+      "confirm": "Withdrawing consent will deactivate your registration. This action cannot be undone."
+    },
+    "admin": {
+      "page_title": "Data Subject Requests",
+      "page_subtitle": "Process citizen data rights requests (GDPR Articles 15, 16, 17)",
+      "pending": "Pending",
+      "in_progress": "In Progress",
+      "overdue": "Overdue",
+      "completed_month": "Completed This Month",
+      "process": "Process",
+      "complete": "Complete",
+      "deny": "Deny",
+      "deny_reason": "Reason for denial",
+      "generate_export": "Generate Export",
+      "apply_corrections": "Apply Corrections",
+      "execute_deletion": "Execute Deletion",
+      "deletion_confirm": "This will permanently delete this citizen's registration, documents, consent records, notes, and all associated data. The audit trail will be retained for compliance."
+    },
+    "statuses": {
+      "pending": "Pending",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "denied": "Denied"
+    }
+  },
+  "settings": {
+    "page_title": "Tenant Settings",
+    "page_subtitle": "Configure your Civis deployment",
+    "tabs": {
+      "general": "General",
+      "security": "Security",
+      "retention": "Data Retention",
+      "consent": "Consent",
+      "notifications": "Notifications"
+    },
+    "general": {
+      "tenant_name": "Tenant Name",
+      "country_code": "Country Code",
+      "deployment_tier": "Deployment Tier",
+      "default_language": "Default Language",
+      "supported_languages": "Supported Languages",
+      "contact_email": "Primary Contact Email",
+      "timezone": "Time Zone"
+    },
+    "security": {
+      "mfa_roles": "MFA Required Roles",
+      "password_max_age": "Password Maximum Age (days)",
+      "session_timeout": "Session Timeout (minutes)",
+      "max_login_attempts": "Maximum Login Attempts",
+      "mfa_note": "MFA enforcement will be available in a future platform release."
+    },
+    "retention": {
+      "period": "Data Retention Period (days)",
+      "period_helper": "How long should citizen data be retained after account closure?",
+      "auto_delete": "Auto-Deletion",
+      "auto_delete_helper": "When enabled, data past the retention period is automatically deleted.",
+      "policy_description": "Retention Policy Description",
+      "policy_helper": "Describe your government's data retention policy. This is shown to citizens."
+    },
+    "consent": {
+      "text_en": "Consent Text (English)",
+      "text_fr": "Consent Text (French)",
+      "version": "Consent Version",
+      "version_note": "Saving creates a new consent version. Existing consent records are not changed.",
+      "preview": "Preview"
+    },
+    "notifications": {
+      "email_toggle": "Email Notifications",
+      "new_registration": "New registration submitted",
+      "registration_approved": "Registration approved",
+      "gdpr_request": "GDPR request received",
+      "staff_provisioned": "Staff account provisioned",
+      "embassy_created": "Embassy created",
+      "future_note": "Email notification delivery will be available in a future platform release."
+    },
+    "save": "Save Settings"
   }
 }

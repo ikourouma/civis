@@ -17,6 +17,7 @@ import {
   Palette,
   Settings,
   Shield,
+  ShieldCheck,
   ToggleRight,
   TrendingUp,
   User,
@@ -56,6 +57,8 @@ type NavKey =
   | 'complete_profile'
   | 'privacy'
   | 'staff'
+  | 'gdpr'
+  | 'audit'
   | 'entitlements';
 
 interface NavItem {
@@ -80,9 +83,11 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
   tenant_admin: [
     { key: 'dashboard', href: '/workspace/dashboard', Icon: LayoutDashboard },
     { key: 'registry', href: '/workspace/registry', Icon: Users, capability: 'REGISTRY_VIEW_LIST' },
-    { key: 'embassies', href: '/workspace/embassy/manage', Icon: Building2 },
+    { key: 'embassies', href: '/workspace/embassy/manage', Icon: Building2, capability: 'EMBASSY_CREATE' },
     { key: 'staff', href: '/workspace/users', Icon: UserCog, capability: 'STAFF_PROVISION' },
+    { key: 'gdpr', href: '/workspace/gdpr', Icon: ShieldCheck, capability: 'GDPR_PROCESS_REQUESTS' },
     { key: 'analytics', href: '/intelligence/dashboard', Icon: BarChart3, capability: 'INTELLIGENCE_DASHBOARD' },
+    { key: 'audit', href: '/workspace/audit', Icon: Shield, capability: 'AUDIT_VIEW_TENANT' },
     { key: 'branding', href: '/workspace/branding', Icon: Palette },
     { key: 'settings', href: '/workspace/settings', Icon: Settings, capability: 'SETTINGS_VIEW' },
   ],
@@ -91,12 +96,13 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'registry', href: '/workspace/registry', Icon: Users, capability: 'REGISTRY_VIEW_LIST' },
     { key: 'cases', href: '/workspace/cases', Icon: Folder },
     { key: 'staff', href: '/workspace/embassy/staff', Icon: UserCog, capability: 'EMBASSY_VIEW_STAFF' },
+    { key: 'audit', href: '/workspace/audit', Icon: Shield, capability: 'AUDIT_VIEW_EMBASSY' },
     { key: 'reports', href: '/workspace/reports', Icon: FileText },
   ],
   consular_officer: [
     { key: 'cases', href: '/workspace/cases', Icon: Folder },
     { key: 'registry', href: '/workspace/registry', Icon: Users, capability: 'REGISTRY_VIEW_LIST' },
-    { key: 'documents', href: '/workspace/documents', Icon: FileText },
+    { key: 'documents', href: '/workspace/documents', Icon: FileText, capability: 'REGISTRANT_VIEW_DOCUMENTS' },
   ],
   analyst: [
     { key: 'intelligence', href: '/intelligence/dashboard', Icon: BarChart3, capability: 'INTELLIGENCE_DASHBOARD' },

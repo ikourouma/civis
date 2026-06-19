@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { resolveEmbassyForRegistrant } from './embassy-mapping.service';
 
 export type RegistrationStatus =
   | 'draft'
@@ -107,6 +108,7 @@ export interface CreateRegistrantInput {
 export interface SearchFilters {
   query?: string;
   embassyId?: string;
+  unassignedOnly?: boolean;
   registrationStatus?: RegistrationStatus;
   verificationStatus?: VerificationStatus;
   countryOfResidence?: string;
@@ -375,7 +377,8 @@ export async function searchRegistrants(
       `first_name.ilike.%${filters.query}%,last_name.ilike.%${filters.query}%,email.ilike.%${filters.query}%`,
     );
   }
-  if (filters.embassyId) q = q.eq('embassy_id', filters.embassyId);
+  if (filters.unassignedOnly) q = q.is('embassy_id', null);
+  else if (filters.embassyId) q = q.eq('embassy_id', filters.embassyId);
   if (filters.registrationStatus) q = q.eq('registration_status', filters.registrationStatus);
   if (filters.verificationStatus) q = q.eq('verification_status', filters.verificationStatus);
   if (filters.countryOfResidence) q = q.eq('country_of_residence', filters.countryOfResidence);
@@ -804,6 +807,27 @@ export async function completeProfileSection(
   let status = mergedRow.registration_status as RegistrationStatus;
 
   const finalUpdates: Record<string, unknown> = { profile_completeness_score: score };
+
+  // Auto-map to an embassy once a country of residence is known (Mission 006-C).
+  if (section === 'residence' && !mergedRow.embassy_id && mergedRow.country_of_residence) {
+    const resolution = await resolveEmbassyForRegistrant(
+      mergedRow.tenant_id,
+      mergedRow.country_of_residence,
+      mergedRow.city_of_residence,
+    );
+    if (resolution.embassyId) {
+      finalUpdates.embassy_id = resolution.embassyId;
+      await admin.from('audit_logs').insert({
+        user_id: actorId,
+        user_role: 'registrant',
+        action: 'REGISTRANT_EMBASSY_AUTO_ASSIGNED',
+        resource: 'civis_registrants',
+        resource_id: registrantId,
+        metadata: { embassy_id: resolution.embassyId, match_type: resolution.matchType },
+      });
+    }
+  }
+
   if (score >= 80 && requiredComplete && status === 'basic_registered') {
     status = 'submitted';
     finalUpdates.registration_status = 'submitted';

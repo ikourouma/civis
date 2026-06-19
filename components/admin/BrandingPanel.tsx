@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 
+import { CreateBrandModal } from '@/components/admin/CreateBrandModal';
 import { Link } from '@/i18n/navigation';
 import { generateSurfaceScale } from '@/lib/branding/colors';
 import type { CountryBrand } from '@/lib/services/branding/branding.service';
@@ -58,6 +59,7 @@ export function BrandingPanel({ locale, brands }: Props) {
   const t = useTranslations('branding.admin');
   const router = useRouter();
   const [selectedCode, setSelectedCode] = useState(brands[0]?.countryCode ?? '');
+  const [createOpen, setCreateOpen] = useState(false);
   const selected = brands.find((b) => b.countryCode === selectedCode) ?? brands[0];
 
   const [form, setForm] = useState<EditState>(selected ? toEditState(selected) : ({} as EditState));
@@ -186,9 +188,8 @@ export function BrandingPanel({ locale, brands }: Props) {
         </ul>
         <button
           type="button"
-          disabled
-          title="Add a country brand via the seed script or a future release"
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-white/10 px-3 py-2.5 text-xs text-surface/40"
+          onClick={() => setCreateOpen(true)}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-white/10 px-3 py-2.5 text-xs text-surface/60 transition-colors hover:border-gold/30 hover:text-gold"
         >
           <Plus className="h-3.5 w-3.5" />
           {t('add_country')}
@@ -331,6 +332,10 @@ export function BrandingPanel({ locale, brands }: Props) {
           </button>
         </div>
       </div>
+
+      {createOpen && (
+        <CreateBrandModal onClose={() => setCreateOpen(false)} onCreated={() => { setCreateOpen(false); router.refresh(); }} />
+      )}
     </div>
   );
 }

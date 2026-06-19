@@ -2,6 +2,7 @@ import { BarChart3, Globe2, ShieldCheck, Users } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
+import { Link } from '@/i18n/navigation';
 import { TenantsTable } from '@/components/admin/TenantsTable';
 import { getCurrentUser } from '@/lib/services/auth';
 import { getPlatformStats, getTenantsWithUserCounts } from '@/lib/services/tenants';
@@ -25,10 +26,10 @@ export default async function AdminDashboardPage({ params: { locale } }: PagePro
   ]);
 
   const tiles = [
-    { key: 'total_tenants', value: stats.totalTenants, Icon: Globe2 },
-    { key: 'total_users', value: stats.totalUsers, Icon: Users },
-    { key: 'live_deployments', value: stats.activeTenants, Icon: ShieldCheck },
-    { key: 'in_pilot', value: stats.pilotTenants, Icon: BarChart3 },
+    { key: 'total_tenants', value: stats.totalTenants, Icon: Globe2, href: '/admin/tenants' },
+    { key: 'total_users', value: stats.totalUsers, Icon: Users, href: '/admin/users' },
+    { key: 'live_deployments', value: stats.activeTenants, Icon: ShieldCheck, href: '/admin/tenants' },
+    { key: 'in_pilot', value: stats.pilotTenants, Icon: BarChart3, href: '/admin/tenants' },
   ] as const;
 
   return (
@@ -42,10 +43,11 @@ export default async function AdminDashboardPage({ params: { locale } }: PagePro
       </header>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {tiles.map(({ key, value, Icon }) => (
-          <div
+        {tiles.map(({ key, value, Icon, href }) => (
+          <Link
             key={key}
-            className="rounded-xl border border-white/5 bg-navy-deep p-5"
+            href={href}
+            className="group rounded-xl border border-white/5 bg-navy-deep p-5 transition-all hover:-translate-y-0.5 hover:border-gold/30"
           >
             <div className="mb-3 flex items-center justify-between">
               <p className="text-[10px] font-semibold uppercase tracking-widest text-surface/40">
@@ -54,7 +56,7 @@ export default async function AdminDashboardPage({ params: { locale } }: PagePro
               <Icon className="h-4 w-4 text-gold/70" aria-hidden="true" />
             </div>
             <p className="text-3xl font-bold text-white">{value.toLocaleString(locale)}</p>
-          </div>
+          </Link>
         ))}
       </div>
 

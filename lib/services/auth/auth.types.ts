@@ -17,6 +17,7 @@ export interface CivisUser {
   embassyIds: string[]; // Active embassy assignments (Mission 005-B)
   isActive: boolean;
   lastSignInAt: string | null;
+  diplomaticTitle?: string | null; // Display-only institutional title (Mission 006-C)
 }
 
 export interface ScopedQuery {

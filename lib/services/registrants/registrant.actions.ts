@@ -12,7 +12,8 @@ import {
   type StaffEditSection,
   type StaffSectionInput,
 } from './registrant.service';
-import { addRegistrantNote } from './notes.service';
+import { addRegistrantNote, archiveNote, editRegistrantNote, setNotePinned } from './notes.service';
+import { assignRegistrantEmbassy } from './embassy-mapping.service';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 type Result = { success: boolean; error?: string };
@@ -68,7 +69,7 @@ export async function flagDuplicateAction(id: string): Promise<Result> {
   return { success: !error, error: error ?? undefined };
 }
 
-export async function addNoteAction(registrantId: string, noteText: string): Promise<Result> {
+export async function addNoteAction(registrantId: string, noteText: string, noteType?: string): Promise<Result> {
   const user = await getCurrentUser();
   if (!user) return { success: false, error: 'Unauthorized' };
   if (!noteText.trim()) return { success: false, error: 'Note cannot be empty.' };
@@ -80,8 +81,50 @@ export async function addNoteAction(registrantId: string, noteText: string): Pro
     user.id,
     user.fullName ?? user.email,
     user.role,
+    noteType ?? 'general',
   );
   if (!error) revalidatePath(`/workspace/registrant/${registrantId}`);
+  return { success: !error, error: error ?? undefined };
+}
+
+export async function editNoteAction(registrantId: string, noteId: string, noteText: string): Promise<Result> {
+  const user = await getCurrentUser();
+  if (!user) return { success: false, error: 'Unauthorized' };
+  if (!noteText.trim()) return { success: false, error: 'Note cannot be empty.' };
+  const { error } = await editRegistrantNote(noteId, noteText.trim(), user.id);
+  if (!error) revalidatePath(`/workspace/registrant/${registrantId}`);
+  return { success: !error, error: error ?? undefined };
+}
+
+export async function pinNoteAction(registrantId: string, noteId: string, pinned: boolean): Promise<Result> {
+  const user = await getCurrentUser();
+  if (!user) return { success: false, error: 'Unauthorized' };
+  const cap = await checkCapability('REGISTRANT_ADD_NOTES');
+  if (!cap.allowed) return { success: false, error: cap.error };
+  const { error } = await setNotePinned(noteId, pinned);
+  if (!error) revalidatePath(`/workspace/registrant/${registrantId}`);
+  return { success: !error, error: error ?? undefined };
+}
+
+export async function archiveNoteAction(registrantId: string, noteId: string): Promise<Result> {
+  const user = await getCurrentUser();
+  if (!user) return { success: false, error: 'Unauthorized' };
+  const cap = await checkCapability('REGISTRANT_ADD_NOTES');
+  if (!cap.allowed) return { success: false, error: cap.error };
+  const { error } = await archiveNote(noteId);
+  if (!error) revalidatePath(`/workspace/registrant/${registrantId}`);
+  return { success: !error, error: error ?? undefined };
+}
+
+// Manually assign a registrant to an embassy (tenant admin / super admin).
+export async function assignEmbassyAction(registrantId: string, embassyId: string | null): Promise<Result> {
+  const user = await getCurrentUser();
+  if (!user) return { success: false, error: 'Unauthorized' };
+  if (!['tenant_admin', 'super_admin'].includes(user.role)) {
+    return { success: false, error: 'Insufficient permissions' };
+  }
+  const { error } = await assignRegistrantEmbassy(registrantId, embassyId, user.id, user.role);
+  if (!error) revalidatePath('/workspace/registry');
   return { success: !error, error: error ?? undefined };
 }
 

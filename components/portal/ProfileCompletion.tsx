@@ -8,6 +8,7 @@ import { useMemo, useState, useTransition } from 'react';
 import { AutocompleteWithCapture } from '@/components/ui/AutocompleteWithCapture';
 import { CityAutocomplete } from '@/components/ui/CityAutocomplete';
 import { CivisLoader } from '@/components/ui/CivisLoader';
+import { useToast } from '@/components/ui/Toast';
 import { CountrySelector } from '@/components/ui/CountrySelector';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 import { ProfilePhotoUpload } from '@/components/portal/ProfilePhotoUpload';
@@ -53,6 +54,7 @@ export function ProfileCompletion({
 }) {
   const t = useTranslations('registration.phase2');
   const router = useRouter();
+  const { toast } = useToast();
   const [section, setSection] = useState<Section>('personal');
   const [completeness, setCompleteness] = useState(registrant.profileCompletenessScore);
   const [status, setStatus] = useState(registrant.registrationStatus);
@@ -94,18 +96,46 @@ export function ProfileCompletion({
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  // Required for submission (mirrors the service's REQUIRED_FOR_SUBMIT)
-  const requiredComplete = useMemo(
-    () =>
-      !!form.dateOfBirth &&
-      !!form.gender &&
-      !!form.nationality &&
-      !!form.countryOfBirth &&
-      !!form.cityOfBirth &&
-      !!form.countryOfResidence &&
-      !!form.cityOfResidence,
-    [form],
-  );
+  // Required for submission — enable when ALL required fields are present (B9).
+  const missingFields = useMemo(() => {
+    const missing: string[] = [];
+    if (!registrant.firstName) missing.push('First Name');
+    if (!registrant.lastName) missing.push('Last Name');
+    if (!registrant.email) missing.push('Email');
+    if (!registrant.phonePrimary) missing.push('Phone');
+    if (!form.dateOfBirth) missing.push('Date of Birth');
+    if (!form.gender) missing.push('Gender');
+    if (!form.nationality) missing.push('Nationality');
+    if (!form.countryOfBirth) missing.push('Country of Birth');
+    if (!form.countryOfResidence) missing.push('Country of Residence');
+    if (!form.cityOfResidence) missing.push('City of Residence');
+    return missing;
+  }, [form, registrant]);
+  const requiredComplete = missingFields.length === 0;
+
+  // Per-section completion status for the step indicators (D16).
+  function sectionStatus(s: Section): 'complete' | 'in_progress' | 'not_started' {
+    if (s === 'personal') {
+      const filled = [form.dateOfBirth, form.gender, form.nationality, form.countryOfBirth, form.cityOfBirth].filter(Boolean).length;
+      return filled === 5 ? 'complete' : filled > 0 ? 'in_progress' : 'not_started';
+    }
+    if (s === 'residence') {
+      const filled = [form.countryOfResidence, form.cityOfResidence].filter(Boolean).length;
+      return filled === 2 ? 'complete' : filled > 0 ? 'in_progress' : 'not_started';
+    }
+    if (s === 'professional') {
+      const filled = [form.occupation, form.educationLevel, form.industrySector].filter(Boolean).length;
+      return filled >= 2 ? 'complete' : filled > 0 ? 'in_progress' : 'not_started';
+    }
+    return initialPhotoUrl ? 'complete' : 'not_started';
+  }
+
+  const NEXT_SECTION: Record<Section, Section | null> = {
+    personal: 'residence',
+    residence: 'professional',
+    professional: 'documents',
+    documents: null,
+  };
 
   function saveSection(s: Section) {
     setSectionMsg(null);
@@ -145,11 +175,21 @@ export function ProfileCompletion({
 
     startTransition(async () => {
       const res = await completeProfileSectionAction(s, payload);
-      if (res.error) setSectionMsg(res.error);
-      else {
+      if (res.error) {
+        setSectionMsg(res.error);
+        toast({ type: 'error', title: 'Could not save', description: res.error });
+      } else {
         setCompleteness(res.newCompletenessScore);
         if (res.status) setStatus(res.status as typeof status);
         setSectionMsg(t('section_saved'));
+        const next = NEXT_SECTION[s];
+        const nextLabel = next ? SECTIONS.find((x) => x.key === next)?.label : null;
+        toast({
+          type: 'success',
+          title: `${SECTIONS.find((x) => x.key === s)?.label ?? 'Section'} saved`,
+          description: nextLabel ? `Continue to ${nextLabel} →` : undefined,
+        });
+        if (next) setSection(next);
       }
     });
   }
@@ -204,21 +244,31 @@ export function ProfileCompletion({
         </div>
       </div>
 
-      {/* Section tabs */}
-      <div className="flex flex-wrap gap-2">
-        {SECTIONS.map((s) => (
-          <button
-            key={s.key}
-            type="button"
-            onClick={() => setSection(s.key)}
-            className={cn(
-              'rounded-lg px-4 py-2 text-sm font-medium transition-colors',
-              section === s.key ? 'bg-gold text-navy-deepest' : 'border border-white/10 text-surface/60 hover:text-white',
-            )}
-          >
-            {s.label}
-          </button>
-        ))}
+      {/* Section steps — horizontal row on desktop, with status indicators (D16) */}
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        {SECTIONS.map((s) => {
+          const st = sectionStatus(s.key);
+          return (
+            <button
+              key={s.key}
+              type="button"
+              onClick={() => setSection(s.key)}
+              className={cn(
+                'flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors',
+                section === s.key ? 'border-gold bg-gold/10 text-gold' : 'border-white/10 text-surface/60 hover:text-white',
+              )}
+            >
+              {st === 'complete' ? (
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+              ) : st === 'in_progress' ? (
+                <Circle className="h-4 w-4 shrink-0 fill-gold/30 text-gold" />
+              ) : (
+                <Circle className="h-4 w-4 shrink-0 text-surface/30" />
+              )}
+              {s.label}
+            </button>
+          );
+        })}
       </div>
 
       <div className="rounded-2xl border border-white/5 bg-navy-deep p-6">
@@ -366,7 +416,10 @@ export function ProfileCompletion({
       <div className="flex items-center justify-between rounded-2xl border border-white/5 bg-navy-deep p-5">
         <div>
           <p className="text-sm font-semibold text-white">{t('submit_for_verification')}</p>
-          {!requiredComplete && <p className="mt-1 text-xs text-surface/40">{t('submit_disabled_helper')}</p>}
+          <p className="mt-1 text-xs text-surface/40">Complete all required fields to submit for verification. Optional fields improve your profile score.</p>
+          {!requiredComplete && (
+            <p className="mt-1 text-xs text-amber-400">Complete these fields to submit: {missingFields.join(', ')}</p>
+          )}
           {status === 'submitted' && <p className="mt-1 text-xs text-emerald-400">{t('already_submitted')}</p>}
         </div>
         <button

@@ -8,9 +8,11 @@ import {
   CheckCircle2,
   Copy,
   Download,
+  Archive,
   Eye,
   FileText,
   Pencil,
+  Pin,
   ShieldCheck,
   StickyNote,
   User,
@@ -21,13 +23,17 @@ import { useState, useTransition } from 'react';
 
 import { EntitlementGate } from '@/components/entitlements/EntitlementGate';
 import { useHasCapability } from '@/components/providers/EntitlementProvider';
+import { useSession } from '@/components/providers/SessionProvider';
 import { Link } from '@/i18n/navigation';
 import type { ConsentRecord } from '@/lib/services/consent/consent.service';
 import { getSignedDocUrl } from '@/lib/services/documents/document.actions';
 import {
   addNoteAction,
   approveRegistrantDetailAction,
+  archiveNoteAction,
+  editNoteAction,
   flagDuplicateAction,
+  pinNoteAction,
   rejectRegistrantDetailAction,
   reviewDocumentAction,
   updateRegistrantSectionAction,
@@ -68,6 +74,20 @@ const STATUS_BADGE: Record<string, string> = {
   unverified: 'bg-white/5 text-surface/50',
   uploaded: 'bg-blue-400/15 text-blue-400',
   under_review: 'bg-amber-400/15 text-amber-400',
+};
+
+const NOTE_TYPES = [
+  { value: 'general', label: 'General' },
+  { value: 'follow_up', label: 'Follow-up Required' },
+  { value: 'verification', label: 'Verification Note' },
+  { value: 'gdpr', label: 'GDPR-Related' },
+];
+const NOTE_TYPE_LABEL: Record<string, string> = Object.fromEntries(NOTE_TYPES.map((n) => [n.value, n.label]));
+const NOTE_TYPE_BADGE: Record<string, string> = {
+  general: 'bg-white/5 text-surface/50',
+  follow_up: 'bg-amber-400/15 text-amber-400',
+  verification: 'bg-blue-400/15 text-blue-400',
+  gdpr: 'bg-purple-400/15 text-purple-300',
 };
 
 function fmtDate(iso: string | null): string {
@@ -120,12 +140,16 @@ export function RegistrantDetail({
   const [rejectReason, setRejectReason] = useState('');
   // Notes
   const [noteText, setNoteText] = useState('');
+  const [noteType, setNoteType] = useState('general');
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+  const [editNoteText, setEditNoteText] = useState('');
   // Document preview
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewName, setPreviewName] = useState<string>('');
 
   const canEditContact = useHasCapability('REGISTRANT_EDIT_CONTACT');
   const canAddNotes = useHasCapability('REGISTRANT_ADD_NOTES');
+  const currentUserId = useSession()?.id ?? null;
 
   const fullName = [registrant.firstName, registrant.middleName, registrant.lastName]
     .filter(Boolean)
@@ -192,11 +216,34 @@ export function RegistrantDetail({
   function submitNote() {
     if (!noteText.trim()) return;
     startTransition(async () => {
-      const res = await addNoteAction(registrant.id, noteText);
+      const res = await addNoteAction(registrant.id, noteText, noteType);
       if (res.success) {
         setNoteText('');
         flash(t('notes.add_button') + ' ✓');
       } else setErr(res.error ?? 'Failed to add note.');
+    });
+  }
+
+  function saveEditNote(noteId: string) {
+    startTransition(async () => {
+      const res = await editNoteAction(registrant.id, noteId, editNoteText);
+      if (res.success) { setEditingNoteId(null); flash('Note updated ✓'); }
+      else setErr(res.error ?? 'Failed to edit note.');
+    });
+  }
+
+  function togglePin(noteId: string, pinned: boolean) {
+    startTransition(async () => {
+      const res = await pinNoteAction(registrant.id, noteId, pinned);
+      if (!res.success) setErr(res.error ?? 'Failed to pin note.');
+    });
+  }
+
+  function doArchive(noteId: string) {
+    startTransition(async () => {
+      const res = await archiveNoteAction(registrant.id, noteId);
+      if (res.success) flash('Note archived ✓');
+      else setErr(res.error ?? 'Failed to archive note.');
     });
   }
 
@@ -632,7 +679,10 @@ export function RegistrantDetail({
                 placeholder={t('notes.add_placeholder')}
                 className="w-full rounded-lg border border-white/10 bg-navy p-3 text-sm text-white focus:border-gold/40 focus:outline-none"
               />
-              <div className="mt-2 flex justify-end">
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <select value={noteType} onChange={(e) => setNoteType(e.target.value)} className="rounded-lg border border-white/10 bg-navy px-2 py-1.5 text-xs text-surface/70 focus:outline-none">
+                  {NOTE_TYPES.map((nt) => <option key={nt.value} value={nt.value}>{nt.label}</option>)}
+                </select>
                 <button
                   type="button"
                   disabled={isPending || !noteText.trim()}
@@ -651,13 +701,34 @@ export function RegistrantDetail({
           ) : (
             <ul className="space-y-3">
               {notes.map((n) => (
-                <li key={n.id} className="rounded-xl border border-white/5 bg-navy-deep p-4">
-                  <div className="mb-1 flex items-center gap-2">
+                <li key={n.id} className={cn('rounded-xl border bg-navy-deep p-4', n.isPinned ? 'border-gold/30' : 'border-white/5')}>
+                  <div className="mb-1 flex flex-wrap items-center gap-2">
+                    {n.isPinned && <Pin className="h-3 w-3 text-gold" />}
                     <span className="text-sm font-medium text-white">{n.authorName}</span>
                     <span className="rounded bg-white/5 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-surface/50">{n.authorRole.replace('_', ' ')}</span>
-                    <span className="text-[10px] text-surface/40">{fmtDateTime(n.createdAt)}</span>
+                    <span className={cn('rounded px-1.5 py-0.5 text-[10px] uppercase', NOTE_TYPE_BADGE[n.noteType] ?? 'bg-white/5 text-surface/50')}>{NOTE_TYPE_LABEL[n.noteType] ?? n.noteType}</span>
+                    <span className="text-[10px] text-surface/40">{fmtDateTime(n.createdAt)}{n.editedAt ? ' · edited' : ''}</span>
+                    {canAddNotes && (
+                      <span className="ml-auto flex items-center gap-1">
+                        <button type="button" onClick={() => togglePin(n.id, !n.isPinned)} title={n.isPinned ? 'Unpin' : 'Pin'} className="rounded p-1 text-surface/50 hover:text-gold"><Pin className="h-3.5 w-3.5" /></button>
+                        {n.authorId === currentUserId && (
+                          <button type="button" onClick={() => { setEditingNoteId(n.id); setEditNoteText(n.noteText); }} title="Edit" className="rounded p-1 text-surface/50 hover:text-gold"><Pencil className="h-3.5 w-3.5" /></button>
+                        )}
+                        <button type="button" onClick={() => doArchive(n.id)} title="Archive" className="rounded p-1 text-surface/50 hover:text-red-400"><Archive className="h-3.5 w-3.5" /></button>
+                      </span>
+                    )}
                   </div>
-                  <p className="text-sm text-surface/80">{n.noteText}</p>
+                  {editingNoteId === n.id ? (
+                    <div className="mt-2 space-y-2">
+                      <textarea value={editNoteText} onChange={(e) => setEditNoteText(e.target.value)} rows={2} className="w-full rounded-lg border border-white/10 bg-navy p-2 text-sm text-white focus:border-gold/40 focus:outline-none" />
+                      <div className="flex gap-2">
+                        <button type="button" disabled={isPending} onClick={() => saveEditNote(n.id)} className="rounded-lg bg-gold px-3 py-1.5 text-xs font-semibold text-navy-deepest hover:opacity-90 disabled:opacity-40">Save</button>
+                        <button type="button" onClick={() => setEditingNoteId(null)} className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-surface/60">Cancel</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-surface/80">{n.noteText}</p>
+                  )}
                 </li>
               ))}
             </ul>

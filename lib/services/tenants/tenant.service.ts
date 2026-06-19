@@ -393,3 +393,50 @@ export async function setTenantStatus(
   const { error } = await admin.from('civis_tenants').update({ status }).eq('id', tenantId);
   return { error: error?.message ?? null };
 }
+
+// Full tenant edit (Mission 006-C, B10/B11) — super_admin only (caller checks role).
+export interface UpdateTenantInput {
+  name?: string;
+  officialCountryName?: string | null;
+  region?: string | null;
+  deploymentTier?: DeploymentTier;
+  status?: TenantStatus;
+  defaultLanguage?: string;
+  supportedLanguages?: string[];
+  currencyCode?: string | null;
+  timezone?: string | null;
+  dataResidencyRegion?: string;
+  primaryContactEmail?: string | null;
+}
+
+export async function updateTenant(
+  tenantId: string,
+  input: UpdateTenantInput,
+  actorId: string,
+): Promise<{ error: string | null }> {
+  const admin = createAdminClient();
+  const updates: Record<string, unknown> = {};
+  if (input.name !== undefined) updates.name = input.name;
+  if (input.officialCountryName !== undefined) updates.official_country_name = input.officialCountryName;
+  if (input.region !== undefined) updates.region = input.region;
+  if (input.deploymentTier !== undefined) updates.deployment_tier = input.deploymentTier;
+  if (input.status !== undefined) updates.status = input.status;
+  if (input.defaultLanguage !== undefined) updates.default_language = input.defaultLanguage;
+  if (input.supportedLanguages !== undefined) updates.supported_languages = input.supportedLanguages;
+  if (input.currencyCode !== undefined) updates.currency_code = input.currencyCode;
+  if (input.timezone !== undefined) updates.timezone = input.timezone;
+  if (input.dataResidencyRegion !== undefined) updates.data_residency_region = input.dataResidencyRegion;
+  if (input.primaryContactEmail !== undefined) updates.primary_contact_email = input.primaryContactEmail;
+
+  await admin.from('audit_logs').insert({
+    user_id: actorId,
+    user_role: 'super_admin',
+    action: 'TENANT_UPDATED',
+    resource: 'civis_tenants',
+    resource_id: tenantId,
+    metadata: { fields: Object.keys(updates) },
+  });
+
+  const { error } = await admin.from('civis_tenants').update(updates).eq('id', tenantId);
+  return { error: error?.message ?? null };
+}

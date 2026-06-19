@@ -14,10 +14,15 @@ export function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect');
+  const errorParam = searchParams.get('error');
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState(
+    errorParam === 'tenant_suspended'
+      ? "Your government's deployment has been temporarily suspended. Contact your administrator."
+      : '',
+  );
   const [loading, setLoading] = React.useState(false);
 
   async function handleSubmit(e: React.FormEvent) {

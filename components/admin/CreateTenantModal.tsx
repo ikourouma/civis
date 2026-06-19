@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import {
   createTenantWithAdminAction,
+  getCountryDefaultsAction,
   listAssignableUsersAction,
   listBrandsForSelectAction,
 } from '@/app/[locale]/admin/dashboard/actions';
@@ -24,6 +25,9 @@ export function CreateTenantModal({ onClose }: { onClose: () => void }) {
 
   const [adminMode, setAdminMode] = React.useState<'provision_new' | 'assign_existing'>('provision_new');
   const [countryCode, setCountryCode] = React.useState('');
+  const [region, setRegion] = React.useState('');
+  const [officialName, setOfficialName] = React.useState('');
+  const [dataResidency, setDataResidency] = React.useState('');
   const [brandId, setBrandId] = React.useState('');
   const [brands, setBrands] = React.useState<Brand[]>([]);
   const [users, setUsers] = React.useState<AssignableUser[]>([]);
@@ -39,6 +43,19 @@ export function CreateTenantModal({ onClose }: { onClose: () => void }) {
     const match = brands.find((b) => b.countryCode.toUpperCase() === countryCode.toUpperCase());
     if (match) setBrandId(match.id);
   }, [countryCode, brands]);
+
+  // Auto-fill country fields from civis_countries when a 2-letter code is entered (D11).
+  React.useEffect(() => {
+    if (countryCode.length !== 2) return;
+    let active = true;
+    getCountryDefaultsAction(countryCode).then((d) => {
+      if (!active || !d) return;
+      if (d.officialName) setOfficialName(d.officialName);
+      if (d.region) setRegion(d.region);
+      if (d.dataResidencyRegion) setDataResidency(d.dataResidencyRegion);
+    });
+    return () => { active = false; };
+  }, [countryCode]);
 
   const matchedBrand = brands.find((b) => b.id === brandId);
 
@@ -97,9 +114,9 @@ export function CreateTenantModal({ onClose }: { onClose: () => void }) {
                 value={countryCode}
                 onChange={setCountryCode}
               />
-              <Field name="region" label={t('region')} placeholder="West Africa" />
+              <Field name="region" label={t('region')} placeholder="West Africa" value={region} onChange={setRegion} />
             </div>
-            <Field name="officialCountryName" label={t('officialCountryName')} placeholder="République du Sénégal" />
+            <Field name="officialCountryName" label={t('officialCountryName')} placeholder="République du Sénégal" value={officialName} onChange={setOfficialName} />
             <div className="grid grid-cols-2 gap-3">
               <Select
                 name="deploymentTier"
@@ -112,7 +129,7 @@ export function CreateTenantModal({ onClose }: { onClose: () => void }) {
                 options={[['en', 'English'], ['fr', 'Français']]}
               />
             </div>
-            <Field name="dataResidencyRegion" label={t('dataResidencyRegion')} placeholder="af-south-1" required />
+            <Field name="dataResidencyRegion" label={t('dataResidencyRegion')} placeholder="af-south-1" required value={dataResidency} onChange={setDataResidency} />
             <Field name="primaryContactEmail" type="email" label={t('primaryContactEmail')} placeholder="contact@gov.sn" />
           </div>
 

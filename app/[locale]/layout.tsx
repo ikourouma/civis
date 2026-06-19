@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { LayoutChrome } from '@/components/layout/LayoutChrome';
+import { ToastProvider } from '@/components/ui/Toast';
 import { isLocale, routing } from '@/i18n/routing';
 
 import '../globals.css';
@@ -60,7 +61,9 @@ export default async function LocaleLayout({ children, params: { locale } }: Loc
     <html lang={locale} className={inter.variable}>
       <body className="flex min-h-screen flex-col font-sans">
         <NextIntlClientProvider messages={messages}>
-          <LayoutChrome>{children}</LayoutChrome>
+          <ToastProvider>
+            <LayoutChrome>{children}</LayoutChrome>
+          </ToastProvider>
         </NextIntlClientProvider>
       </body>
     </html>

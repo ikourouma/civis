@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { Link } from '@/i18n/navigation';
+import { ConsularDashboard } from '@/components/workspace/ConsularDashboard';
 import { DonutChart, HorizontalBarChart, TrendAreaChart } from '@/components/intelligence/charts';
 import {
   getCountryDistribution,
@@ -36,6 +37,11 @@ export default async function WorkspaceDashboardPage({ params: { locale } }: Pag
 
   const user = await getCurrentUser();
   if (!user) redirect(`/${locale}/auth/signin`);
+
+  // Consular officers get a focused, embassy-scoped dashboard (D12).
+  if (user.role === 'consular_officer') {
+    return <ConsularDashboard user={user} locale={locale as 'en' | 'fr'} />;
+  }
 
   const tenant = await getCurrentTenant();
   const isTenantAdmin = ['tenant_admin', 'super_admin'].includes(user.role);
@@ -86,10 +92,10 @@ export default async function WorkspaceDashboardPage({ params: { locale } }: Pag
   }
 
   const tiles = [
-    { label: 'Total Embassies', value: embassyCount.count ?? 0, Icon: Building2 },
-    { label: 'Total Staff', value: staffCount.count ?? 0, Icon: UserCog },
-    { label: 'Total Registrants', value: registrantCount.count ?? 0, Icon: Users },
-    { label: 'Pending Verification', value: pendingCount.count ?? 0, Icon: Clock },
+    { label: 'Total Embassies', value: embassyCount.count ?? 0, Icon: Building2, href: '/workspace/embassy/manage' },
+    { label: 'Total Staff', value: staffCount.count ?? 0, Icon: UserCog, href: '/workspace/users' },
+    { label: 'Total Registrants', value: registrantCount.count ?? 0, Icon: Users, href: '/workspace/registry' },
+    { label: 'Pending Verification', value: pendingCount.count ?? 0, Icon: Clock, href: '/workspace/registry?status=pending_review' },
   ];
 
   const quickActions = [
@@ -117,16 +123,20 @@ export default async function WorkspaceDashboardPage({ params: { locale } }: Pag
         )}
       </header>
 
-      {/* KPIs */}
+      {/* KPIs — clickable (D10) */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {tiles.map(({ label, value, Icon }) => (
-          <div key={label} className="rounded-xl border border-white/5 bg-navy-deep p-5">
+        {tiles.map(({ label, value, Icon, href }) => (
+          <Link
+            key={label}
+            href={href}
+            className="group rounded-xl border border-white/5 bg-navy-deep p-5 transition-all hover:-translate-y-0.5 hover:border-gold/30"
+          >
             <div className="mb-3 flex items-center justify-between">
               <p className="text-[10px] font-semibold uppercase tracking-widest text-surface/40">{label}</p>
               <Icon className="h-4 w-4 text-gold/70" />
             </div>
             <p className="text-3xl font-bold text-white">{value}</p>
-          </div>
+          </Link>
         ))}
       </div>
 

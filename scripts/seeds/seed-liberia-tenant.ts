@@ -153,6 +153,8 @@ async function main() {
     { email: 'citizen.lr@civisos.com', role: 'registrant', full_name: 'Liberian Diaspora Citizen', assign_embassy: null },
   ];
 
+  let citizenUserId: string | null = null;
+
   for (const persona of personas) {
     try {
       const { data: authData, error: authError } = await admin.auth.admin.createUser({
@@ -231,9 +233,44 @@ async function main() {
         },
       });
 
+      if (persona.email === 'citizen.lr@civisos.com') citizenUserId = userId;
+
       console.log(`✅ Provisioned: ${persona.email} (${persona.role})`);
     } catch (err) {
       console.error(`❌ Exception for ${persona.email}:`, err);
+    }
+  }
+
+  // Mission 006-C (B6/B12): give citizen.lr an active registrant record so the
+  // test account lands on the portal dashboard rather than the registration flow.
+  if (citizenUserId) {
+    const { data: existingReg } = await admin
+      .from('civis_registrants')
+      .select('id')
+      .eq('profile_id', citizenUserId)
+      .maybeSingle();
+    if (!existingReg) {
+      const now = new Date().toISOString();
+      await admin.from('civis_registrants').insert({
+        tenant_id: tenant.id,
+        profile_id: citizenUserId,
+        embassy_id: embassyId,
+        first_name: 'Liberian',
+        last_name: 'Diaspora Citizen',
+        nationality: 'Liberia',
+        country_of_residence: 'US',
+        city_of_residence: 'Washington',
+        email: 'citizen.lr@civisos.com',
+        preferred_language: 'en',
+        registration_status: 'active',
+        verification_status: 'verified',
+        consent_captured: false,
+        profile_completeness_score: 85,
+        basic_registration_at: now,
+        full_registration_at: now,
+        verified_at: now,
+      });
+      console.log('✅ citizen.lr@civisos.com registrant record created (active)');
     }
   }
 

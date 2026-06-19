@@ -7,8 +7,9 @@ import {
   createTenantWithAdmin,
   getAssignableUsers,
   setTenantStatus,
+  updateTenant,
 } from '@/lib/services/tenants';
-import type { TenantStatus } from '@/lib/services/tenants';
+import type { TenantStatus, UpdateTenantInput } from '@/lib/services/tenants';
 
 export interface CreateTenantActionResult {
   ok: boolean;
@@ -118,6 +119,46 @@ export async function createTenantWithAdminAction(formData: FormData): Promise<C
   return { ok: !error, error };
 }
 
+// Country defaults for the Create Tenant auto-fill (D11).
+export async function getCountryDefaultsAction(code: string): Promise<{
+  officialName: string | null;
+  region: string | null;
+  currencyCode: string | null;
+  defaultLanguage: string;
+  dataResidencyRegion: string;
+} | null> {
+  const user = await getCurrentUser();
+  if (!user || user.role !== 'super_admin') return null;
+  if (!code || code.length !== 2) return null;
+  const { createAdminClient } = await import('@/lib/supabase/admin');
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from('civis_countries')
+    .select('official_name_en, country_name_en, region, currency_code')
+    .eq('iso_code_alpha2', code.toUpperCase())
+    .maybeSingle();
+  if (!data) return null;
+  const row = data as { official_name_en: string | null; country_name_en: string; region: string | null; currency_code: string | null };
+
+  const region = row.region ?? null;
+  // Infer data residency + language from region.
+  let dataResidency = 'eu-west-1';
+  if (region) {
+    if (/Southern Africa/i.test(region)) dataResidency = 'af-south-1';
+    else if (/East Africa/i.test(region)) dataResidency = 'eu-central-1';
+    else if (/North Africa/i.test(region)) dataResidency = 'eu-south-1';
+  }
+  const francophone = region ? /(West|Central) Africa/i.test(region) : false;
+
+  return {
+    officialName: row.official_name_en ?? row.country_name_en,
+    region,
+    currencyCode: row.currency_code,
+    defaultLanguage: francophone ? 'fr' : 'en',
+    dataResidencyRegion: dataResidency,
+  };
+}
+
 export async function listBrandsForSelectAction(): Promise<
   { id: string; countryCode: string; displayName: string; flag: string }[]
 > {
@@ -147,5 +188,15 @@ export async function setTenantStatusAction(
   const user = await getCurrentUser();
   if (!user || user.role !== 'super_admin') return { ok: false, error: 'Unauthorized' };
   const { error } = await setTenantStatus(tenantId, status, user.id);
+  return { ok: !error, error };
+}
+
+export async function updateTenantAction(
+  tenantId: string,
+  input: UpdateTenantInput,
+): Promise<CreateTenantActionResult> {
+  const user = await getCurrentUser();
+  if (!user || user.role !== 'super_admin') return { ok: false, error: 'Unauthorized' };
+  const { error } = await updateTenant(tenantId, input, user.id);
   return { ok: !error, error };
 }

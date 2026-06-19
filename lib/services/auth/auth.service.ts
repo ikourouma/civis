@@ -39,6 +39,7 @@ export async function getSession(): Promise<CivisSession | null> {
       embassyIds,
       isActive: profile.is_active,
       lastSignInAt: profile.last_sign_in_at,
+      diplomaticTitle: profile.diplomatic_title ?? null,
     },
     accessToken: session.access_token,
     expiresAt: session.expires_at ?? 0,

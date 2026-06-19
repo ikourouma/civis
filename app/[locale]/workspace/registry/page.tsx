@@ -4,7 +4,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { RegistryBrowser } from '@/components/registrants/RegistryBrowser';
 import { requireCapability } from '@/lib/entitlements/guards';
 import { getCurrentUser } from '@/lib/services/auth';
-import { getMyEmbassy } from '@/lib/services/embassies';
+import { getEmbassiesByTenant, getMyEmbassy } from '@/lib/services/embassies';
 import { hasCapability } from '@/lib/services/entitlements/entitlement.service';
 import { searchRegistrants } from '@/lib/services/registrants';
 import { getCurrentTenant } from '@/lib/services/tenants';
@@ -17,6 +17,7 @@ interface PageProps {
     country?: string;
     generation?: string;
     minComplete?: string;
+    embassy?: string;
     page?: string;
   };
 }
@@ -55,19 +56,29 @@ export default async function RegistryPage({ params: { locale }, searchParams }:
   const verificationStatus = searchParams.status as
     | 'unverified' | 'pending_review' | 'verified' | 'rejected' | undefined;
 
-  const [scopedCount, filtered, canViewProfile, canSearch, canExport] = await Promise.all([
+  // Tenant/super admins get an embassy filter (All / [embassy] / Unassigned).
+  const canFilterEmbassy = user.role === 'tenant_admin' || user.role === 'super_admin';
+  const filterUnassigned = canFilterEmbassy && searchParams.embassy === 'unassigned';
+  const filterEmbassyId =
+    canFilterEmbassy && searchParams.embassy && searchParams.embassy !== 'unassigned'
+      ? searchParams.embassy
+      : embassyId;
+
+  const [scopedCount, filtered, canViewProfile, canSearch, canExport, embassyList] = await Promise.all([
     searchRegistrants({ embassyId, pageSize: 1 }).then((r) => r.total),
     searchRegistrants({
       query: searchParams.q,
       verificationStatus,
       countryOfResidence: searchParams.country,
-      embassyId,
+      embassyId: filterUnassigned ? undefined : filterEmbassyId,
+      unassignedOnly: filterUnassigned,
       page,
       pageSize: 50,
     }),
     hasCapability(tenantId, user.role, 'REGISTRY_VIEW_PROFILE'),
     hasCapability(tenantId, user.role, 'REGISTRY_SEARCH'),
     hasCapability(tenantId, user.role, 'REGISTRY_EXPORT_CSV'),
+    canFilterEmbassy ? getEmbassiesByTenant() : Promise.resolve([]),
   ]);
 
   // In-memory post-filters for fields the query API doesn't cover.
@@ -103,7 +114,10 @@ export default async function RegistryPage({ params: { locale }, searchParams }:
           country: searchParams.country,
           generation: searchParams.generation,
           minComplete: searchParams.minComplete,
+          embassy: searchParams.embassy,
         }}
+        embassies={canFilterEmbassy ? embassyList.map((e) => ({ id: e.id, name: e.name })) : undefined}
+        canAssign={canFilterEmbassy}
       />
     </div>
   );

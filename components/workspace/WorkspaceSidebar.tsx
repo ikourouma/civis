@@ -100,6 +100,7 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'reports', href: '/workspace/reports', Icon: FileText },
   ],
   consular_officer: [
+    { key: 'dashboard', href: '/workspace/dashboard', Icon: LayoutDashboard },
     { key: 'cases', href: '/workspace/cases', Icon: Folder },
     { key: 'registry', href: '/workspace/registry', Icon: Users, capability: 'REGISTRY_VIEW_LIST' },
     { key: 'documents', href: '/workspace/documents', Icon: FileText, capability: 'REGISTRANT_VIEW_DOCUMENTS' },

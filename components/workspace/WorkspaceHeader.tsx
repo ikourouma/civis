@@ -4,6 +4,7 @@ import { Bell } from 'lucide-react';
 import { useLocale } from 'next-intl';
 
 import { useBrand } from '@/components/providers/BrandProvider';
+import { diplomaticTitleLabel } from '@/lib/constants/diplomatic-titles';
 import { getBrandingRules } from '@/lib/branding/tier-rules';
 import type { CivisUser } from '@/lib/services/auth/auth.types';
 
@@ -91,7 +92,9 @@ export function WorkspaceHeader({ user, title }: { user: CivisUser; title?: stri
           </span>
           <div className="hidden md:block">
             <p className="text-xs font-medium text-white">{user.fullName ?? user.email}</p>
-            <p className="text-[10px] uppercase tracking-widest text-surface/40">{user.role}</p>
+            <p className="text-[10px] uppercase tracking-widest text-surface/40">
+              {diplomaticTitleLabel(user.diplomaticTitle, useLocale() as 'en' | 'fr') ?? user.role}
+            </p>
           </div>
         </div>
       </div>

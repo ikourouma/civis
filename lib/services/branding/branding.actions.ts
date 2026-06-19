@@ -38,6 +38,81 @@ async function requireSuperAdmin() {
   return user;
 }
 
+export interface CreateBrandInput {
+  countryCode: string;
+  displayNameEn: string;
+  displayNameFr: string;
+  officialNameEn?: string;
+  officialNameFr?: string;
+  brandPrimary: string;
+  brandSecondary: string;
+  brandAccent?: string;
+  defaultLanguage: string;
+  currencyCode?: string;
+  timeZone?: string;
+}
+
+// List countries that don't yet have a brand (for the Create modal selector).
+export async function listBrandableCountriesAction(): Promise<
+  { code: string; nameEn: string; nameFr: string; currencyCode: string | null; region: string | null }[]
+> {
+  const user = await requireSuperAdmin();
+  if (!user) return [];
+  const admin = createAdminClient();
+  const [{ data: countries }, { data: brands }] = await Promise.all([
+    admin.from('civis_countries').select('iso_code_alpha2, country_name_en, country_name_fr, currency_code, region').order('country_name_en'),
+    admin.from('civis_country_branding').select('country_code'),
+  ]);
+  const taken = new Set(((brands as { country_code: string }[]) ?? []).map((b) => b.country_code));
+  return ((countries as { iso_code_alpha2: string; country_name_en: string; country_name_fr: string; currency_code: string | null; region: string | null }[]) ?? [])
+    .filter((c) => c.iso_code_alpha2 && !taken.has(c.iso_code_alpha2))
+    .map((c) => ({ code: c.iso_code_alpha2, nameEn: c.country_name_en, nameFr: c.country_name_fr, currencyCode: c.currency_code, region: c.region }));
+}
+
+export async function createCountryBrand(
+  input: CreateBrandInput,
+): Promise<{ success: boolean; error?: string }> {
+  const user = await requireSuperAdmin();
+  if (!user) return { success: false, error: 'Unauthorized' };
+  if (!input.countryCode || !input.displayNameEn) {
+    return { success: false, error: 'Country and display name are required.' };
+  }
+
+  const admin = createAdminClient();
+  const scale = generateSurfaceScale(input.brandPrimary);
+
+  await admin.from('audit_logs').insert({
+    user_id: user.id,
+    user_role: 'super_admin',
+    action: 'BRAND_CREATED',
+    resource: 'civis_country_branding',
+    resource_id: input.countryCode,
+    metadata: { country_code: input.countryCode },
+  });
+
+  const { error } = await admin.from('civis_country_branding').insert({
+    country_code: input.countryCode.toUpperCase(),
+    display_name_en: input.displayNameEn,
+    display_name_fr: input.displayNameFr || input.displayNameEn,
+    official_name_en: input.officialNameEn ?? null,
+    official_name_fr: input.officialNameFr ?? null,
+    brand_primary: input.brandPrimary,
+    brand_secondary: input.brandSecondary,
+    brand_accent: input.brandAccent ?? null,
+    ...scale,
+    default_language: input.defaultLanguage,
+    supported_languages: Array.from(new Set([input.defaultLanguage, 'en'])),
+    currency_code: input.currencyCode ?? null,
+    time_zone: input.timeZone ?? null,
+    brand_source: 'manual',
+    is_active: true,
+  });
+
+  if (error) return { success: false, error: error.message };
+  revalidatePath('/admin/branding');
+  return { success: true };
+}
+
 export async function updateBrand(
   countryCode: string,
   updates: BrandUpdateInput,

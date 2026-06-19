@@ -57,7 +57,7 @@ export async function middleware(request: NextRequest) {
   // Pull the role + active state to enforce route permissions
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role, is_active')
+    .select('role, is_active, tenant_id')
     .eq('id', user.id)
     .single();
 
@@ -66,6 +66,20 @@ export async function middleware(request: NextRequest) {
   }
 
   const userRole = profile.role as PlatformRole;
+
+  // Tenant lifecycle: block sign-in for suspended / archived deployments (D3).
+  if (userRole !== 'super_admin' && profile.tenant_id) {
+    const { data: tenant } = await supabase
+      .from('civis_tenants')
+      .select('status, deleted_at')
+      .eq('id', profile.tenant_id)
+      .single();
+    if (tenant && (tenant.status === 'suspended' || tenant.status === 'archived' || tenant.deleted_at)) {
+      const signInUrl = new URL(`/${locale}/auth/signin`, request.url);
+      signInUrl.searchParams.set('error', 'tenant_suspended');
+      return NextResponse.redirect(signInUrl);
+    }
+  }
   const allowedRoles = ROUTE_PERMISSIONS[protectedPrefix];
 
   if (allowedRoles && !allowedRoles.includes(userRole)) {

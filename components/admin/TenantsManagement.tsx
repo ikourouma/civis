@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useMemo, useState, useTransition } from 'react';
 
 import { CreateTenantModal } from '@/components/admin/CreateTenantModal';
-import { setTenantStatusAction } from '@/app/[locale]/admin/dashboard/actions';
-import type { TenantAdminView, TenantStatus } from '@/lib/services/tenants';
+import { useToast } from '@/components/ui/Toast';
+import { setTenantStatusAction, updateTenantAction } from '@/app/[locale]/admin/dashboard/actions';
+import type { DeploymentTier, TenantAdminView, TenantStatus } from '@/lib/services/tenants';
 import { cn } from '@/lib/utils';
 
 const STATUS_BADGE: Record<string, string> = {
@@ -29,7 +30,9 @@ export function TenantsManagement({ tenants }: { tenants: TenantAdminView[] }) {
   const [tierFilter, setTierFilter] = useState('');
   const [createOpen, setCreateOpen] = useState(false);
   const [detail, setDetail] = useState<TenantAdminView | null>(null);
+  const [editing, setEditing] = useState<TenantAdminView | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const filtered = useMemo(
     () =>
@@ -126,6 +129,15 @@ export function TenantsManagement({ tenants }: { tenants: TenantAdminView[] }) {
 
       {createOpen && <CreateTenantModal onClose={() => setCreateOpen(false)} />}
 
+      {editing && (
+        <TenantEditModal
+          tenant={editing}
+          onClose={() => setEditing(null)}
+          onSaved={() => { setEditing(null); toast({ type: 'success', title: 'Tenant updated' }); router.refresh(); }}
+          onError={(e) => toast({ type: 'error', title: 'Update failed', description: e })}
+        />
+      )}
+
       {detail && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50" onClick={() => setDetail(null)}>
           <div className="h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-navy-deepest p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
@@ -160,6 +172,9 @@ export function TenantsManagement({ tenants }: { tenants: TenantAdminView[] }) {
             </Section>
 
             <div className="mt-6 space-y-2 border-t border-white/5 pt-5">
+              <button type="button" onClick={() => { setEditing(detail); setDetail(null); }} className="w-full rounded-lg bg-gold/10 py-2.5 text-sm font-semibold text-gold hover:bg-gold/20">
+                Edit Tenant
+              </button>
               {detail.status !== 'suspended' ? (
                 <button type="button" disabled={isPending} onClick={() => changeStatus(detail.id, 'suspended')} className="w-full rounded-lg bg-red-400/10 py-2.5 text-sm font-semibold text-red-400 hover:bg-red-400/20 disabled:opacity-50">
                   Suspend Tenant
@@ -199,5 +214,98 @@ function Row({ label, value }: { label: string; value: string }) {
       <span className="text-surface/40">{label}</span>
       <span className="text-right text-surface/80">{value}</span>
     </div>
+  );
+}
+
+const TIERS: DeploymentTier[] = ['cloud', 'government', 'sovereign'];
+const STATUSES: TenantStatus[] = ['pilot', 'active', 'suspended', 'archived'];
+
+function TenantEditModal({
+  tenant,
+  onClose,
+  onSaved,
+  onError,
+}: {
+  tenant: TenantAdminView;
+  onClose: () => void;
+  onSaved: () => void;
+  onError: (e: string) => void;
+}) {
+  const [isPending, startTransition] = useTransition();
+  const [name, setName] = useState(tenant.name);
+  const [officialName, setOfficialName] = useState(tenant.officialCountryName ?? '');
+  const [region, setRegion] = useState(tenant.region ?? '');
+  const [tier, setTier] = useState<DeploymentTier>(tenant.deploymentTier);
+  const [status, setStatus] = useState<TenantStatus>(tenant.status);
+  const [defaultLanguage, setDefaultLanguage] = useState(tenant.defaultLanguage);
+  const [dataResidency, setDataResidency] = useState(tenant.dataResidencyRegion);
+
+  function save() {
+    // Confirm destructive status / downgrade transitions.
+    if (status !== tenant.status && (status === 'suspended' || status === 'archived')) {
+      const msg =
+        status === 'suspended'
+          ? 'This will prevent all tenant users from signing in. Continue?'
+          : 'This will archive the tenant. All users will be signed out. Data is preserved. Continue?';
+      if (!confirm(msg)) return;
+    }
+    if (tier !== tenant.deploymentTier) {
+      if (!confirm(`Change deployment tier from ${tenant.deploymentTier} to ${tier}? Entitlement defaults can be adjusted afterward in the Entitlements panel.`)) return;
+    }
+    startTransition(async () => {
+      const res = await updateTenantAction(tenant.id, {
+        name,
+        officialCountryName: officialName || null,
+        region: region || null,
+        deploymentTier: tier,
+        status,
+        defaultLanguage,
+        dataResidencyRegion: dataResidency,
+      });
+      if (res.ok) onSaved();
+      else onError(res.error ?? 'Update failed');
+    });
+  }
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
+      <div className="w-full max-w-lg space-y-4 rounded-xl border border-white/10 bg-navy-deep p-6" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-semibold text-white">Edit Tenant — {tenant.name}</h3>
+          <button type="button" onClick={onClose} className="text-surface/40 hover:text-white"><X className="h-4 w-4" /></button>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <EditField label="Name" value={name} onChange={setName} />
+          <EditField label="Official Country Name" value={officialName} onChange={setOfficialName} />
+          <EditField label="Region" value={region} onChange={setRegion} />
+          <EditField label="Default Language" value={defaultLanguage} onChange={setDefaultLanguage} />
+          <EditField label="Data Residency Region" value={dataResidency} onChange={setDataResidency} />
+          <label className="block">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-surface/40">Deployment Tier</span>
+            <select value={tier} onChange={(e) => setTier(e.target.value as DeploymentTier)} className="mt-1 w-full rounded-lg border border-white/10 bg-navy px-3 py-2 text-sm capitalize text-white focus:outline-none">
+              {TIERS.map((x) => <option key={x} value={x}>{x}</option>)}
+            </select>
+          </label>
+          <label className="block">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-surface/40">Status</span>
+            <select value={status} onChange={(e) => setStatus(e.target.value as TenantStatus)} className="mt-1 w-full rounded-lg border border-white/10 bg-navy px-3 py-2 text-sm capitalize text-white focus:outline-none">
+              {STATUSES.map((x) => <option key={x} value={x}>{x}</option>)}
+            </select>
+          </label>
+        </div>
+        <button type="button" disabled={isPending} onClick={save} className="w-full rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-navy-deepest hover:opacity-90 disabled:opacity-40">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EditField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <label className="block">
+      <span className="text-[10px] font-semibold uppercase tracking-widest text-surface/40">{label}</span>
+      <input value={value} onChange={(e) => onChange(e.target.value)} className="mt-1 w-full rounded-lg border border-white/10 bg-navy px-3 py-2 text-sm text-white focus:border-gold/40 focus:outline-none" />
+    </label>
   );
 }

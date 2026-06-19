@@ -13,6 +13,7 @@ import {
   updateStaffRoleAction,
 } from '@/lib/services/staff/staff.actions';
 import type { StaffMember, StaffRole, StaffStats } from '@/lib/services/staff/staff.service';
+import { DIPLOMATIC_TITLES, diplomaticTitleLabel } from '@/lib/constants/diplomatic-titles';
 import { cn } from '@/lib/utils';
 
 const ROLE_BADGE: Record<string, string> = {
@@ -154,6 +155,7 @@ export function UserManagementClient({
                 <td className="px-5 py-3">
                   <p className="font-medium text-white">{m.fullName ?? m.email}</p>
                   <p className="text-[10px] text-surface/40">{m.email}</p>
+                  {m.diplomaticTitle && <p className="text-[10px] text-gold/70">{diplomaticTitleLabel(m.diplomaticTitle)}</p>}
                 </td>
                 <td className="px-4 py-3">
                   <select
@@ -235,6 +237,7 @@ function AddStaffModal({ embassies, onClose, onCreated }: { embassies: Embassy[]
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<StaffRole>('consular_officer');
   const [embassyId, setEmbassyId] = useState('');
+  const [diplomaticTitle, setDiplomaticTitle] = useState('');
   const [welcome, setWelcome] = useState(true);
 
   const embassyRequired = role === 'embassy_admin' || role === 'consular_officer';
@@ -255,6 +258,7 @@ function AddStaffModal({ embassies, onClose, onCreated }: { embassies: Embassy[]
         fullName: fullName.trim(),
         role,
         embassyId: embassyId || undefined,
+        diplomaticTitle: diplomaticTitle || undefined,
         sendWelcomeEmail: welcome,
       });
       if (res.error) setError(res.error);
@@ -286,6 +290,12 @@ function AddStaffModal({ embassies, onClose, onCreated }: { embassies: Embassy[]
             <select value={embassyId} onChange={(e) => setEmbassyId(e.target.value)} className={modalInput}>
               <option value="">{embassyRequired ? '— Required —' : '— National scope —'}</option>
               {embassies.map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
+            </select>
+          </ModalField>
+          <ModalField label="Diplomatic Title" helper="Institutional title — how this person is addressed. Does not affect permissions.">
+            <select value={diplomaticTitle} onChange={(e) => setDiplomaticTitle(e.target.value)} className={modalInput}>
+              <option value="">— None —</option>
+              {DIPLOMATIC_TITLES.map((d) => <option key={d.value} value={d.value}>{d.labelEn}</option>)}
             </select>
           </ModalField>
           <label className="flex cursor-pointer items-center gap-2 text-xs text-surface/70">

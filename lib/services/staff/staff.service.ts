@@ -18,6 +18,7 @@ export interface StaffMember {
   email: string;
   fullName: string | null;
   role: string;
+  diplomaticTitle: string | null;
   isActive: boolean;
   lastSignInAt: string | null;
   embassyId: string | null;
@@ -29,6 +30,7 @@ export interface ProvisionStaffInput {
   fullName: string;
   role: StaffRole;
   embassyId?: string;
+  diplomaticTitle?: string;
   sendWelcomeEmail: boolean;
 }
 
@@ -78,7 +80,14 @@ export async function provisionStaffMember(
   const userId = authData.user.id;
 
   await admin.from('profiles').upsert(
-    { id: userId, email: input.email, full_name: input.fullName, role: input.role, tenant_id: caller.tenantId },
+    {
+      id: userId,
+      email: input.email,
+      full_name: input.fullName,
+      role: input.role,
+      tenant_id: caller.tenantId,
+      diplomatic_title: input.diplomaticTitle ?? null,
+    },
     { onConflict: 'id' },
   );
 
@@ -243,9 +252,10 @@ export async function getTenantStaff(filters?: StaffFilters): Promise<StaffMembe
 
   let q = admin
     .from('profiles')
-    .select('id, email, full_name, role, is_active, last_sign_in_at')
+    .select('id, email, full_name, role, diplomatic_title, is_active, last_sign_in_at')
     .eq('tenant_id', caller.tenantId)
     .neq('role', 'registrant')
+    .is('deleted_at', null)
     .order('full_name');
 
   if (filters?.role) q = q.eq('role', filters.role);
@@ -273,6 +283,7 @@ export async function getTenantStaff(filters?: StaffFilters): Promise<StaffMembe
     email: string;
     full_name: string | null;
     role: string;
+    diplomatic_title: string | null;
     is_active: boolean;
     last_sign_in_at: string | null;
   }[]).map((p) => ({
@@ -280,6 +291,7 @@ export async function getTenantStaff(filters?: StaffFilters): Promise<StaffMembe
     email: p.email,
     fullName: p.full_name,
     role: p.role,
+    diplomaticTitle: p.diplomatic_title,
     isActive: p.is_active,
     lastSignInAt: p.last_sign_in_at,
     embassyId: byUser.get(p.id)?.embassyId ?? null,

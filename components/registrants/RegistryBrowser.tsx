@@ -3,9 +3,11 @@
 import { BarChart3, Building2, Download, Globe, Search, Settings2, SlidersHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 
+import { useToast } from '@/components/ui/Toast';
 import { useRouter as useLocaleRouter } from '@/i18n/navigation';
+import { assignEmbassyAction } from '@/lib/services/registrants/registrant.actions';
 import type { Registrant } from '@/lib/services/registrants';
 import { cn } from '@/lib/utils';
 
@@ -17,6 +19,7 @@ interface Filters {
   country?: string;
   generation?: string;
   minComplete?: string;
+  embassy?: string;
 }
 
 interface Props {
@@ -27,6 +30,8 @@ interface Props {
   scope: { kind: ScopeKind; label: string; count: number };
   flags: { canViewProfile: boolean; canSearch: boolean; canExport: boolean };
   filters: Filters;
+  embassies?: { id: string; name: string }[];
+  canAssign?: boolean;
 }
 
 const STATUS_BADGE: Record<string, string> = {
@@ -54,10 +59,20 @@ function fmtDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-export function RegistryBrowser({ registrants, total, page, totalPages, scope, flags, filters }: Props) {
+export function RegistryBrowser({ registrants, total, page, totalPages, scope, flags, filters, embassies, canAssign }: Props) {
   const t = useTranslations('registrant_detail');
   const router = useRouter();
   const localeRouter = useLocaleRouter();
+  const { toast } = useToast();
+  const [isAssigning, startAssign] = useTransition();
+
+  function assign(registrantId: string, embassyId: string) {
+    startAssign(async () => {
+      const res = await assignEmbassyAction(registrantId, embassyId || null);
+      if (res.success) toast({ type: 'success', title: 'Embassy assigned' });
+      else toast({ type: 'error', title: 'Assignment failed', description: res.error });
+    });
+  }
   const [showAdvanced, setShowAdvanced] = useState(
     !!(filters.country || filters.generation || filters.minComplete),
   );
@@ -88,6 +103,8 @@ export function RegistryBrowser({ registrants, total, page, totalPages, scope, f
   }, [query]);
 
   const ScopeIcon = SCOPE_ICON[scope.kind];
+  const embassyMap = useMemo(() => new Map((embassies ?? []).map((e) => [e.id, e.name])), [embassies]);
+  const showEmbassyCol = !!embassies && embassies.length > 0;
 
   return (
     <div className="space-y-6">
@@ -126,6 +143,20 @@ export function RegistryBrowser({ registrants, total, page, totalPages, scope, f
             <option value="rejected">Rejected</option>
             <option value="unverified">Unverified</option>
           </select>
+
+          {embassies && embassies.length > 0 && (
+            <select
+              value={filters.embassy ?? ''}
+              onChange={(e) => applyFilters({ embassy: e.target.value })}
+              className="rounded-lg border border-white/10 bg-navy-deep px-3 py-2 text-sm text-surface/70 focus:border-gold/40 focus:outline-none"
+            >
+              <option value="">All embassies</option>
+              {embassies.map((em) => (
+                <option key={em.id} value={em.id}>{em.name}</option>
+              ))}
+              <option value="unassigned">Unassigned</option>
+            </select>
+          )}
 
           <button
             type="button"
@@ -200,6 +231,7 @@ export function RegistryBrowser({ registrants, total, page, totalPages, scope, f
                   <th className="px-6 py-3 text-left">Name</th>
                   <th className="px-4 py-3 text-left">Nationality</th>
                   <th className="px-4 py-3 text-left">Country</th>
+                  {showEmbassyCol && <th className="px-4 py-3 text-left">Embassy</th>}
                   <th className="px-4 py-3 text-left">Status</th>
                   <th className="px-4 py-3 text-left">Complete</th>
                   <th className="px-4 py-3 text-left">Registered</th>
@@ -210,11 +242,37 @@ export function RegistryBrowser({ registrants, total, page, totalPages, scope, f
                   const cells = (
                     <>
                       <td className="px-6 py-3">
-                        <p className="font-medium text-white">{r.firstName} {r.lastName}</p>
-                        {r.email && <p className="text-[10px] text-surface/40">{r.email}</p>}
+                        <div className="flex items-center gap-3">
+                          <Avatar firstName={r.firstName} lastName={r.lastName} photoUrl={r.profilePhotoUrl} />
+                          <div className="min-w-0">
+                            <p className="font-medium text-white">{r.firstName} {r.lastName}</p>
+                            {r.email && <p className="text-[10px] text-surface/40">{r.email}</p>}
+                          </div>
+                        </div>
                       </td>
                       <td className="px-4 py-3 text-surface/70">{r.nationality || '—'}</td>
                       <td className="px-4 py-3 text-surface/70">{r.countryOfResidence || '—'}</td>
+                      {showEmbassyCol && (
+                        <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                          {r.embassyId ? (
+                            <span className="text-xs text-surface/70">{embassyMap.get(r.embassyId) ?? 'Assigned'}</span>
+                          ) : canAssign ? (
+                            <select
+                              defaultValue=""
+                              disabled={isAssigning}
+                              onChange={(e) => assign(r.id, e.target.value)}
+                              className="rounded border border-amber-400/30 bg-navy px-2 py-1 text-xs text-amber-400 focus:outline-none"
+                            >
+                              <option value="">⚠ Unassigned</option>
+                              {(embassies ?? []).map((em) => (
+                                <option key={em.id} value={em.id}>{em.name}</option>
+                              ))}
+                            </select>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-xs text-amber-400"><span className="h-1.5 w-1.5 rounded-full bg-amber-400" /> Unassigned</span>
+                          )}
+                        </td>
+                      )}
                       <td className="px-4 py-3">
                         <span className={cn('rounded px-2 py-0.5 text-xs font-medium capitalize', STATUS_BADGE[r.registrationStatus] ?? 'bg-white/5 text-surface/50')}>
                           {r.registrationStatus.replace('_', ' ')}
@@ -268,6 +326,19 @@ export function RegistryBrowser({ registrants, total, page, totalPages, scope, f
           </div>
         )}
       </section>
+    </div>
+  );
+}
+
+function Avatar({ firstName, lastName, photoUrl }: { firstName: string; lastName: string; photoUrl: string | null }) {
+  const initials = `${firstName?.[0] ?? ''}${lastName?.[0] ?? ''}`.toUpperCase();
+  if (photoUrl) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={photoUrl} alt={`${firstName} ${lastName}`} className="h-8 w-8 shrink-0 rounded-full object-cover" />;
+  }
+  return (
+    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-[10px] font-semibold text-white ring-1 ring-white/10">
+      {initials}
     </div>
   );
 }

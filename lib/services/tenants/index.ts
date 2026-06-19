@@ -7,6 +7,7 @@ export {
   createTenantWithAdmin,
   getAssignableUsers,
   setTenantStatus,
+  updateTenant,
   getTenantsAdminView,
 } from './tenant.service';
 export type {
@@ -19,4 +20,5 @@ export type {
   DeploymentTier,
   PlatformStats,
   TenantStatus,
+  UpdateTenantInput,
 } from './tenant.service';

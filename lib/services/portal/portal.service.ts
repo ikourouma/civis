@@ -24,7 +24,8 @@ export interface PortalConfig {
 }
 
 // Resolve everything the branded portal needs from a country code (e.g. "lr").
-// Returns null if the tenant doesn't exist or isn't active/pilot.
+// Returns null only if the tenant doesn't exist or is suspended/archived/deleted —
+// active AND pilot tenants are live.
 export async function getPortalConfig(tenantCode: string): Promise<PortalConfig | null> {
   const code = tenantCode.toUpperCase();
   const admin = createAdminClient();
@@ -42,7 +43,8 @@ export async function getPortalConfig(tenantCode: string): Promise<PortalConfig 
     status: string; deleted_at: string | null;
   };
 
-  if (row.deleted_at || !['active', 'pilot'].includes(row.status)) return null;
+  // Only suspended / archived (or soft-deleted) tenants are "not active".
+  if (row.deleted_at || ['suspended', 'archived'].includes(row.status)) return null;
 
   const brand = await getTenantBrand(row.id);
   const tier = row.deployment_tier;

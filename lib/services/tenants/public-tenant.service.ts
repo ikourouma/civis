@@ -38,8 +38,8 @@ export async function getPublicTenants(): Promise<PublicTenant[]> {
     .select(
       'id, country_code, name, supported_languages, deployment_tier, civis_country_branding(display_name_en, display_name_fr)',
     )
-    .in('status', ['active', 'pilot'])
-    .is('deleted_at', null) // exclude archived / soft-deleted tenants
+    .not('status', 'in', '("suspended","archived")') // active + pilot are selectable
+    .is('deleted_at', null) // exclude soft-deleted tenants
     .neq('country_code', 'AF') // exclude the Afronovation platform tenant
     .order('name');
 

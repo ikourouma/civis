@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { Link } from '@/i18n/navigation';
 import { ConsularDashboard } from '@/components/workspace/ConsularDashboard';
+import { ChartDownloadWrapper } from '@/components/ui/ChartDownload';
 import { DonutChart, HorizontalBarChart, TrendAreaChart } from '@/components/intelligence/charts';
 import {
   getCountryDistribution,
@@ -194,14 +195,20 @@ export default async function WorkspaceDashboardPage({ params: { locale } }: Pag
               </Link>
             </div>
             <div className="grid gap-4 lg:grid-cols-3">
-              <div className="rounded-xl border border-white/5 bg-navy-deep p-5 lg:col-span-2">
-                <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Registration Trend</p>
-                <TrendAreaChart data={trends as typeof trends} />
+              <div className="lg:col-span-2">
+                <ChartDownloadWrapper filename="civis_registration_trend">
+                  <div className="rounded-xl border border-white/5 bg-navy-deep p-5">
+                    <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Registration Trend</p>
+                    <TrendAreaChart data={trends as typeof trends} />
+                  </div>
+                </ChartDownloadWrapper>
               </div>
-              <div className="rounded-xl border border-white/5 bg-navy-deep p-5">
-                <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Status</p>
-                <DonutChart data={(statusBreakdown as { label: string; count: number }[]).map((s) => ({ label: s.label, count: s.count }))} height={200} />
-              </div>
+              <ChartDownloadWrapper filename="civis_status_breakdown">
+                <div className="rounded-xl border border-white/5 bg-navy-deep p-5">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-surface/40">Status</p>
+                  <DonutChart data={(statusBreakdown as { label: string; count: number }[]).map((s) => ({ label: s.label, count: s.count }))} height={200} />
+                </div>
+              </ChartDownloadWrapper>
             </div>
           </section>
 

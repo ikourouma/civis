@@ -1262,7 +1262,8 @@
       "sign_out": "Sign Out",
       "entitlements": "Entitlements",
       "gdpr": "Data Requests",
-      "audit": "Audit Trail"
+      "audit": "Audit Trail",
+      "notifications": "Notifications"
     },
     "admin": {
       "eyebrow": "Sovereign Command",

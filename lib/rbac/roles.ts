@@ -59,10 +59,15 @@ export function getDefaultRoute(role: PlatformRole, locale: string): string {
 // The two-phase registration flow must be reachable without a session.
 const PUBLIC_PREFIXES = ['/portal/register'];
 
+// Country-branded portal entry points (/portal/lr, /portal/gn …) are public,
+// pre-auth pages. They are a 2-letter country-code segment under /portal.
+const BRANDED_PORTAL_RE = /^\/portal\/[a-z]{2}\/?$/i;
+
 // Match a pathname (without locale) against the route permission map.
 // Returns the longest matching prefix or null. Public prefixes return null.
 export function getProtectedPrefix(pathnameWithoutLocale: string): string | null {
   if (PUBLIC_PREFIXES.some((p) => pathnameWithoutLocale.startsWith(p))) return null;
+  if (BRANDED_PORTAL_RE.test(pathnameWithoutLocale)) return null;
   const prefixes = Object.keys(ROUTE_PERMISSIONS).sort((a, b) => b.length - a.length);
   return prefixes.find((p) => pathnameWithoutLocale.startsWith(p)) ?? null;
 }

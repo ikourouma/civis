@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 
 import { AnalystDashboard } from '@/components/intelligence/AnalystDashboard';
+import { RefreshAnalyticsButton } from '@/components/intelligence/RefreshAnalyticsButton';
+import { getCacheTimestamp } from '@/lib/services/analytics/cache.service';
 import { getCurrentUser } from '@/lib/services/auth';
 import {
   getAgeDistribution,
@@ -71,16 +73,23 @@ export default async function IntelligenceDashboardPage({ params: { locale }, se
     getDiasporaAssociationMembership(scope),
   ]);
 
+  const lastUpdated = await getCacheTimestamp(user.tenantId);
+
   return (
-    <AnalystDashboard
-      locale={locale as 'en' | 'fr'}
-      range={range}
-      countryName={tenant?.officialCountryName ?? tenant?.name ?? 'Your Nation'}
-      data={{
-        kpis, trends, countries, age, gender, generation, education, professions,
-        status, completeness, fieldRates, embassyPerf,
-        engagement: { returnInterest: returnI.percentage, investmentInterest: investI.percentage, association: association.percentage },
-      }}
-    />
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <RefreshAnalyticsButton lastUpdated={lastUpdated} />
+      </div>
+      <AnalystDashboard
+        locale={locale as 'en' | 'fr'}
+        range={range}
+        countryName={tenant?.officialCountryName ?? tenant?.name ?? 'Your Nation'}
+        data={{
+          kpis, trends, countries, age, gender, generation, education, professions,
+          status, completeness, fieldRates, embassyPerf,
+          engagement: { returnInterest: returnI.percentage, investmentInterest: investI.percentage, association: association.percentage },
+        }}
+      />
+    </div>
   );
 }

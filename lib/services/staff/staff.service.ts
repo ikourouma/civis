@@ -2,6 +2,7 @@
 // scoped subset). Uses the admin client; every function guards on the caller's
 // role and tenant. Service-layer enforcement mirrors the DB provisioning guard.
 import { getCurrentUser } from '@/lib/services/auth';
+import { notifyStaffProvisioned } from '@/lib/services/notifications/notification.service';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 export type StaffRole = 'embassy_admin' | 'consular_officer' | 'analyst' | 'executive_viewer';
@@ -121,6 +122,8 @@ export async function provisionStaffMember(
     resource_id: userId,
     metadata: { email: input.email, role: input.role, embassy: input.embassyId ?? null, provisioned_by: caller.email },
   });
+
+  await notifyStaffProvisioned(caller.tenantId, userId, input.fullName);
 
   return { user: { id: userId, email: input.email, role: input.role }, error: null };
 }

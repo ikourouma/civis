@@ -4,9 +4,14 @@ import { Plus, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState, useTransition } from 'react';
 
+import { useLocale } from 'next-intl';
+
 import { CreateTenantModal } from '@/components/admin/CreateTenantModal';
 import { useToast } from '@/components/ui/Toast';
 import { setTenantStatusAction, updateTenantAction } from '@/app/[locale]/admin/dashboard/actions';
+import { setTenantContextAction } from '@/lib/services/auth/context.actions';
+import { applyTierEntitlementsAction, previewTierUpgradeAction } from '@/lib/services/entitlements/entitlement.actions';
+import type { TierUpgradePreview } from '@/lib/services/entitlements/tier-upgrade.service';
 import type { DeploymentTier, TenantAdminView, TenantStatus } from '@/lib/services/tenants';
 import { cn } from '@/lib/utils';
 
@@ -33,6 +38,7 @@ export function TenantsManagement({ tenants }: { tenants: TenantAdminView[] }) {
   const [editing, setEditing] = useState<TenantAdminView | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const locale = useLocale();
 
   const filtered = useMemo(
     () =>
@@ -172,6 +178,9 @@ export function TenantsManagement({ tenants }: { tenants: TenantAdminView[] }) {
             </Section>
 
             <div className="mt-6 space-y-2 border-t border-white/5 pt-5">
+              <button type="button" disabled={isPending} onClick={() => startTransition(() => setTenantContextAction(detail.id, locale))} className="w-full rounded-lg border border-gold/30 py-2.5 text-sm font-semibold text-gold hover:bg-gold/10 disabled:opacity-50">
+                View as Tenant →
+              </button>
               <button type="button" onClick={() => { setEditing(detail); setDetail(null); }} className="w-full rounded-lg bg-gold/10 py-2.5 text-sm font-semibold text-gold hover:bg-gold/20">
                 Edit Tenant
               </button>
@@ -239,18 +248,16 @@ function TenantEditModal({
   const [status, setStatus] = useState<TenantStatus>(tenant.status);
   const [defaultLanguage, setDefaultLanguage] = useState(tenant.defaultLanguage);
   const [dataResidency, setDataResidency] = useState(tenant.dataResidencyRegion);
+  const [tierPreview, setTierPreview] = useState<TierUpgradePreview | null>(null);
 
   function save() {
-    // Confirm destructive status / downgrade transitions.
+    // Confirm destructive status transitions.
     if (status !== tenant.status && (status === 'suspended' || status === 'archived')) {
       const msg =
         status === 'suspended'
           ? 'This will prevent all tenant users from signing in. Continue?'
           : 'This will archive the tenant. All users will be signed out. Data is preserved. Continue?';
       if (!confirm(msg)) return;
-    }
-    if (tier !== tenant.deploymentTier) {
-      if (!confirm(`Change deployment tier from ${tenant.deploymentTier} to ${tier}? Entitlement defaults can be adjusted afterward in the Entitlements panel.`)) return;
     }
     startTransition(async () => {
       const res = await updateTenantAction(tenant.id, {
@@ -262,8 +269,25 @@ function TenantEditModal({
         defaultLanguage,
         dataResidencyRegion: dataResidency,
       });
-      if (res.ok) onSaved();
-      else onError(res.error ?? 'Update failed');
+      if (!res.ok) { onError(res.error ?? 'Update failed'); return; }
+      // Tier changed → offer to apply tier entitlement defaults (D2).
+      if (tier !== tenant.deploymentTier) {
+        const preview = await previewTierUpgradeAction(tenant.id, tenant.deploymentTier, tier);
+        if (preview && preview.totalChanges > 0) {
+          setTierPreview(preview);
+          return; // hold the modal open for the tier prompt
+        }
+      }
+      onSaved();
+    });
+  }
+
+  function applyTier() {
+    startTransition(async () => {
+      const res = await applyTierEntitlementsAction(tenant.id, tier);
+      setTierPreview(null);
+      if (res.success) onSaved();
+      else onError(res.error ?? 'Failed to apply tier defaults');
     });
   }
 
@@ -296,6 +320,35 @@ function TenantEditModal({
         <button type="button" disabled={isPending} onClick={save} className="w-full rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-navy-deepest hover:opacity-90 disabled:opacity-40">
           Save Changes
         </button>
+
+        {tierPreview && (
+          <div className="space-y-3 rounded-lg border border-gold/30 bg-gold/[0.06] p-4">
+            <p className="text-sm font-semibold text-white">Set {tier} tier entitlements?</p>
+            <p className="text-xs text-surface/60">
+              This will adjust {tierPreview.totalChanges} capabilit{tierPreview.totalChanges === 1 ? 'y' : 'ies'} to the {tier} template.
+            </p>
+            <div className="max-h-40 space-y-1.5 overflow-y-auto">
+              {tierPreview.added.map((r) => (
+                <p key={`a-${r.role}`} className="text-xs text-emerald-400">
+                  {r.role.replace('_', ' ')}: +{r.capabilities.length} ({r.capabilities.slice(0, 3).join(', ')}{r.capabilities.length > 3 ? '…' : ''})
+                </p>
+              ))}
+              {tierPreview.removed.map((r) => (
+                <p key={`r-${r.role}`} className="text-xs text-red-400">
+                  {r.role.replace('_', ' ')}: −{r.capabilities.length} ({r.capabilities.slice(0, 3).join(', ')}{r.capabilities.length > 3 ? '…' : ''})
+                </p>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <button type="button" disabled={isPending} onClick={applyTier} className="rounded-lg bg-gold px-4 py-2 text-xs font-semibold text-navy-deepest hover:opacity-90 disabled:opacity-40">
+                Apply Tier Defaults
+              </button>
+              <button type="button" onClick={() => { setTierPreview(null); onSaved(); }} className="rounded-lg border border-white/10 px-4 py-2 text-xs text-surface/70 hover:text-white">
+                Keep Current Entitlements
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 // Server-only auth — uses next/headers. Never import in client components.
+import { cookies } from 'next/headers';
+
 import { createClient as createServerClientFn } from '@/lib/supabase/server';
-import type { CivisSession } from './auth.types';
+import type { CivisSession, PlatformRole } from './auth.types';
 
 export async function getSession(): Promise<CivisSession | null> {
   const supabase = await createServerClientFn();
@@ -49,4 +51,33 @@ export async function getSession(): Promise<CivisSession | null> {
 export async function getCurrentUser() {
   const session = await getSession();
   return session?.user ?? null;
+}
+
+// Effective scope — honours the super-admin "View as Tenant" context cookie (D4).
+export async function getEffectiveScope(): Promise<{
+  tenantId: string | null;
+  role: PlatformRole;
+  isAdminContext: boolean;
+  adminEmail?: string;
+}> {
+  const session = await getSession();
+  if (!session) return { tenantId: null, role: 'registrant', isAdminContext: false };
+
+  if (session.user.role === 'super_admin') {
+    const contextTenantId = cookies().get('tenant_context')?.value;
+    if (contextTenantId) {
+      return {
+        tenantId: contextTenantId,
+        role: 'tenant_admin',
+        isAdminContext: true,
+        adminEmail: session.user.email,
+      };
+    }
+  }
+
+  return {
+    tenantId: session.user.tenantId,
+    role: session.user.role,
+    isAdminContext: false,
+  };
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { Bell } from 'lucide-react';
 import { useLocale } from 'next-intl';
 
 import { useBrand } from '@/components/providers/BrandProvider';
+import { NotificationBell } from '@/components/workspace/NotificationBell';
 import { diplomaticTitleLabel } from '@/lib/constants/diplomatic-titles';
 import { getBrandingRules } from '@/lib/branding/tier-rules';
 import type { CivisUser } from '@/lib/services/auth/auth.types';
@@ -70,19 +70,13 @@ function BrandLockup() {
 
 export function WorkspaceHeader({ user, title }: { user: CivisUser; title?: string }) {
   return (
-    <header className="flex h-16 shrink-0 items-center justify-between border-b border-white/5 bg-navy-deep px-6">
+    <header className="flex h-16 shrink-0 items-center justify-between border-b border-white/5 bg-navy-deep px-6 print:hidden">
       <div className="flex items-center gap-4">
         <BrandLockup />
         {title && <p className="text-sm font-semibold text-white">{title}</p>}
       </div>
       <div className="flex items-center gap-4">
-        <button
-          type="button"
-          className="relative rounded-md p-2 text-surface/60 transition-colors hover:bg-white/[0.04] hover:text-gold"
-          aria-label="Notifications"
-        >
-          <Bell className="h-4 w-4" aria-hidden="true" />
-        </button>
+        <NotificationBell />
         <div className="flex items-center gap-3">
           <span
             aria-hidden="true"

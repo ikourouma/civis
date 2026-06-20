@@ -2,6 +2,7 @@
 // Citizens submit; tenant admins process. Articles 15 (export), 16 (correction),
 // 17 (deletion). Deadlines are 30 days from submission.
 import type { AnalyticsScope } from '@/lib/services/analytics';
+import { notifyGDPRRequest } from '@/lib/services/notifications/notification.service';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 export type GDPRRequestType = 'data_export' | 'data_correction' | 'data_deletion';
@@ -119,6 +120,15 @@ export async function submitGDPRRequest(
     .single();
 
   if (error || !data) return { requestId: null, deadline: null, error: error?.message };
+
+  const { data: reg } = await admin
+    .from('civis_registrants')
+    .select('first_name, last_name')
+    .eq('id', registrantId)
+    .maybeSingle();
+  const regRow = reg as { first_name: string; last_name: string } | null;
+  await notifyGDPRRequest(tenantId, type, regRow ? `${regRow.first_name} ${regRow.last_name}`.trim() : 'A citizen');
+
   return { requestId: data.id, deadline };
 }
 

@@ -14,6 +14,7 @@ import {
 } from './registrant.service';
 import { addRegistrantNote, archiveNote, editRegistrantNote, setNotePinned } from './notes.service';
 import { assignRegistrantEmbassy } from './embassy-mapping.service';
+import { notifyDocumentReviewed } from '@/lib/services/notifications/notification.service';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 type Result = { success: boolean; error?: string };
@@ -160,6 +161,11 @@ export async function reviewDocumentAction(
     })
     .eq('id', documentId);
 
-  if (!error) revalidatePath(`/workspace/registrant/${registrantId}`);
+  if (!error) {
+    const { data: r } = await admin.from('civis_registrants').select('profile_id').eq('id', registrantId).maybeSingle();
+    const profileId = (r as { profile_id: string | null } | null)?.profile_id ?? null;
+    await notifyDocumentReviewed(profileId, decision);
+    revalidatePath(`/workspace/registrant/${registrantId}`);
+  }
   return { success: !error, error: error?.message };
 }

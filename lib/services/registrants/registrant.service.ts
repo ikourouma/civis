@@ -1,6 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { resolveEmbassyForRegistrant } from './embassy-mapping.service';
+import {
+  notifyRegistrationApproved,
+  notifyRegistrationRejected,
+  notifyRegistrationSubmitted,
+} from '@/lib/services/notifications/notification.service';
 
 export type RegistrationStatus =
   | 'draft'
@@ -323,6 +328,16 @@ export async function approveRegistrant(
     })
     .eq('id', id);
 
+  if (!error) {
+    const { data: r } = await admin
+      .from('civis_registrants')
+      .select('profile_id, first_name, last_name')
+      .eq('id', id)
+      .maybeSingle();
+    const row = r as { profile_id: string | null; first_name: string; last_name: string } | null;
+    if (row) await notifyRegistrationApproved(row.profile_id, `${row.first_name} ${row.last_name}`.trim());
+  }
+
   return { error: error?.message ?? null };
 }
 
@@ -352,6 +367,16 @@ export async function rejectRegistrant(
       rejection_reason: reason,
     })
     .eq('id', id);
+
+  if (!error) {
+    const { data: r } = await admin
+      .from('civis_registrants')
+      .select('profile_id')
+      .eq('id', id)
+      .maybeSingle();
+    const row = r as { profile_id: string | null } | null;
+    if (row) await notifyRegistrationRejected(row.profile_id, reason);
+  }
 
   return { error: error?.message ?? null };
 }
@@ -828,11 +853,13 @@ export async function completeProfileSection(
     }
   }
 
+  let advancedToSubmitted = false;
   if (score >= 80 && requiredComplete && status === 'basic_registered') {
     status = 'submitted';
     finalUpdates.registration_status = 'submitted';
     finalUpdates.verification_status = 'pending_review';
     finalUpdates.full_registration_at = new Date().toISOString();
+    advancedToSubmitted = true;
   }
   await admin.from('civis_registrants').update(finalUpdates).eq('id', registrantId);
 
@@ -844,6 +871,15 @@ export async function completeProfileSection(
     resource_id: registrantId,
     metadata: { section, completeness: score },
   });
+
+  if (advancedToSubmitted) {
+    const embassyId = (finalUpdates.embassy_id as string | undefined) ?? mergedRow.embassy_id;
+    await notifyRegistrationSubmitted(
+      mergedRow.tenant_id,
+      `${mergedRow.first_name} ${mergedRow.last_name}`.trim(),
+      embassyId,
+    );
+  }
 
   return { success: true, newCompletenessScore: score, status };
 }
@@ -1098,6 +1134,10 @@ export async function submitForVerification(
       full_registration_at: new Date().toISOString(),
     })
     .eq('id', registrantId);
+
+  if (!error) {
+    await notifyRegistrationSubmitted(row.tenant_id, `${row.first_name} ${row.last_name}`.trim(), row.embassy_id);
+  }
 
   return { success: !error, error: error?.message };
 }

@@ -1262,7 +1262,8 @@
       "sign_out": "Déconnexion",
       "entitlements": "Habilitations",
       "gdpr": "Demandes de données",
-      "audit": "Journal d'audit"
+      "audit": "Journal d'audit",
+      "notifications": "Notifications"
     },
     "admin": {
       "eyebrow": "Commandement Souverain",

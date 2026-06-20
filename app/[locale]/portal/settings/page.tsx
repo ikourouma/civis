@@ -1,8 +1,8 @@
-import { Settings } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 
-import { PortalPlaceholder } from '@/components/portal/PortalPlaceholder';
+import { PersonalSettings } from '@/components/portal/PersonalSettings';
+import { WorkspaceShell } from '@/components/workspace/WorkspaceShell';
 import { getCurrentUser } from '@/lib/services/auth';
 
 export default async function PortalSettingsPage({ params: { locale } }: { params: { locale: string } }) {
@@ -11,12 +11,14 @@ export default async function PortalSettingsPage({ params: { locale } }: { param
   if (!user) redirect(`/${locale}/auth/signin`);
 
   return (
-    <PortalPlaceholder
-      locale={locale}
-      eyebrow="Settings"
-      title="My Settings"
-      body="Account settings, password, and communication preferences arrive in an upcoming release."
-      Icon={Settings}
-    />
+    <WorkspaceShell locale={locale}>
+      <PersonalSettings
+        fullName={user.fullName ?? ''}
+        email={user.email}
+        role={user.role}
+        diplomaticTitle={user.diplomaticTitle ?? null}
+        isStaff={user.role !== 'registrant'}
+      />
+    </WorkspaceShell>
   );
 }

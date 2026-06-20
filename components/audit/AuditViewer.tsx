@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight, Download, Filter } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Fragment, useState, useTransition } from 'react';
 
+import { PrintButton } from '@/components/ui/PrintButton';
 import {
   exportAuditAction,
   loadAuditPageAction,
@@ -104,10 +105,13 @@ export function AuditViewer({
 
   return (
     <div className="mx-auto max-w-7xl space-y-6">
-      <header>
-        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gold">Accountability</p>
-        <h1 className="mt-2 text-3xl font-bold text-white">{t('page_title')}</h1>
-        <p className="mt-1 text-sm text-surface/60">{subtitle}</p>
+      <header className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-gold">Accountability</p>
+          <h1 className="mt-2 text-3xl font-bold text-white">{t('page_title')}</h1>
+          <p className="mt-1 text-sm text-surface/60">{subtitle}</p>
+        </div>
+        <PrintButton />
       </header>
 
       {/* Stats */}

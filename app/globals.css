@@ -322,3 +322,17 @@
     opacity: 0.35;
   }
 }
+
+/* ── Print-friendly views (Mission 006-D, Deliverable 10) ── */
+@media print {
+  .print\:hidden { display: none !important; }
+  body,
+  main {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .recharts-wrapper { break-inside: avoid; }
+  .page-break-before { break-before: page; }
+  .print-only { display: block !important; }
+}
+.print-only { display: none; }

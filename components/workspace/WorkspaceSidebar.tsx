@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import {
   BarChart3,
+  Bell,
   Building2,
   ChevronLeft,
   ChevronRight,
@@ -59,6 +60,7 @@ type NavKey =
   | 'staff'
   | 'gdpr'
   | 'audit'
+  | 'notifications'
   | 'entitlements';
 
 interface NavItem {
@@ -78,6 +80,7 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'branding', href: '/admin/branding', Icon: Palette },
     { key: 'entitlements', href: '/admin/entitlements', Icon: ToggleRight },
     { key: 'audit_logs', href: '/admin/audit', Icon: Shield },
+    { key: 'notifications', href: '/workspace/notifications', Icon: Bell },
     { key: 'settings', href: '/admin/settings', Icon: Settings },
   ],
   tenant_admin: [
@@ -88,6 +91,7 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'gdpr', href: '/workspace/gdpr', Icon: ShieldCheck, capability: 'GDPR_PROCESS_REQUESTS' },
     { key: 'analytics', href: '/intelligence/dashboard', Icon: BarChart3, capability: 'INTELLIGENCE_DASHBOARD' },
     { key: 'audit', href: '/workspace/audit', Icon: Shield, capability: 'AUDIT_VIEW_TENANT' },
+    { key: 'notifications', href: '/workspace/notifications', Icon: Bell },
     { key: 'branding', href: '/workspace/branding', Icon: Palette },
     { key: 'settings', href: '/workspace/settings', Icon: Settings, capability: 'SETTINGS_VIEW' },
   ],
@@ -98,12 +102,14 @@ const NAV_ITEMS: Record<PlatformRole, NavItem[]> = {
     { key: 'staff', href: '/workspace/embassy/staff', Icon: UserCog, capability: 'EMBASSY_VIEW_STAFF' },
     { key: 'audit', href: '/workspace/audit', Icon: Shield, capability: 'AUDIT_VIEW_EMBASSY' },
     { key: 'reports', href: '/workspace/reports', Icon: FileText },
+    { key: 'notifications', href: '/workspace/notifications', Icon: Bell },
   ],
   consular_officer: [
     { key: 'dashboard', href: '/workspace/dashboard', Icon: LayoutDashboard },
     { key: 'cases', href: '/workspace/cases', Icon: Folder },
     { key: 'registry', href: '/workspace/registry', Icon: Users, capability: 'REGISTRY_VIEW_LIST' },
     { key: 'documents', href: '/workspace/documents', Icon: FileText, capability: 'REGISTRANT_VIEW_DOCUMENTS' },
+    { key: 'notifications', href: '/workspace/notifications', Icon: Bell },
   ],
   analyst: [
     { key: 'intelligence', href: '/intelligence/dashboard', Icon: BarChart3, capability: 'INTELLIGENCE_DASHBOARD' },
@@ -177,7 +183,7 @@ export function WorkspaceSidebar({ user, locale }: { user: CivisUser; locale: st
   return (
     <aside
       className={cn(
-        'hidden h-screen shrink-0 flex-col border-r border-white/5 bg-navy-deepest transition-[width] duration-300 ease-in-out lg:flex',
+        'hidden h-screen shrink-0 flex-col border-r border-white/5 bg-navy-deepest transition-[width] duration-300 ease-in-out lg:flex print:hidden',
         collapsed ? 'w-16' : 'w-60',
       )}
     >

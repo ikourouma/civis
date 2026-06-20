@@ -9,13 +9,38 @@ import {
   resetToDefaults,
   type EffectiveEntitlement,
 } from './entitlement.service';
+import {
+  applyTierEntitlements,
+  previewTierUpgrade,
+  type TierUpgradePreview,
+} from './tier-upgrade.service';
 import type { CapabilityCode } from '@/lib/entitlements/capabilities';
+import type { DeploymentTier } from '@/lib/entitlements/tier-templates';
 import { getCurrentUser } from '@/lib/services/auth';
 import type { PlatformRole } from '@/lib/services/auth/auth.types';
 
 async function superAdmin() {
   const user = await getCurrentUser();
   return user && user.role === 'super_admin' ? user : null;
+}
+
+export async function previewTierUpgradeAction(
+  tenantId: string,
+  currentTier: DeploymentTier,
+  targetTier: DeploymentTier,
+): Promise<TierUpgradePreview | null> {
+  if (!(await superAdmin())) return null;
+  return previewTierUpgrade(tenantId, currentTier, targetTier);
+}
+
+export async function applyTierEntitlementsAction(
+  tenantId: string,
+  tier: DeploymentTier,
+): Promise<{ success: boolean; applied: number; error?: string }> {
+  if (!(await superAdmin())) return { success: false, applied: 0, error: 'Unauthorized' };
+  const res = await applyTierEntitlements(tenantId, tier);
+  if (res.success) revalidatePath('/admin/tenants');
+  return res;
 }
 
 // Effective entitlements for an arbitrary tenant+role (super-admin only).

@@ -2,6 +2,7 @@
 
 import { headers } from 'next/headers';
 
+import { checkRateLimit } from '@/lib/security/rate-limit';
 import { buildConsentText, CONSENT_VERSION } from '@/lib/services/consent/consent-text';
 import { submitBasicRegistration, type BasicRegistrationResult } from '@/lib/services/registrants';
 import { getPublicTenantById } from '@/lib/services/tenants/public-tenant.service';
@@ -34,6 +35,16 @@ export async function submitBasicRegistrationAction(
     headersList.get('x-real-ip') ??
     undefined;
   const userAgent = headersList.get('user-agent') ?? undefined;
+
+  // Rate limit: 10 registrations per IP per hour (Mission 006-D, D7.1).
+  if (!checkRateLimit(`register:${ipAddress ?? 'unknown'}`)) {
+    return {
+      registrantId: null,
+      profileId: null,
+      status: null,
+      error: 'Too many registration attempts. Please try again in one hour. If you need assistance, contact your embassy.',
+    };
+  }
 
   return submitBasicRegistration({
     tenantId: input.tenantId,

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { notifyEmbassyCreated } from '@/lib/services/notifications/notification.service';
 
 export type MissionType =
   | 'embassy'
@@ -398,6 +399,8 @@ export async function createEmbassyWithJurisdiction(
       mission_type: input.missionType,
     },
   });
+
+  await notifyEmbassyCreated(tenantId, input.name);
 
   return { embassy: mapEmbassy(data as EmbassyRow), error: null };
 }

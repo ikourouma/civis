@@ -3,6 +3,7 @@ import { Check } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
+import { DeploymentTierComparison } from '@/components/marketing/DeploymentTierComparison';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -70,6 +71,8 @@ export default function DeploymentPage({ params: { locale } }: PageProps) {
           {t('residencyNote')}
         </p>
       </SectionWrapper>
+
+      <DeploymentTierComparison locale={locale as 'en' | 'fr'} />
 
       <SectionWrapper className="bg-surface">
         <div className="mx-auto max-w-2xl space-y-6 text-center">

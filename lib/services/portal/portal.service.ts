@@ -66,3 +66,13 @@ export async function getPortalConfig(tenantCode: string): Promise<PortalConfig 
     supportedLanguages: row.supported_languages ?? ['en'],
   };
 }
+
+// Public registrant count for the portal social-proof counter.
+export async function getPortalRegistrantCount(tenantId: string): Promise<number> {
+  const admin = createAdminClient();
+  const { count } = await admin
+    .from('civis_registrants')
+    .select('id', { count: 'exact', head: true })
+    .eq('tenant_id', tenantId);
+  return count ?? 0;
+}

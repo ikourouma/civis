@@ -2000,5 +2000,20 @@
       "future_note": "Email notification delivery will be available in a future platform release."
     },
     "save": "Save Settings"
+  },
+  "portal_messages": {
+    "settings_title": "Registration Portal Messages",
+    "settings_subtitle": "Your citizens see these messages on the registration portal. Customize up to 5 rotating messages.",
+    "add_message": "Add Message",
+    "edit_message": "Edit Message",
+    "remove_message": "Remove Message",
+    "max_reached": "Maximum 5 messages allowed.",
+    "headline_en": "Headline (English)",
+    "headline_fr": "Headline (French)",
+    "subtitle_en": "Subtitle (English)",
+    "subtitle_fr": "Subtitle (French)",
+    "preview": "Preview Carousel",
+    "default_headline": "Register with {country} and access sovereign diaspora services.",
+    "default_subtitle": "Your data is protected under sovereign infrastructure."
   }
 }

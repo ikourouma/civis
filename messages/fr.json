@@ -2000,5 +2000,20 @@
       "future_note": "La livraison des notifications par courriel sera disponible dans une future version de la plateforme."
     },
     "save": "Enregistrer les paramètres"
+  },
+  "portal_messages": {
+    "settings_title": "Messages du portail d’inscription",
+    "settings_subtitle": "Vos citoyens voient ces messages sur le portail d’inscription. Personnalisez jusqu’à 5 messages rotatifs.",
+    "add_message": "Ajouter un message",
+    "edit_message": "Modifier le message",
+    "remove_message": "Supprimer le message",
+    "max_reached": "Maximum 5 messages autorisés.",
+    "headline_en": "Titre (anglais)",
+    "headline_fr": "Titre (français)",
+    "subtitle_en": "Sous-titre (anglais)",
+    "subtitle_fr": "Sous-titre (français)",
+    "preview": "Aperçu du carrousel",
+    "default_headline": "Inscrivez-vous auprès de {country} et accédez aux services souverains de la diaspora.",
+    "default_subtitle": "Vos données sont protégées sous une infrastructure souveraine."
   }
 }

@@ -4,11 +4,13 @@ import { Save } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState, useTransition } from 'react';
 
+import { useBrand } from '@/components/providers/BrandProvider';
+import { PortalMessagesPanel } from '@/components/settings/PortalMessagesPanel';
 import { saveTenantSettingsAction } from '@/lib/services/settings/settings.actions';
 import type { TenantSettings } from '@/lib/services/settings';
 import { cn } from '@/lib/utils';
 
-type TabKey = 'general' | 'security' | 'retention' | 'consent' | 'notifications';
+type TabKey = 'general' | 'security' | 'retention' | 'consent' | 'portal' | 'notifications';
 
 interface Props {
   settings: TenantSettings;
@@ -37,6 +39,8 @@ export function SettingsForm({ settings, flags }: Props) {
 
   const { canEdit, canRetention, canConsent } = flags;
   const disabled = !canEdit;
+  const { brand } = useBrand();
+  const brandPrimary = brand?.palette.primary ?? '#C9A84C';
 
   function save() {
     setErr(null);
@@ -61,6 +65,7 @@ export function SettingsForm({ settings, flags }: Props) {
     { key: 'security', label: t('tabs.security') },
     { key: 'retention', label: t('tabs.retention') },
     { key: 'consent', label: t('tabs.consent') },
+    { key: 'portal', label: 'Portal' },
     { key: 'notifications', label: t('tabs.notifications') },
   ];
 
@@ -181,6 +186,8 @@ export function SettingsForm({ settings, flags }: Props) {
             </div>
           )
         )}
+
+        {tab === 'portal' && <PortalMessagesPanel primary={brandPrimary} />}
 
         {tab === 'notifications' && (
           <div className="space-y-4">

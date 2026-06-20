@@ -32,7 +32,7 @@ export async function getPortalConfig(tenantCode: string): Promise<PortalConfig 
 
   const { data } = await admin
     .from('civis_tenants')
-    .select('id, name, country_code, official_country_name, deployment_tier, default_language, supported_languages, status, deleted_at')
+    .select('id, name, country_code, official_country_name, deployment_tier, default_language, supported_languages, status')
     .eq('country_code', code)
     .maybeSingle();
 
@@ -40,11 +40,11 @@ export async function getPortalConfig(tenantCode: string): Promise<PortalConfig 
   const row = data as {
     id: string; name: string; country_code: string; official_country_name: string | null;
     deployment_tier: DeploymentTier; default_language: string; supported_languages: string[];
-    status: string; deleted_at: string | null;
+    status: string;
   };
 
-  // Only suspended / archived (or soft-deleted) tenants are "not active".
-  if (row.deleted_at || ['suspended', 'archived'].includes(row.status)) return null;
+  // Active AND pilot tenants are live; only suspended / archived are "not active".
+  if (['suspended', 'archived'].includes(row.status)) return null;
 
   const brand = await getTenantBrand(row.id);
   const tier = row.deployment_tier;

@@ -29,7 +29,10 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Security headers apply in production only — a strict CSP fights Next.js dev
+  // (HMR/eval/React Refresh), which can blank pages locally.
   async headers() {
+    if (process.env.NODE_ENV !== 'production') return [];
     return [{ source: '/(.*)', headers: securityHeaders }];
   },
 };
